@@ -19,17 +19,28 @@
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <!-- Stylesheet -->
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=20261105-4">
 </head>
 <body>
 
   <!-- Celestial Night Sky & Twinkling Stars -->
   <div class="sky-background" aria-hidden="true">
     <div class="sky-stars"></div>
+    <div class="sky-stars sky-stars-distant"></div>
+    <div class="celestial-moon"></div>
+    <div class="horizon-haze"></div>
     <!-- Distant Haveli / Palace Silhouettes for authentic Royal Diwali Night -->
     <div class="haveli-palace-silhouette">
       <svg class="palace-svg" viewBox="0 0 1200 180" preserveAspectRatio="none">
-        <path d="M 0 180 L 0 110 Q 50 110 60 70 Q 70 30 100 20 Q 130 30 140 70 Q 150 110 200 110 L 220 110 L 220 85 Q 250 50 280 85 L 280 110 L 380 110 Q 420 70 450 70 Q 480 70 520 110 L 600 110 Q 640 40 680 15 Q 720 40 760 110 L 850 110 L 850 85 Q 880 50 910 85 L 910 110 L 1010 110 Q 1020 70 1050 30 Q 1080 70 1090 110 Q 1140 110 1200 110 L 1200 180 Z" fill="rgba(8, 4, 22, 0.55)" />
+        <defs>
+          <linearGradient id="palace-stone" x2="0" y2="1"><stop stop-color="#211c35"/><stop offset="1" stop-color="#090c1a"/></linearGradient>
+          <pattern id="palace-windows" width="48" height="38" patternUnits="userSpaceOnUse">
+            <path d="M 20 31 V 21 Q 24 12 28 21 V 31 Z" fill="#ffc77b" opacity="0.5"/>
+            <path d="M 22 30 V 22 Q 24 16 26 22 V 30 Z" fill="#ffedc0" opacity="0.7"/>
+          </pattern>
+        </defs>
+        <path d="M 0 180 L 0 110 Q 50 110 60 70 Q 70 30 100 20 Q 130 30 140 70 Q 150 110 200 110 L 220 110 L 220 85 Q 250 50 280 85 L 280 110 L 380 110 Q 420 70 450 70 Q 480 70 520 110 L 600 110 Q 640 40 680 15 Q 720 40 760 110 L 850 110 L 850 85 Q 880 50 910 85 L 910 110 L 1010 110 Q 1020 70 1050 30 Q 1080 70 1090 110 Q 1140 110 1200 110 L 1200 180 Z" fill="url(#palace-stone)" stroke="#b78b5940" stroke-width="1" />
+        <path d="M 0 180 L 0 110 Q 50 110 60 70 Q 70 30 100 20 Q 130 30 140 70 Q 150 110 200 110 L 220 110 L 220 85 Q 250 50 280 85 L 280 110 L 380 110 Q 420 70 450 70 Q 480 70 520 110 L 600 110 Q 640 40 680 15 Q 720 40 760 110 L 850 110 L 850 85 Q 880 50 910 85 L 910 110 L 1010 110 Q 1020 70 1050 30 Q 1080 70 1090 110 Q 1140 110 1200 110 L 1200 180 Z" fill="url(#palace-windows)" />
       </svg>
     </div>
     <div id="sky-glow"></div>
@@ -74,6 +85,8 @@
       <div class="festive-toran" aria-hidden="true">
         <span>✨</span><span>🪔</span><span>🌸</span><span>✨</span><span>🌸</span><span>🪔</span><span>✨</span>
       </div>
+
+      <p class="celebration-eyebrow">A festival of light. A world of wonder.</p>
 
       <h1 id="greeting-title" class="festive-title">Happy Diwali! 🪔✨</h1>
 
@@ -254,10 +267,10 @@
 
               <!-- Multi-Spectrum Thermal Flame Hair -->
               <linearGradient id="thermal-flame" x1="0%" y1="100%" x2="0%" y2="0%">
-                <stop offset="0%" stop-color="#00E5FF" />
+                <stop offset="0%" stop-color="#5d88dc" />
                 <stop offset="25%" stop-color="#FFD600" />
                 <stop offset="65%" stop-color="#FF5722" />
-                <stop offset="100%" stop-color="#FFFFFF" />
+                <stop offset="100%" stop-color="#e36a27" />
               </linearGradient>
 
               <!-- Metallic Chrome Goggles Gradient -->
@@ -270,7 +283,7 @@
 
               <!-- Rocket Body Gradient -->
               <linearGradient id="rocket-cylinder" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#00E5FF" />
+                <stop offset="0%" stop-color="#5d88dc" />
                 <stop offset="50%" stop-color="#0091EA" />
                 <stop offset="100%" stop-color="#01579B" />
               </linearGradient>
@@ -364,30 +377,32 @@
               <defs>
                 <!-- Clay Terracotta Texture Gradient -->
                 <linearGradient id="clay-grad-1" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stop-color="#E67E22" />
-                  <stop offset="45%" stop-color="#D35400" />
-                  <stop offset="85%" stop-color="#A04000" />
-                  <stop offset="100%" stop-color="#6E2C00" />
+                  <stop offset="0%" stop-color="#f6b26b" />
+                  <stop offset="45%" stop-color="#b75b32" />
+                  <stop offset="85%" stop-color="#793c28" />
+                  <stop offset="100%" stop-color="#3f211d" />
                 </linearGradient>
                 <!-- Flame 3-Stage Core -->
                 <linearGradient id="flame-core-grad" x1="0%" y1="100%" x2="0%" y2="0%">
-                  <stop offset="0%" stop-color="#00E5FF" />
-                  <stop offset="20%" stop-color="#FFD600" />
-                  <stop offset="70%" stop-color="#FF6D00" />
-                  <stop offset="100%" stop-color="#FFFFFF" />
+                  <stop offset="0%" stop-color="#5d88dc" />
+                  <stop offset="20%" stop-color="#fff8d4" />
+                  <stop offset="70%" stop-color="#ffc168" />
+                  <stop offset="100%" stop-color="#e36a27" />
                 </linearGradient>
               </defs>
               <!-- Flame -->
               <g class="diya-flame-group">
                 <path d="M 40 28 C 28 16, 38 4, 40 0 C 42 4, 52 16, 40 28 Z" fill="url(#flame-core-grad)" />
                 <ellipse cx="40" cy="22" rx="4.5" ry="8" fill="#FFFFFF" />
-                <circle cx="40" cy="26" r="2.5" fill="#00E5FF" />
+                <circle cx="40" cy="26" r="2.5" fill="#6b9ce1" />
               </g>
               <!-- Clay Diya Base -->
               <ellipse cx="40" cy="46" rx="35" ry="12" fill="url(#clay-grad-1)" />
-              <path d="M 5 46 Q 40 69 75 46 Q 40 55 5 46 Z" fill="#BA4A00" />
-              <path d="M 12 46 Q 40 37 68 46 Q 40 43 12 46 Z" fill="#F39C12" />
-              <ellipse cx="40" cy="45" rx="22" ry="5" fill="#873600" />
+              <path d="M 5 46 Q 40 69 75 46 Q 40 55 5 46 Z" fill="#85432d" />
+              <path d="M 12 46 Q 40 37 68 46 Q 40 43 12 46 Z" fill="#da975d" />
+              <ellipse cx="40" cy="45" rx="22" ry="5" fill="#49291f" />
+              <path d="M 19 45 Q 40 39 61 45" fill="none" stroke="#e7b777" stroke-opacity="0.55" stroke-width="0.8"/>
+              <path d="M 15 50 Q 40 61 65 50" fill="none" stroke="#f2c187" stroke-opacity="0.35" stroke-width="0.7" stroke-dasharray="1.5 2.5"/>
               <line x1="40" y1="36" x2="40" y2="28" stroke="#1B1212" stroke-width="2.5" stroke-linecap="round" />
             </svg>
           </div>
@@ -402,12 +417,14 @@
               <g class="diya-flame-group">
                 <path d="M 40 28 C 28 16, 38 4, 40 0 C 42 4, 52 16, 40 28 Z" fill="url(#flame-core-grad)" />
                 <ellipse cx="40" cy="22" rx="4.5" ry="8" fill="#FFFFFF" />
-                <circle cx="40" cy="26" r="2.5" fill="#00E5FF" />
+                <circle cx="40" cy="26" r="2.5" fill="#6b9ce1" />
               </g>
               <ellipse cx="40" cy="46" rx="35" ry="12" fill="url(#clay-grad-1)" />
-              <path d="M 5 46 Q 40 69 75 46 Q 40 55 5 46 Z" fill="#BA4A00" />
-              <path d="M 12 46 Q 40 37 68 46 Q 40 43 12 46 Z" fill="#F39C12" />
-              <ellipse cx="40" cy="45" rx="22" ry="5" fill="#873600" />
+              <path d="M 5 46 Q 40 69 75 46 Q 40 55 5 46 Z" fill="#85432d" />
+              <path d="M 12 46 Q 40 37 68 46 Q 40 43 12 46 Z" fill="#da975d" />
+              <ellipse cx="40" cy="45" rx="22" ry="5" fill="#49291f" />
+              <path d="M 19 45 Q 40 39 61 45" fill="none" stroke="#e7b777" stroke-opacity="0.55" stroke-width="0.8"/>
+              <path d="M 15 50 Q 40 61 65 50" fill="none" stroke="#f2c187" stroke-opacity="0.35" stroke-width="0.7" stroke-dasharray="1.5 2.5"/>
               <line x1="40" y1="36" x2="40" y2="28" stroke="#1B1212" stroke-width="2.5" stroke-linecap="round" />
             </svg>
           </div>
@@ -422,12 +439,14 @@
               <g class="diya-flame-group">
                 <path d="M 40 28 C 28 16, 38 4, 40 0 C 42 4, 52 16, 40 28 Z" fill="url(#flame-core-grad)" />
                 <ellipse cx="40" cy="22" rx="4.5" ry="8" fill="#FFFFFF" />
-                <circle cx="40" cy="26" r="2.5" fill="#00E5FF" />
+                <circle cx="40" cy="26" r="2.5" fill="#6b9ce1" />
               </g>
               <ellipse cx="40" cy="46" rx="35" ry="12" fill="url(#clay-grad-1)" />
-              <path d="M 5 46 Q 40 69 75 46 Q 40 55 5 46 Z" fill="#BA4A00" />
-              <path d="M 12 46 Q 40 37 68 46 Q 40 43 12 46 Z" fill="#F39C12" />
-              <ellipse cx="40" cy="45" rx="22" ry="5" fill="#873600" />
+              <path d="M 5 46 Q 40 69 75 46 Q 40 55 5 46 Z" fill="#85432d" />
+              <path d="M 12 46 Q 40 37 68 46 Q 40 43 12 46 Z" fill="#da975d" />
+              <ellipse cx="40" cy="45" rx="22" ry="5" fill="#49291f" />
+              <path d="M 19 45 Q 40 39 61 45" fill="none" stroke="#e7b777" stroke-opacity="0.55" stroke-width="0.8"/>
+              <path d="M 15 50 Q 40 61 65 50" fill="none" stroke="#f2c187" stroke-opacity="0.35" stroke-width="0.7" stroke-dasharray="1.5 2.5"/>
               <line x1="40" y1="36" x2="40" y2="28" stroke="#1B1212" stroke-width="2.5" stroke-linecap="round" />
             </svg>
           </div>
@@ -442,12 +461,14 @@
               <g class="diya-flame-group">
                 <path d="M 40 28 C 28 16, 38 4, 40 0 C 42 4, 52 16, 40 28 Z" fill="url(#flame-core-grad)" />
                 <ellipse cx="40" cy="22" rx="4.5" ry="8" fill="#FFFFFF" />
-                <circle cx="40" cy="26" r="2.5" fill="#00E5FF" />
+                <circle cx="40" cy="26" r="2.5" fill="#6b9ce1" />
               </g>
               <ellipse cx="40" cy="46" rx="35" ry="12" fill="url(#clay-grad-1)" />
-              <path d="M 5 46 Q 40 69 75 46 Q 40 55 5 46 Z" fill="#BA4A00" />
-              <path d="M 12 46 Q 40 37 68 46 Q 40 43 12 46 Z" fill="#F39C12" />
-              <ellipse cx="40" cy="45" rx="22" ry="5" fill="#873600" />
+              <path d="M 5 46 Q 40 69 75 46 Q 40 55 5 46 Z" fill="#85432d" />
+              <path d="M 12 46 Q 40 37 68 46 Q 40 43 12 46 Z" fill="#da975d" />
+              <ellipse cx="40" cy="45" rx="22" ry="5" fill="#49291f" />
+              <path d="M 19 45 Q 40 39 61 45" fill="none" stroke="#e7b777" stroke-opacity="0.55" stroke-width="0.8"/>
+              <path d="M 15 50 Q 40 61 65 50" fill="none" stroke="#f2c187" stroke-opacity="0.35" stroke-width="0.7" stroke-dasharray="1.5 2.5"/>
               <line x1="40" y1="36" x2="40" y2="28" stroke="#1B1212" stroke-width="2.5" stroke-linecap="round" />
             </svg>
           </div>
@@ -462,12 +483,14 @@
               <g class="diya-flame-group">
                 <path d="M 40 28 C 28 16, 38 4, 40 0 C 42 4, 52 16, 40 28 Z" fill="url(#flame-core-grad)" />
                 <ellipse cx="40" cy="22" rx="4.5" ry="8" fill="#FFFFFF" />
-                <circle cx="40" cy="26" r="2.5" fill="#00E5FF" />
+                <circle cx="40" cy="26" r="2.5" fill="#6b9ce1" />
               </g>
               <ellipse cx="40" cy="46" rx="35" ry="12" fill="url(#clay-grad-1)" />
-              <path d="M 5 46 Q 40 69 75 46 Q 40 55 5 46 Z" fill="#BA4A00" />
-              <path d="M 12 46 Q 40 37 68 46 Q 40 43 12 46 Z" fill="#F39C12" />
-              <ellipse cx="40" cy="45" rx="22" ry="5" fill="#873600" />
+              <path d="M 5 46 Q 40 69 75 46 Q 40 55 5 46 Z" fill="#85432d" />
+              <path d="M 12 46 Q 40 37 68 46 Q 40 43 12 46 Z" fill="#da975d" />
+              <ellipse cx="40" cy="45" rx="22" ry="5" fill="#49291f" />
+              <path d="M 19 45 Q 40 39 61 45" fill="none" stroke="#e7b777" stroke-opacity="0.55" stroke-width="0.8"/>
+              <path d="M 15 50 Q 40 61 65 50" fill="none" stroke="#f2c187" stroke-opacity="0.35" stroke-width="0.7" stroke-dasharray="1.5 2.5"/>
               <line x1="40" y1="36" x2="40" y2="28" stroke="#1B1212" stroke-width="2.5" stroke-linecap="round" />
             </svg>
           </div>
@@ -499,7 +522,7 @@
         <button id="btn-action-sweets" class="action-pill" aria-label="Shower bouncing golden laddoos and sweets">
           <span>🍬</span><span>Sweet Rain</span>
         </button>
-        <button id="btn-action-dance" class="action-pill" aria-label="Toggle mascot celebratory bhangra dance">
+        <button id="btn-action-dance" class="action-pill" aria-pressed="false" aria-label="Toggle mascot celebratory bhangra dance">
           <span>💃</span><span>Mascot Dance</span>
         </button>
         <button id="btn-action-finale" class="action-pill highlight" aria-label="Start Grand Finale Fireworks barrage">
@@ -612,9 +635,9 @@
   </div>
 
   <!-- Scripts -->
-  <script src="js/audio.js"></script>
-  <script src="js/fireworks.js"></script>
-  <script src="js/characters.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/audio.js?v=20261105-4"></script>
+  <script src="js/fireworks.js?v=20261105-4"></script>
+  <script src="js/characters.js?v=20261105-4"></script>
+  <script src="js/app.js?v=20261105-4"></script>
 </body>
 </html>

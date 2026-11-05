@@ -36,12 +36,14 @@ document.addEventListener('DOMContentLoaded', () => {
   function handleFirstInteraction() {
     if (!userInteracted) {
       userInteracted = true;
+      window.diwaliAudio.hasUserGesture = true;
       window.diwaliAudio.ensureContext();
+      if (!window.diwaliAudio.isMuted) window.diwaliAudio.setMuted(false);
     }
   }
 
-  window.addEventListener('pointerdown', handleFirstInteraction, { once: true, passive: true });
-  window.addEventListener('keydown', handleFirstInteraction, { once: true });
+  window.addEventListener('pointerdown', handleFirstInteraction, { once: true, passive: true, capture: true });
+  window.addEventListener('keydown', handleFirstInteraction, { once: true, capture: true });
 
   if (soundToggleBtn) {
     soundToggleBtn.addEventListener('click', () => {
@@ -64,42 +66,73 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 4. Motion / Performance Controls
   const motionToggleBtn = document.getElementById('motion-toggle');
+  const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let manualMotion = null;
+  function applyMotionPreference() {
+    const isReduced = manualMotion ?? motionPreference.matches;
+    engine.setReducedMotion(isReduced);
+    document.body.classList.toggle('reduced-motion-mode', isReduced);
+    document.body.dataset.motion = isReduced ? 'reduce' : 'full';
+    if (motionToggleBtn) {
+      motionToggleBtn.setAttribute('aria-pressed', String(isReduced));
+      motionToggleBtn.classList.toggle('calm-mode', isReduced);
+      const label = motionToggleBtn.querySelector('.btn-label');
+      if (label) label.textContent = isReduced ? 'Calm Mode' : 'Full Magic';
+    }
+    if (isReduced) mascots.setDancing(false);
+    const danceButton = document.getElementById('btn-action-dance');
+    if (danceButton) {
+      danceButton.classList.toggle('active', mascots.isDancing);
+      danceButton.setAttribute('aria-pressed', String(mascots.isDancing));
+    }
+  }
   if (motionToggleBtn) {
     motionToggleBtn.addEventListener('click', () => {
-      const isReduced = !engine.isReducedMotion;
-      engine.setReducedMotion(isReduced);
-      motionToggleBtn.setAttribute('aria-pressed', isReduced.toString());
-      motionToggleBtn.classList.toggle('calm-mode', isReduced);
-      document.body.classList.toggle('reduced-motion-mode', isReduced);
-      const text = motionToggleBtn.querySelector('.btn-label');
-      if (text) text.textContent = isReduced ? 'Calm Mode' : 'Full Magic';
+      manualMotion = !engine.isReducedMotion;
+      applyMotionPreference();
     });
   }
+  motionPreference.addEventListener('change', applyMotionPreference);
+  applyMotionPreference();
 
   // 5. Canvas Touch & Sky Interactions
-  let isDragging = false;
+  let activePointer = null;
+  let pointerPosition = null;
+  let sparkFrame = null;
+  function drawPointerSpark() {
+    sparkFrame = null;
+    if (activePointer !== null && pointerPosition) {
+      engine.addSparkler(pointerPosition.x, pointerPosition.y);
+    }
+  }
+  function stopDrawing() {
+    activePointer = null;
+    pointerPosition = null;
+    if (sparkFrame !== null) cancelAnimationFrame(sparkFrame);
+    sparkFrame = null;
+  }
   canvas.addEventListener('pointerdown', (e) => {
-    // Only trigger if clicking directly on sky/canvas (not on controls/diyas)
-    if (e.target !== canvas) return;
-    isDragging = true;
+    if (!e.isPrimary || e.button !== 0) return;
+    activePointer = e.pointerId;
     handleFirstInteraction();
+    pointerPosition = { x: e.clientX, y: e.clientY };
     engine.addSparkler(e.clientX, e.clientY);
   });
-
   window.addEventListener('pointermove', (e) => {
-    if (isDragging) {
-      engine.addSparkler(e.clientX, e.clientY);
-    }
+    if (activePointer !== e.pointerId) return;
+    pointerPosition = { x: e.clientX, y: e.clientY };
+    if (sparkFrame === null) sparkFrame = requestAnimationFrame(drawPointerSpark);
   }, { passive: true });
-
   window.addEventListener('pointerup', (e) => {
-    if (isDragging) {
-      // Tap launch firework at point
-      if (e.clientY < window.innerHeight * 0.75) {
-        engine.launchRocket(e.clientX, e.clientY, 'peony');
-      }
-      isDragging = false;
-    }
+    if (activePointer !== e.pointerId) return;
+    if (e.clientY < window.innerHeight * 0.75) engine.launchRocket(e.clientX, e.clientY, 'peony');
+    stopDrawing();
+  });
+  window.addEventListener('pointercancel', stopDrawing);
+  window.addEventListener('blur', stopDrawing);
+  document.addEventListener('visibilitychange', () => {
+    document.body.classList.toggle('page-hidden', document.hidden);
+    if (document.hidden) stopDrawing();
   });
 
   // 6. Action Toolbar Buttons
@@ -133,6 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
       handleFirstInteraction();
       const dancing = mascots.toggleDance();
       btnDance.classList.toggle('active', dancing);
+      btnDance.setAttribute('aria-pressed', String(dancing));
     });
   }
 
@@ -140,9 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btnFinale) {
     btnFinale.addEventListener('click', () => {
       handleFirstInteraction();
-      engine.launchFinale();
-      mascots.toggleDance();
-      triggerGrandAartiCelebration();
+      triggerGrandAartiCelebration(false);
     });
   }
 
@@ -151,23 +183,23 @@ document.addEventListener('DOMContentLoaded', () => {
   const recipientName = urlParams.get('to') || urlParams.get('name') || '';
   const senderName = urlParams.get('from') || '';
   const customMessage = urlParams.get('msg') || '';
-  const styleParam = urlParams.get('style') || '1';
+  const styleParam = urlParams.get('theme') || urlParams.get('style') || '1';
 
   const greetingTitleEl = document.getElementById('greeting-title');
   const greetingSubtitleEl = document.getElementById('greeting-subtitle');
   const greetingSenderEl = document.getElementById('greeting-sender');
 
   if (recipientName && senderName) {
-    greetingTitleEl.innerHTML = `Shubh Deepavali, <span class="recipient-highlight">${escapeHTML(recipientName)}</span>! 🪔✨`;
+    greetingTitleEl.innerHTML = `Shubh Deepavali, <span class="recipient-highlight">${escapeHTML(recipientName)}</span>! <span class="title-ornament" aria-hidden="true">🪔✨</span>`;
     greetingSubtitleEl.textContent = customMessage || getWishPresetMessage(styleParam);
     greetingSenderEl.innerHTML = `With heartfelt blessings from <strong>${escapeHTML(senderName)}</strong>`;
     greetingSenderEl.classList.remove('hidden');
   } else if (recipientName) {
-    greetingTitleEl.innerHTML = `Shubh Deepavali, <span class="recipient-highlight">${escapeHTML(recipientName)}</span>! 🪔✨`;
+    greetingTitleEl.innerHTML = `Shubh Deepavali, <span class="recipient-highlight">${escapeHTML(recipientName)}</span>! <span class="title-ornament" aria-hidden="true">🪔✨</span>`;
     greetingSubtitleEl.textContent = customMessage || getWishPresetMessage(styleParam);
     greetingSenderEl.classList.add('hidden');
   } else {
-    greetingTitleEl.innerHTML = `Happy Diwali! 🪔✨`;
+    greetingTitleEl.innerHTML = `Happy Diwali! <span class="title-ornament" aria-hidden="true">🪔✨</span>`;
     greetingSubtitleEl.textContent = customMessage || "May the divine glow of lights illuminate your life with boundless peace, health, success, and joyful moments with your loved ones.";
     greetingSenderEl.classList.add('hidden');
   }
@@ -177,6 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const diyaCountEl = document.getElementById('diyas-lit-count');
   const diyaStatusMessage = document.getElementById('diya-status-message');
   let litDiyasCount = 0;
+  let celebrationHideTimer;
 
   const blessings = [
     { title: "Arogya", desc: "Radiant Health & Vitality 🌿" },
@@ -205,6 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function lightDiya(diya, index) {
     diya.classList.add('is-lit');
     diya.setAttribute('aria-checked', 'true');
+    diya.setAttribute('aria-label', diya.getAttribute('aria-label').replace(/^Light /, 'Lit '));
     litDiyasCount++;
 
     // Audio chime
@@ -216,8 +250,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const rect = diya.getBoundingClientRect();
     const x = rect.left + rect.width / 2;
     const y = rect.top;
-    for (let i = 0; i < 15; i++) {
-      engine.particles.push({
+    for (let i = 0; i < (engine.isReducedMotion ? 4 : 15); i++) {
+      engine.addParticle({
         x: x,
         y: y,
         vx: (Math.random() - 0.5) * 3,
@@ -230,6 +264,8 @@ document.addEventListener('DOMContentLoaded', () => {
         sparkle: true
       });
     }
+
+    document.body.style.setProperty('--diya-warmth', String(litDiyasCount / 5));
 
     // Display floating blessing badge
     const blessing = blessings[index % blessings.length];
@@ -253,10 +289,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function showFloatingBlessing(x, y, blessing) {
+    document.querySelectorAll('.floating-blessing').forEach(badge => badge.remove());
     const badge = document.createElement('div');
     badge.className = 'floating-blessing';
+    badge.setAttribute('role', 'status');
     badge.innerHTML = `<strong>${blessing.title}</strong><span>${blessing.desc}</span>`;
-    badge.style.left = `${x}px`;
+    badge.style.left = `${Math.max(120, Math.min(window.innerWidth - 120, x))}px`;
     badge.style.top = `${y}px`;
     document.body.appendChild(badge);
 
@@ -265,21 +303,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 2800);
   }
 
-  function triggerGrandAartiCelebration() {
-    if (diyaStatusMessage) {
+  function triggerGrandAartiCelebration(allLit = true) {
+    if (diyaStatusMessage && allLit) {
       diyaStatusMessage.textContent = "🌟 Maha Deepavali Blessing Unlocked! All Diyas Glowing! 🌟";
     }
 
+    const startedFinale = engine.launchFinale();
+    if (!startedFinale && !allLit) return;
+
     // Trigger grand fireworks
-    engine.launchFinale();
-    mascots.toggleDance();
-    engine.spawnSweetShower();
+    mascots.setDancing(!engine.isReducedMotion);
+    if (btnDance) {
+      btnDance.classList.toggle('active', mascots.isDancing);
+      btnDance.setAttribute('aria-pressed', String(mascots.isDancing));
+    }
+    if (startedFinale) engine.spawnSweetShower();
 
     // Show celebration banner
     const celebrationCard = document.getElementById('maha-celebration-toast');
     if (celebrationCard) {
+      celebrationCard.textContent = allLit ? '🪔 All five diyas glowing. May your year shine bright!' : '✨ A sky full of light. A heart full of joy. Happy Diwali!';
       celebrationCard.classList.add('visible');
-      setTimeout(() => {
+      clearTimeout(celebrationHideTimer);
+      celebrationHideTimer = setTimeout(() => {
         celebrationCard.classList.remove('visible');
       }, 6000);
     }
@@ -438,6 +484,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function copyToClipboard(text) {
+    if (!navigator.clipboard?.writeText) {
+      prompt("Copy your personalized Diwali celebration link:", text);
+      return;
+    }
     navigator.clipboard.writeText(text).then(() => {
       if (copyFeedback) {
         copyFeedback.classList.add('visible');
@@ -461,7 +511,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Close dialog when clicking backdrop
   if (shareDialog) {
     shareDialog.addEventListener('click', (e) => {
-      if (e.target === shareDialog) {
+      const bounds = shareDialog.getBoundingClientRect();
+      if (e.target === shareDialog && (e.clientX < bounds.left || e.clientX > bounds.right || e.clientY < bounds.top || e.clientY > bounds.bottom)) {
         shareDialog.close();
         shareDialog.returnValue = '';
       }

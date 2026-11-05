@@ -11,6 +11,7 @@
 class DiwaliAudioEngine {
   constructor() {
     this.ctx = null;
+    this.hasUserGesture = false;
     this.isMuted = true;
     this.isMusicPlaying = false;
     this.musicTimer = null;
@@ -72,6 +73,7 @@ class DiwaliAudioEngine {
   }
 
   ensureContext() {
+    if (!this.hasUserGesture) return;
     if (!this.ctx) {
       this.init();
     }

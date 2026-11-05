@@ -1235,56 +1235,6 @@ dialog::backdrop {
    ACCESSIBILITY & REDUCED MOTION PREFERENCES
    Follows modern-web-guidance for prefers-reduced-motion
    ========================================================================== */
-@media (prefers-reduced-motion: reduce) {
-
-  .sky-stars,
-  .brand-badge .diya-icon,
-  .floating-music-pill,
-  .festive-toran,
-  .sparkle-pulse,
-  .mascot-character.idle-bob,
-  .sparkler-flame,
-  .mithoo-flame,
-  .diya-flame-group {
-    animation: none !important;
-  }
-
-  .interactive-diya.is-lit .diya-flame-group {
-    opacity: 1;
-    transform: scale(1);
-    animation: none !important;
-  }
-
-  .mascot-character {
-    transition: opacity 0.3s ease;
-  }
-
-  .icon-button,
-  .action-pill,
-  .share-main-btn {
-    transition: background-color 0.2s ease, border-color 0.2s ease;
-  }
-}
-
-/* Class-based reduced motion mode for manual toggle */
-body.reduced-motion-mode .sky-stars,
-body.reduced-motion-mode .brand-badge .diya-icon,
-body.reduced-motion-mode .floating-music-pill,
-body.reduced-motion-mode .festive-toran,
-body.reduced-motion-mode .sparkle-pulse,
-body.reduced-motion-mode .mascot-character.idle-bob,
-body.reduced-motion-mode .sparkler-flame,
-body.reduced-motion-mode .mithoo-flame,
-body.reduced-motion-mode .diya-flame-group {
-  animation: none !important;
-}
-
-body.reduced-motion-mode .interactive-diya.is-lit .diya-flame-group {
-  opacity: 1;
-  transform: scale(1);
-  animation: none !important;
-}
-
 /* Mobile Small Screen Fine-tuning */
 @media (max-width: 480px) {
   .celebration-app {
@@ -1312,3 +1262,295 @@ body.reduced-motion-mode .interactive-diya.is-lit .diya-flame-group {
     justify-content: center;
   }
 }
+
+/* ==========================================================================
+   CINEMATIC NIGHT — atmospheric depth, warm materials and restrained motion.
+   Decorative layers stay static; only transforms and opacity animate.
+   ========================================================================== */
+:root {
+  --gold-primary: #edc77d;
+  --gold-light: #fff0c8;
+  --text-muted: #d5cde1;
+  --spring-easing: cubic-bezier(0.22, 1.35, 0.36, 1);
+  --surface-edge: rgba(231, 198, 143, 0.22);
+  --diya-warmth: 0;
+  color-scheme: dark;
+}
+
+body {
+  background: radial-gradient(ellipse at 50% 36%, #29203e 0%, #14152c 42%, #070c1b 85%);
+  background-attachment: fixed;
+  min-height: 100svh;
+}
+
+.sky-background::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 30%, rgba(3, 6, 16, 0.55) 100%);
+}
+
+.sky-stars {
+  background-size: 470px 430px;
+  opacity: 0.45;
+  animation-duration: 11s;
+}
+
+.sky-stars-distant {
+  transform: rotate(17deg) scale(1.25);
+  background-size: 610px 570px;
+  opacity: 0.2;
+  animation: none;
+}
+
+.celestial-moon {
+  position: absolute;
+  top: clamp(86px, 14vh, 160px);
+  right: max(8%, calc((100vw - 1100px) / 2));
+  width: clamp(30px, 5vw, 56px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 30%, #ffefd3 0%, #d2c5b2 48%, #6c728b 100%);
+  box-shadow: 0 0 24px #e8d3ad20, 0 0 90px 30px #d6dcff09;
+  opacity: 0.65;
+}
+
+.celestial-moon::after {
+  content: '';
+  position: absolute;
+  inset: 1px -3px 6px 8px;
+  border-radius: 50%;
+  background: #12172a;
+}
+
+.horizon-haze {
+  position: absolute;
+  inset: 35% -20% -10%;
+  background: radial-gradient(ellipse at 50% 100%, #ca78301c, #734a7312 40%, transparent 68%);
+}
+
+.haveli-palace-silhouette {
+  height: clamp(140px, 25vh, 280px);
+  opacity: 0.65;
+}
+
+#sky-glow {
+  width: 680px;
+  height: 680px;
+  left: -340px;
+  top: -340px;
+  background: radial-gradient(circle, rgba(var(--burst-color, 255, 192, 92), 0.13), transparent 65%);
+  transition: opacity 850ms ease-out;
+}
+
+.celebration-app {
+  min-height: 100svh;
+  gap: 22px;
+  padding: max(22px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right)) max(30px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
+}
+
+.top-header { max-width: 1120px; }
+.brand-badge, .icon-button, .action-pill, .customize-wish-btn, .diyas-status-bar {
+  background: linear-gradient(145deg, rgba(72, 61, 82, 0.52), rgba(17, 21, 37, 0.72));
+  border-color: var(--surface-edge);
+  box-shadow: inset 0 1px 0 #fff5df0c, 0 6px 18px #02051030;
+}
+
+.brand-badge { box-shadow: inset 0 1px 0 #fff5df12, 0 0 20px #e1b2690a; }
+.icon-button, .action-pill, .dialog-close-btn { min-height: 44px; }
+.icon-button { min-width: 44px; justify-content: center; }
+.floating-music-pill {
+  top: auto;
+  bottom: max(24px, env(safe-area-inset-bottom));
+  left: max(24px, env(safe-area-inset-left));
+  right: auto;
+  padding: 10px 14px;
+  min-height: 44px;
+  background: linear-gradient(135deg, #57422d, #302637);
+  border: 1px solid #e9bf7659;
+  color: #ffe9ba;
+  box-shadow: inset 0 1px 0 #ffedce17, 0 8px 24px #05081266;
+  font-size: 0.78rem;
+  animation: none;
+}
+.floating-music-pill.hidden { visibility: hidden; }
+.hero-greeting { max-width: 800px; margin: 8px auto 4px; }
+.festive-toran { opacity: 0.75; font-size: 1.05rem; gap: 18px; margin-bottom: 14px; }
+.celebration-eyebrow {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #d4b98c;
+  margin-bottom: 14px;
+}
+.festive-title {
+  font-size: clamp(2.3rem, 6.5vw, 4.5rem);
+  letter-spacing: -0.025em;
+  background: linear-gradient(175deg, #fff9e5 12%, #f6dfaa 38%, #d6a858 64%, #fff0be 80%, #b67f42);
+  background-clip: text;
+  -webkit-background-clip: text;
+  filter: drop-shadow(0 2px 1px #6d401b66) drop-shadow(0 8px 26px #eab15b24);
+}
+.festive-message { font-size: clamp(0.95rem, 2.5vw, 1.1rem); line-height: 1.75; max-width: 620px; }
+.sky-tap-hint { font-size: 0.75rem; color: #bcb5cc; margin-top: 16px; }
+.mascots-stage { gap: clamp(48px, 12vw, 150px); margin: 18px auto 8px; isolation: isolate; }
+.mascots-stage::before {
+  content: '';
+  position: absolute;
+  width: 145%;
+  height: 90%;
+  bottom: -10px;
+  z-index: -1;
+  background: radial-gradient(ellipse at 50% 85%, #e9b16c13, #8b659e0b 38%, transparent 70%);
+  pointer-events: none;
+}
+.mascot-container::after {
+  content: '';
+  position: absolute;
+  top: calc(100% - 38px);
+  width: 86%;
+  height: 20px;
+  border-radius: 50%;
+  z-index: -1;
+  background: radial-gradient(ellipse, #02040be6, #09081544 48%, transparent 72%);
+  transform: scaleY(0.6);
+  pointer-events: none;
+}
+.mascot-character {
+  transform-origin: 50% 92%;
+  filter: drop-shadow(-2px -1px 1px #ffdf9d33) drop-shadow(2px 8px 8px #02051080);
+}
+.mascot-pupil { transition: transform 120ms ease-out; transform-box: fill-box; transform-origin: center; }
+.mascot-character.idle-bob { animation-name: cinematic-breathe; animation-duration: 4.8s; }
+@keyframes cinematic-breathe {
+  from { transform: translateY(0) rotate(-0.5deg) scale(1, 1); }
+  to { transform: translateY(-4px) rotate(0.5deg) scale(1.006, 1.012); }
+}
+.mascot-tag { background: #0c1020a6; border-color: #d7b77630; font-size: 0.68rem; padding: 4px 14px; }
+.speech-bubble { font-weight: 500; background: #fff4df; border: 1px solid #e9cd9b; box-shadow: 0 8px 30px #03061450; max-width: min(190px, 44vw); }
+.speech-bubble::after { border-top-color: #fff4df; }
+.diyas-section { isolation: isolate; margin-bottom: 0; padding: 10px 12px 0; }
+.diyas-section::before {
+  content: '';
+  position: absolute;
+  inset: 10% -10% -15%;
+  z-index: -1;
+  background: radial-gradient(ellipse at 50% 70%, #ffa64638, #b65b1b0e 40%, transparent 70%);
+  opacity: var(--diya-warmth);
+  transition: opacity 900ms ease;
+  pointer-events: none;
+}
+.diyas-status-bar { padding: 8px 16px; gap: 18px; max-width: 560px; }
+.diya-status-message { font-size: 0.72rem; }
+.diyas-row { padding: 18px 0 8px; gap: clamp(8px, 3vw, 30px); }
+.interactive-diya { min-width: 44px; min-height: 64px; }
+.diya-graphic { filter: drop-shadow(0 5px 3px #02040b99); }
+.diya-flame-group { transform-box: fill-box; transform-origin: 50% 100%; }
+.interactive-diya.is-lit .diya-flame-group { animation: candle-breathe 1.7s ease-in-out infinite alternate; filter: drop-shadow(0 0 3px #ffd793aa); }
+@keyframes candle-breathe {
+  0%, 100% { transform: scale(0.96, 1.01) rotate(-1deg); }
+  35% { transform: scale(1.02, 0.94) rotate(1.5deg); }
+  72% { transform: scale(0.98, 1.06) rotate(-1.5deg); }
+}
+.diya-glow { animation: none; opacity: 0; background: radial-gradient(ellipse, #ffdaa346, #e7882624 35%, transparent 70%); width: 120px; height: 110px; top: -30px; }
+.interactive-diya.is-lit .diya-glow { animation: diya-glow-pulse 3.2s ease-in-out infinite alternate; }
+.interactive-diya:nth-child(2n) .diya-flame-group { animation-delay: -0.7s; }
+.interactive-diya:nth-child(3n) .diya-flame-group { animation-delay: -1.3s; }
+.interactive-diya:nth-child(2n) .diya-glow { animation-delay: -1.6s; }
+.diya-label { font-size: clamp(0.6rem, 1.6vw, 0.72rem); white-space: nowrap; }
+.rangoli-platform { height: 70px; margin-top: -28px; opacity: 0.65; }
+.rangoli-mandala-svg { filter: drop-shadow(0 4px 2px #05071166); }
+.bottom-controls { gap: 18px; padding-bottom: 64px; max-width: 900px; }
+.action-pill { font-size: 0.76rem; padding: 10px 15px; }
+.action-pill.highlight { background: linear-gradient(135deg, #f7dda1, #c79a53); border-color: #ffeac2; box-shadow: inset 0 1px 0 #fff6d9, 0 6px 22px #c8904526; }
+.action-pill.active { border-color: #e5c17b; background: #ad80452e; }
+.share-main-btn { background: linear-gradient(145deg, #227951, #165c48); box-shadow: inset 0 1px 0 #c0f4d129, 0 8px 24px #030a1255; font-size: 0.9rem; }
+.share-action-bar { max-width: 560px; }
+.customize-wish-btn { font-size: 0.84rem; min-height: 48px; justify-content: center; }
+.floating-whatsapp-btn { width: 46px; height: 46px; background: #227951; box-shadow: 0 6px 20px #030a1266; bottom: max(24px, env(safe-area-inset-bottom)); }
+.maha-celebration-toast { width: max-content; max-width: calc(100vw - 32px); text-align: center; justify-content: center; border-radius: 20px; font-size: 0.95rem; background: linear-gradient(135deg, #f8e4b7, #d2aa68); box-shadow: 0 12px 40px #03061480; }
+.floating-blessing { border: 1px solid #f5deb2; background: linear-gradient(145deg, #fae7c0, #d9ad68); border-radius: 16px; max-width: calc(100vw - 24px); text-align: center; }
+
+dialog#share-dialog { max-height: calc(100svh - 32px); overflow-y: auto; background: radial-gradient(ellipse at top left, #342a42, #111627 80%); box-shadow: 0 24px 80px #02040be0, inset 0 1px 0 #fff3d51a; }
+dialog[open] { animation: dialog-arrive 260ms var(--smooth-curve); }
+@keyframes dialog-arrive { from { opacity: 0; transform: translateY(12px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+.dialog-close-btn { min-width: 44px; }
+.form-input, .form-select { min-height: 44px; }
+body :is(button, [role="button"], input, select):focus-visible { outline: 2px solid #ffe3a5; outline-offset: 5px; }
+
+@media (hover: none) {
+  .icon-button:hover, .action-pill:hover, .action-pill.highlight:hover, .share-main-btn:hover, .customize-wish-btn:hover, .floating-whatsapp-btn:hover, .interactive-diya:hover, .mascot-character:hover { transform: none; }
+}
+@media (max-width: 600px) {
+  .celebration-app { gap: 18px; padding: max(14px, env(safe-area-inset-top)) 14px max(20px, env(safe-area-inset-bottom)); }
+  .brand-badge { font-size: 0.72rem; padding: 8px 10px; }
+  .controls-bar { gap: 6px; }
+  .controls-bar .btn-label { display: none; }
+  .icon-button { padding: 8px 12px; }
+  .festive-title { font-size: clamp(2.1rem, 7.7vw, 3.4rem); }
+  .celebration-eyebrow { font-size: 0.55rem; letter-spacing: 0.17em; }
+  .hero-greeting { padding: 0 4px; }
+  .celestial-moon { opacity: 0.4; right: 7%; top: 100px; }
+  .mascots-stage { margin-top: 16px; gap: clamp(34px, 12vw, 72px); }
+  .mascot-character { width: clamp(112px, 28vw, 145px); height: clamp(126px, 32vw, 162px); }
+  .diyas-section { padding: 0; }
+  .diyas-status-bar { gap: 10px; padding: 8px 12px; }
+  .diya-status-message { max-width: 58%; font-size: 0.65rem; }
+  .diya-counter { font-size: 0.72rem; white-space: nowrap; }
+  .diyas-row { gap: 2px; justify-content: space-between; }
+  .diya-graphic { width: clamp(44px, 13vw, 70px); }
+  .diya-label { font-size: clamp(0.55rem, 1.85vw, 0.7rem); }
+  .action-toolbar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .action-pill { justify-content: center; padding: 10px 8px; font-size: 0.72rem; }
+  .action-pill.highlight { grid-column: 1 / -1; }
+  .share-action-bar { flex-direction: column; gap: 10px; }
+  .share-main-btn, .customize-wish-btn { width: 100%; flex: auto; }
+  .floating-music-pill { left: 14px; bottom: max(14px, env(safe-area-inset-bottom)); font-size: 0.7rem; }
+  .floating-whatsapp-btn { right: 14px; bottom: max(14px, env(safe-area-inset-bottom)); }
+  dialog#share-dialog { padding: 22px 18px; }
+}
+@media (max-height: 650px) and (min-width: 601px) {
+  .celebration-app { gap: 16px; }
+  .mascot-character { width: 120px; height: 135px; }
+  .hero-greeting { margin-top: 0; }
+}
+
+/* All motion channels share the same effective state, including explicit overrides. */
+body.reduced-motion-mode *, body.reduced-motion-mode *::before, body.reduced-motion-mode *::after {
+  animation: none !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+body.reduced-motion-mode .interactive-diya.is-lit .diya-flame-group { opacity: 1; transform: scale(1); }
+body.reduced-motion-mode .interactive-diya.is-lit .diya-glow { opacity: 0.85; }
+body.reduced-motion-mode .floating-blessing { opacity: 1; transform: translate(-50%, -100%); }
+body.reduced-motion-mode .mascot-pupil { transform: none !important; }
+body.page-hidden *, body.page-hidden *::before, body.page-hidden *::after { animation-play-state: paused !important; }
+@media (prefers-reduced-motion: reduce) {
+  body:not([data-motion="full"]) *, body:not([data-motion="full"]) *::before, body:not([data-motion="full"]) *::after {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (min-width: 1000px) and (min-height: 800px) {
+  .celebration-app { gap: 14px; }
+  .hero-greeting { margin-top: 8px; }
+  .mascot-character { width: 165px; height: 185px; }
+  .mascots-stage { margin-top: 8px; }
+  .bottom-controls { padding-bottom: 22px; }
+}
+
+/* Keep personalized titles and sender cards balanced even with long names. */
+.festive-title { overflow-wrap: anywhere; text-wrap: balance; }
+.recipient-highlight {
+  background: linear-gradient(135deg, #fff0cb, #e8bf7d);
+  background-clip: text;
+  -webkit-background-clip: text;
+  text-decoration: none;
+}
+.title-ornament { display: inline-block; font-size: 0.6em; white-space: nowrap; vertical-align: 0.1em; }
+.greeting-sender-card { max-width: 100%; flex-wrap: wrap; justify-content: center; overflow-wrap: anywhere; }
+html:has(dialog[open]), body:has(dialog[open]) { overflow: hidden; }

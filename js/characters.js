@@ -74,36 +74,31 @@ class MascotManager {
 
   // Smooth eye tracking towards pointer/touch
   initEyeTracking() {
-    const updatePupils = (clientX, clientY) => {
-      const pupils = document.querySelectorAll('.mascot-pupil');
-      pupils.forEach(pupil => {
-        const eye = pupil.parentElement;
-        if (!eye) return;
-        const rect = eye.getBoundingClientRect();
-        const eyeCenterX = rect.left + rect.width / 2;
-        const eyeCenterY = rect.top + rect.height / 2;
-
-        const deltaX = clientX - eyeCenterX;
-        const deltaY = clientY - eyeCenterY;
-        const angle = Math.atan2(deltaY, deltaX);
-        const maxDist = 3.5; // Maximum pupil travel in px
-        const dist = Math.min(maxDist, Math.hypot(deltaX, deltaY) / 35);
-
-        const px = Math.cos(angle) * dist;
-        const py = Math.sin(angle) * dist;
-
-        pupil.style.transform = `translate(${px}px, ${py}px)`;
+    const pupils = Array.from(document.querySelectorAll('.mascot-pupil'));
+    let pendingFrame = null;
+    let pointerX = 0;
+    let pointerY = 0;
+    const updatePupils = () => {
+      pendingFrame = null;
+      if (document.hidden || this.engine.isReducedMotion) return;
+      // Read all geometry before writing transforms to avoid layout thrashing.
+      const positions = pupils.map(pupil => {
+        const rect = pupil.parentElement.getBoundingClientRect();
+        const dx = pointerX - rect.left - rect.width / 2;
+        const dy = pointerY - rect.top - rect.height / 2;
+        const angle = Math.atan2(dy, dx);
+        const distance = Math.min(3.5, Math.hypot(dx, dy) / 35);
+        return [Math.cos(angle) * distance, Math.sin(angle) * distance];
+      });
+      pupils.forEach((pupil, index) => {
+        const [x, y] = positions[index];
+        pupil.style.transform = `translate(${x}px, ${y}px)`;
       });
     };
-
-    window.addEventListener('pointermove', (e) => {
-      updatePupils(e.clientX, e.clientY);
-    }, { passive: true });
-
-    window.addEventListener('touchmove', (e) => {
-      if (e.touches && e.touches[0]) {
-        updatePupils(e.touches[0].clientX, e.touches[0].clientY);
-      }
+    window.addEventListener('pointermove', e => {
+      pointerX = e.clientX;
+      pointerY = e.clientY;
+      if (pendingFrame === null && !this.engine.isReducedMotion) pendingFrame = requestAnimationFrame(updatePupils);
     }, { passive: true });
   }
 
@@ -123,6 +118,7 @@ class MascotManager {
       const x = rect.left + rect.width / 2;
       for (let i = 0; i < 3; i++) {
         setTimeout(() => {
+          if (document.hidden || this.engine.isReducedMotion || this.engine.sweets.length >= 56) return;
           this.engine.sweets.push({
             x: x + (Math.random() * 40 - 20),
             y: rect.top - 10,
@@ -197,7 +193,11 @@ class MascotManager {
   }
 
   toggleDance() {
-    this.isDancing = !this.isDancing;
+    return this.setDancing(!this.isDancing);
+  }
+
+  setDancing(dancing) {
+    this.isDancing = dancing && !this.engine.isReducedMotion;
     if (this.isDancing) {
       this.goluEl.classList.add('dancing');
       this.mithooEl.classList.add('dancing');

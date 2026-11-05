@@ -23,6 +23,13 @@ class ParticleEngine {
     
     this.rockets = [];
     this.particles = [];
+    this.particlePool = [];
+    this.maxParticles = window.innerWidth < 600 ? 650 : 1100;
+    this.glowSprites = new Map();
+    this.lastTimestamp = null;
+    this.finaleTimers = new Set();
+    this.finaleActive = false;
+    this.illuminationTimer = null;
     this.smokeParticles = [];
     this.lanterns = [];
     this.chakris = [];
@@ -32,7 +39,7 @@ class ParticleEngine {
     // Performance & Accessibility
     this.isReducedMotion = false;
     this.autoLaunchTimer = null;
-    this.isPageVisible = true;
+    this.isPageVisible = !document.hidden;
     
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       this.isReducedMotion = true;
@@ -53,6 +60,11 @@ class ParticleEngine {
 
     document.addEventListener('visibilitychange', () => {
       this.isPageVisible = !document.hidden;
+      this.lastTimestamp = null;
+      if (!this.isPageVisible) {
+        this.cancelFinale();
+        this.clearIllumination();
+      }
     });
 
     this.animate = this.animate.bind(this);
@@ -62,15 +74,85 @@ class ParticleEngine {
   resize() {
     this.width = window.innerWidth;
     this.height = window.innerHeight;
-    this.canvas.width = this.width * this.dpr;
-    this.canvas.height = this.height * this.dpr;
+    this.dpr = Math.min(window.devicePixelRatio || 1, this.width < 600 ? 1.5 : 2);
+    this.canvas.width = Math.round(this.width * this.dpr);
+    this.canvas.height = Math.round(this.height * this.dpr);
     this.canvas.style.width = `${this.width}px`;
     this.canvas.style.height = `${this.height}px`;
-    this.ctx.scale(this.dpr, this.dpr);
+    this.ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
   }
 
   setReducedMotion(reduced) {
+    if (this.isReducedMotion === reduced) return;
     this.isReducedMotion = reduced;
+    this.cancelFinale();
+    this.clearIllumination();
+    if (reduced) {
+      this.rockets.length = 0;
+      this.anars.length = 0;
+      this.chakris.length = 0;
+      this.sweets.length = 0;
+      this.lanterns.length = 0;
+      while (this.particles.length) this.recycleParticle(this.particles.length - 1);
+    }
+    if (this.autoLaunchTimer) this.startAutoCelebration();
+  }
+
+  // Reuse particle records and bound all particle-producing interactions.
+  addParticle(properties) {
+    const limit = this.isReducedMotion ? 150 : this.maxParticles;
+    if (!this.isPageVisible || this.particles.length >= limit) return;
+    const particle = this.particlePool.pop() || {};
+    Object.assign(particle, properties);
+    if (this.isReducedMotion) {
+      const speed = Math.hypot(particle.vx || 0, particle.vy || 0);
+      if (speed > 2) {
+        particle.vx *= 2 / speed;
+        particle.vy *= 2 / speed;
+      }
+      particle.decay = Math.max(particle.decay, 0.025);
+      particle.flicker = false;
+      particle.size = Math.min(particle.size, 1.6);
+    }
+    this.particles.push(particle);
+  }
+
+  recycleParticle(index) {
+    const particle = this.particles[index];
+    this.particles[index] = this.particles[this.particles.length - 1];
+    this.particles.pop();
+    for (const key of Object.keys(particle)) delete particle[key];
+    if (this.particlePool.length < this.maxParticles) this.particlePool.push(particle);
+  }
+
+  // Cache tiny optical bloom textures instead of blurring every spark each frame.
+  getGlowSprite(color) {
+    if (this.glowSprites.has(color)) return this.glowSprites.get(color);
+    const sprite = document.createElement('canvas');
+    sprite.width = sprite.height = 48;
+    const ctx = sprite.getContext('2d');
+    const tint = color.length === 4 ? '#' + [...color.slice(1)].map(c => c + c).join('') : color;
+    const gradient = ctx.createRadialGradient(24, 24, 0, 24, 24, 24);
+    gradient.addColorStop(0, '#fff8e5');
+    gradient.addColorStop(0.12, color);
+    gradient.addColorStop(0.35, tint + '80');
+    gradient.addColorStop(1, tint + '00');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, 48, 48);
+    if (this.glowSprites.size < 48) this.glowSprites.set(color, sprite);
+    return sprite;
+  }
+
+  cancelFinale() {
+    this.finaleTimers.forEach(timer => clearTimeout(timer));
+    this.finaleTimers.clear();
+    this.finaleActive = false;
+  }
+
+  clearIllumination() {
+    clearTimeout(this.illuminationTimer);
+    const glow = document.getElementById('sky-glow');
+    if (glow) glow.classList.remove('active');
   }
 
   startAutoCelebration() {
@@ -81,7 +163,7 @@ class ParticleEngine {
         this.launchRandomFirework();
       }
     }, interval);
-    this.launchRandomFirework();
+    if (this.isPageVisible) this.launchRandomFirework();
   }
 
   stopAutoCelebration() {
@@ -100,6 +182,11 @@ class ParticleEngine {
   }
 
   launchRocket(targetX, targetY, burstType = 'brocade') {
+    if (!this.isPageVisible || this.rockets.length >= (this.isReducedMotion ? 3 : 12)) return;
+    if (this.isReducedMotion) {
+      this.explode(targetX, targetY, 'peony');
+      return;
+    }
     const startX = targetX + (Math.random() * 60 - 30);
     const startY = this.height + 15;
     
@@ -127,6 +214,7 @@ class ParticleEngine {
   }
 
   explode(x, y, type = 'brocade') {
+    if (!this.isPageVisible) return;
     if (window.diwaliAudio) {
       window.diwaliAudio.playFireworkBurst(type === 'brocade' ? 'large' : 'medium');
     }
@@ -142,7 +230,7 @@ class ParticleEngine {
       for (let i = 0; i < count; i++) {
         const angle = Math.random() * Math.PI * 2;
         const speed = 2.0 + Math.random() * 5.2;
-        this.particles.push({
+        this.addParticle({
           x: x,
           y: y,
           vx: Math.cos(angle) * speed,
@@ -170,7 +258,7 @@ class ParticleEngine {
         const hx = 16 * Math.pow(Math.sin(t), 3);
         const hy = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
         const speed = 0.24 + Math.random() * 0.05;
-        this.particles.push({
+        this.addParticle({
           x: x,
           y: y,
           vx: hx * speed,
@@ -196,7 +284,7 @@ class ParticleEngine {
         const angle = Math.random() * Math.PI * 2;
         const speed = 2.5 + Math.random() * 5.8;
         const color = palette[Math.floor(Math.random() * palette.length)];
-        this.particles.push({
+        this.addParticle({
           x: x,
           y: y,
           vx: Math.cos(angle) * speed,
@@ -225,7 +313,7 @@ class ParticleEngine {
       for (let i = 0; i < count; i++) {
         const angle = (i / count) * Math.PI * 2;
         const speed = 4.2 + (Math.random() * 0.3 - 0.15);
-        this.particles.push({
+        this.addParticle({
           x: x,
           y: y,
           vx: Math.cos(angle) * speed,
@@ -248,7 +336,7 @@ class ParticleEngine {
       const angle = Math.random() * Math.PI * 2;
       const speed = 1.8 + Math.random() * 5.4;
       const color = palette[Math.floor(Math.random() * palette.length)];
-      this.particles.push({
+      this.addParticle({
         x: x,
         y: y,
         vx: Math.cos(angle) * speed,
@@ -267,7 +355,8 @@ class ParticleEngine {
   }
 
   addCentralCoreFlash(x, y, color) {
-    this.particles.push({
+    if (this.isReducedMotion) return;
+    this.addParticle({
       x: x,
       y: y,
       vx: 0,
@@ -285,9 +374,10 @@ class ParticleEngine {
     const glow = document.getElementById('sky-glow');
     if (glow) {
       glow.style.transform = `translate(${x}px, ${y}px)`;
-      glow.classList.remove('active');
-      void glow.offsetWidth;
+      clearTimeout(this.illuminationTimer);
+      glow.style.setProperty('--burst-color', type === 'heart' ? '255, 100, 125' : '255, 192, 92');
       glow.classList.add('active');
+      this.illuminationTimer = setTimeout(() => glow.classList.remove('active'), 160);
     }
   }
 
@@ -296,7 +386,7 @@ class ParticleEngine {
     for (let i = 0; i < count; i++) {
       const angle = Math.random() * Math.PI * 2;
       const speed = 1.2 + Math.random() * 3.2;
-      this.particles.push({
+      this.addParticle({
         x: x + (Math.random() * 6 - 3),
         y: y + (Math.random() * 6 - 3),
         vx: Math.cos(angle) * speed,
@@ -315,6 +405,7 @@ class ParticleEngine {
   }
 
   spawnAnar(x, y) {
+    if (!this.isPageVisible || this.anars.length >= 3) return;
     if (window.diwaliAudio) {
       window.diwaliAudio.playChakriSound();
     }
@@ -328,6 +419,11 @@ class ParticleEngine {
   }
 
   spawnChakri(x, y) {
+    if (this.isReducedMotion) {
+      this.addSparkler(x ?? this.width * 0.5, y ?? this.height - 60);
+      return;
+    }
+    if (!this.isPageVisible || this.chakris.length >= 3) return;
     if (window.diwaliAudio) {
       window.diwaliAudio.playChakriSound();
     }
@@ -343,10 +439,12 @@ class ParticleEngine {
   }
 
   spawnLantern(x) {
+    if (!this.isPageVisible || this.lanterns.length >= 12) return;
     const startX = x || (this.width * (0.15 + Math.random() * 0.7));
     this.lanterns.push({
       x: startX,
-      y: this.height + 45,
+      y: this.isReducedMotion ? this.height * 0.4 : this.height + 45,
+      life: 1,
       vx: (Math.random() - 0.5) * 0.35,
       vy: -(0.65 + Math.random() * 0.4),
       sway: Math.random() * Math.PI * 2,
@@ -360,17 +458,18 @@ class ParticleEngine {
   }
 
   spawnSweetShower() {
+    if (!this.isPageVisible || this.sweets.length >= 56) return;
     if (window.diwaliAudio) {
       window.diwaliAudio.playSweetBounce();
     }
     const sweetTypes = ['laddoo', 'kaju', 'jalebi'];
     const count = this.isReducedMotion ? 6 : 14;
 
-    for (let i = 0; i < count; i++) {
+    for (let i = 0; i < count && this.sweets.length < 56; i++) {
       const type = sweetTypes[Math.floor(Math.random() * sweetTypes.length)];
       this.sweets.push({
         x: this.width * (0.1 + Math.random() * 0.8),
-        y: -30 - Math.random() * 180,
+        y: this.isReducedMotion ? this.height * (0.25 + Math.random() * 0.25) : -30 - Math.random() * 180,
         vx: (Math.random() - 0.5) * 3.8,
         vy: Math.random() * 2.2,
         rot: Math.random() * 360,
@@ -384,51 +483,75 @@ class ParticleEngine {
   }
 
   launchFinale() {
+    if (!this.isPageVisible || this.finaleActive) return false;
+    this.finaleActive = true;
     const types = ['brocade', 'peony', 'chrysanthemum', 'heart', 'ring'];
-    const count = 14;
+    const count = this.isReducedMotion ? 3 : 12;
     for (let i = 0; i < count; i++) {
-      setTimeout(() => {
-        const x = this.width * (0.12 + (i / count) * 0.76 + (Math.random() * 0.08 - 0.04));
-        const y = this.height * (0.1 + Math.random() * 0.32);
-        this.launchRocket(x, y, types[i % types.length]);
-      }, i * 200);
+      const timer = setTimeout(() => {
+        this.finaleTimers.delete(timer);
+        if (this.isPageVisible) {
+          const x = this.width * (0.18 + Math.random() * 0.64);
+          const y = this.height * (0.12 + Math.random() * 0.28);
+          this.launchRocket(x, y, types[i % types.length]);
+        }
+      }, i * (this.isReducedMotion ? 900 : 280));
+      this.finaleTimers.add(timer);
     }
+    const endTimer = setTimeout(() => {
+      this.finaleTimers.delete(endTimer);
+      this.finaleActive = false;
+    }, this.isReducedMotion ? 3200 : 5000);
+    this.finaleTimers.add(endTimer);
+    return true;
   }
 
   animate(timestamp) {
     requestAnimationFrame(this.animate);
     if (!this.isPageVisible) return;
+    if (this.lastTimestamp === null) {
+      this.lastTimestamp = timestamp;
+      return;
+    }
+    // Frame units at 60 Hz, clamped to avoid a catch-up burst after a stall.
+    const dt = Math.min(Math.max((timestamp - this.lastTimestamp) / (1000 / 60), 0), 2);
+    this.lastTimestamp = timestamp;
+    if (!dt) return;
 
-    this.ctx.globalCompositeOperation = 'source-over';
-    this.ctx.fillStyle = 'rgba(7, 7, 25, 0.22)';
+    // Erase alpha, preserving the atmospheric layers beneath the canvas.
+    this.ctx.globalCompositeOperation = 'destination-out';
+    this.ctx.fillStyle = `rgba(0, 0, 0, ${1 - Math.pow(0.72, dt)})`;
     this.ctx.fillRect(0, 0, this.width, this.height);
+    this.ctx.globalCompositeOperation = 'source-over';
 
     // 1. Rockets
     for (let i = this.rockets.length - 1; i >= 0; i--) {
       const r = this.rockets[i];
-      r.x += r.vx;
-      r.y += r.vy;
-      r.vy += r.gravity;
+      r.x += r.vx * dt;
+      r.y += r.vy * dt + r.gravity * dt * (dt - 1) / 2;
+      r.vy += r.gravity * dt;
 
       r.trail.push({ x: r.x, y: r.y, alpha: 1.0 });
       if (r.trail.length > 7) r.trail.shift();
 
       this.ctx.save();
       this.ctx.globalCompositeOperation = 'lighter';
-      for (let j = 0; j < r.trail.length; j++) {
+      for (let j = 1; j < r.trail.length; j++) {
         const t = r.trail[j];
-        const ratio = (j / r.trail.length);
-        this.ctx.fillStyle = `rgba(255, 200, 50, ${ratio * 0.9})`;
+        const previous = r.trail[j - 1];
+        const ratio = j / r.trail.length;
+        this.ctx.strokeStyle = `rgba(255, 203, 126, ${ratio * 0.75})`;
+        this.ctx.lineWidth = 0.4 + ratio * 1.8;
+        this.ctx.lineCap = 'round';
         this.ctx.beginPath();
-        this.ctx.arc(t.x, t.y, 1.2 + ratio * 2.2, 0, Math.PI * 2);
-        this.ctx.fill();
+        this.ctx.moveTo(previous.x, previous.y);
+        this.ctx.lineTo(t.x, t.y);
+        this.ctx.stroke();
       }
-
-      this.ctx.fillStyle = '#FFFFFF';
-      this.ctx.shadowColor = '#FFD54F';
-      this.ctx.shadowBlur = 10;
+      this.ctx.drawImage(this.getGlowSprite('#FFD54F'), r.x - 9, r.y - 9, 18, 18);
+      this.ctx.fillStyle = '#FFF7DF';
       this.ctx.beginPath();
-      this.ctx.arc(r.x, r.y, 3.2, 0, Math.PI * 2);
+      this.ctx.arc(r.x, r.y, 1.4, 0, Math.PI * 2);
       this.ctx.fill();
       this.ctx.restore();
 
@@ -446,9 +569,10 @@ class ParticleEngine {
       const p = this.particles[i];
 
       if (p.isCoreFlash) {
-        p.alpha -= p.decay;
+        this.ctx.globalAlpha = 1;
+        p.alpha -= p.decay * dt;
         if (p.alpha <= 0) {
-          this.particles.splice(i, 1);
+          this.recycleParticle(i);
           continue;
         }
         const grad = this.ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * (1.5 - p.alpha));
@@ -462,19 +586,22 @@ class ParticleEngine {
         continue;
       }
 
-      p.x += p.vx;
-      p.y += p.vy;
-      p.vx *= p.airDrag || 0.98;
-      p.vy *= p.airDrag || 0.98;
-      p.vy += p.gravity || 0.05;
-      p.alpha -= p.decay;
+      const drag = p.airDrag ?? 0.98;
+      const gravity = p.gravity ?? 0.05;
+      const damping = Math.pow(drag, dt);
+      const travel = drag === 1 ? dt : (1 - damping) / (1 - drag);
+      p.x += p.vx * travel;
+      p.y += p.vy * travel + (drag === 1 ? gravity * dt * (dt - 1) / 2 : gravity * (dt - travel) / (1 - drag));
+      p.vx *= damping;
+      p.vy = p.vy * damping + gravity * travel;
+      p.alpha -= p.decay * dt;
 
       if (p.canBranch && !this.isReducedMotion) {
-        p.branchTimer++;
+        p.branchTimer += dt;
         if (p.branchTimer > 6 && Math.random() > 0.6) {
           p.canBranch = false;
           const branchAngle = Math.atan2(p.vy, p.vx) + (Math.random() * 1.2 - 0.6);
-          this.particles.push({
+          this.addParticle({
             x: p.x,
             y: p.y,
             vx: Math.cos(branchAngle) * 1.5,
@@ -490,11 +617,11 @@ class ParticleEngine {
         }
       }
 
-      if (p.hasPistil && !p.pistilTriggered && p.alpha < 0.4) {
+      if (!this.isReducedMotion && p.hasPistil && !p.pistilTriggered && p.alpha < 0.4) {
         p.pistilTriggered = true;
         for (let s = 0; s < 3; s++) {
           const sAngle = Math.random() * Math.PI * 2;
-          this.particles.push({
+          this.addParticle({
             x: p.x,
             y: p.y,
             vx: Math.cos(sAngle) * 1.8,
@@ -516,18 +643,19 @@ class ParticleEngine {
       }
 
       if (p.alpha <= 0) {
-        this.particles.splice(i, 1);
+        this.recycleParticle(i);
         continue;
       }
 
       let renderAlpha = p.alpha;
       if (p.flicker) {
-        renderAlpha *= 0.65 + 0.35 * Math.sin(timestamp * 0.05 + p.x);
+        renderAlpha *= 0.65 + 0.35 * Math.sin(timestamp * 0.012 + p.x);
       }
 
       this.ctx.fillStyle = p.color;
-      this.ctx.shadowColor = p.color;
-      this.ctx.shadowBlur = 6;
+      this.ctx.globalAlpha = Math.max(0, renderAlpha);
+      const glowSize = p.size * 7;
+      this.ctx.drawImage(this.getGlowSprite(p.color), p.x - glowSize / 2, p.y - glowSize / 2, glowSize, glowSize);
 
       if (p.isBrocade && p.trail && p.trail.length > 1) {
         this.ctx.beginPath();
@@ -535,8 +663,9 @@ class ParticleEngine {
         for (let t = 1; t < p.trail.length; t++) {
           this.ctx.lineTo(p.trail[t].x, p.trail[t].y);
         }
-        this.ctx.strokeStyle = `rgba(255, 215, 0, ${Math.max(0, renderAlpha)})`;
-        this.ctx.lineWidth = p.size;
+        this.ctx.strokeStyle = '#ffcf72';
+        this.ctx.lineWidth = Math.max(0.5, p.size * p.alpha);
+        this.ctx.lineCap = 'round';
         this.ctx.stroke();
       } else {
         this.ctx.globalAlpha = Math.max(0, renderAlpha);
@@ -550,18 +679,20 @@ class ParticleEngine {
     // 3. Anar (Fountain)
     for (let i = this.anars.length - 1; i >= 0; i--) {
       const a = this.anars[i];
-      a.life -= a.decay;
+      a.life -= a.decay * dt;
 
       if (a.life <= 0) {
         this.anars.splice(i, 1);
         continue;
       }
 
-      const sparkCount = this.isReducedMotion ? 4 : 10;
+      a.emission = (a.emission || 0) + (this.isReducedMotion ? 1 : 6) * dt;
+      const sparkCount = Math.floor(a.emission);
+      a.emission -= sparkCount;
       for (let s = 0; s < sparkCount; s++) {
         const spread = (Math.random() - 0.5) * a.coneSpread * 2;
         const speed = 4.5 + Math.random() * 7.5 * a.life;
-        this.particles.push({
+        this.addParticle({
           x: a.x + (Math.random() * 8 - 4),
           y: a.y,
           vx: spread * 2.2,
@@ -580,19 +711,21 @@ class ParticleEngine {
     // 4. Ground Chakri
     for (let i = this.chakris.length - 1; i >= 0; i--) {
       const c = this.chakris[i];
-      c.angle += c.spinSpeed;
-      c.life -= c.decay;
+      c.angle += c.spinSpeed * dt;
+      c.life -= c.decay * dt;
 
       if (c.life <= 0) {
         this.chakris.splice(i, 1);
         continue;
       }
 
-      const sparkCount = this.isReducedMotion ? 3 : 7;
+      c.emission = (c.emission || 0) + (this.isReducedMotion ? 1 : 5) * dt;
+      const sparkCount = Math.floor(c.emission);
+      c.emission -= sparkCount;
       for (let s = 0; s < sparkCount; s++) {
         const sparkAngle = c.angle + (s * (Math.PI * 2 / sparkCount));
         const speed = 2.8 + Math.random() * 4.2;
-        this.particles.push({
+        this.addParticle({
           x: c.x,
           y: c.y,
           vx: Math.cos(sparkAngle) * speed,
@@ -624,21 +757,25 @@ class ParticleEngine {
     // 5. Sky Lanterns
     for (let i = this.lanterns.length - 1; i >= 0; i--) {
       const l = this.lanterns[i];
-      l.sway += l.swaySpeed;
-      l.tilt = Math.sin(l.sway) * 0.08;
-      l.x += l.vx + Math.sin(l.sway) * 0.35;
-      l.y += l.vy;
-      l.flameFlicker += 0.15;
+      if (this.isReducedMotion) {
+        l.life -= 0.008 * dt;
+      } else {
+        l.sway += l.swaySpeed * dt;
+        l.tilt = Math.sin(l.sway) * 0.08;
+        l.x += (l.vx + Math.sin(l.sway) * 0.35) * dt;
+        l.y += l.vy * dt;
+        l.flameFlicker += 0.15 * dt;
+      }
 
-      if (l.alpha < l.targetAlpha) l.alpha += 0.02;
+      l.alpha = Math.min(l.targetAlpha, l.alpha + 0.02 * dt);
 
-      if (l.y < -90) {
+      if (l.y < -90 || l.life <= 0) {
         this.lanterns.splice(i, 1);
         continue;
       }
 
       this.ctx.save();
-      this.ctx.globalAlpha = l.alpha;
+      this.ctx.globalAlpha = l.alpha * l.life;
       this.ctx.translate(l.x, l.y);
       this.ctx.rotate(l.tilt);
       this.ctx.scale(l.scale, l.scale);
@@ -652,17 +789,19 @@ class ParticleEngine {
       this.ctx.arc(0, 0, 36, 0, Math.PI * 2);
       this.ctx.fill();
 
-      const paperGrad = this.ctx.createLinearGradient(0, -18, 0, 16);
-      paperGrad.addColorStop(0, '#FFA726');
-      paperGrad.addColorStop(0.6, '#FF7043');
-      paperGrad.addColorStop(1, '#D84315');
+      const paperGrad = this.ctx.createLinearGradient(-17, 0, 17, 0);
+      paperGrad.addColorStop(0, '#92351d');
+      paperGrad.addColorStop(0.25, '#f18c40');
+      paperGrad.addColorStop(0.5, '#ffe2a0');
+      paperGrad.addColorStop(0.75, '#ee8b3d');
+      paperGrad.addColorStop(1, '#92351d');
       this.ctx.fillStyle = paperGrad;
 
       this.ctx.beginPath();
       this.ctx.moveTo(-13, 16);
-      this.ctx.lineTo(-17, -14);
-      this.ctx.lineTo(17, -14);
-      this.ctx.lineTo(13, 16);
+      this.ctx.quadraticCurveTo(-20, -7, -15, -15);
+      this.ctx.quadraticCurveTo(0, -20, 15, -15);
+      this.ctx.quadraticCurveTo(20, -7, 13, 16);
       this.ctx.closePath();
       this.ctx.fill();
 
@@ -670,6 +809,14 @@ class ParticleEngine {
       this.ctx.lineWidth = 1.2;
       this.ctx.stroke();
 
+      this.ctx.strokeStyle = 'rgba(105, 42, 18, 0.28)';
+      this.ctx.lineWidth = 0.7;
+      for (let rib = -8; rib <= 8; rib += 8) {
+        this.ctx.beginPath();
+        this.ctx.moveTo(rib, -13);
+        this.ctx.quadraticCurveTo(rib * 1.3, 0, rib * 0.8, 15);
+        this.ctx.stroke();
+      }
       const flameOffset = Math.sin(l.flameFlicker) * 1.0;
       this.ctx.fillStyle = '#FFFDE7';
       this.ctx.shadowColor = '#FFE082';
@@ -684,20 +831,32 @@ class ParticleEngine {
     // 6. Sweets
     for (let i = this.sweets.length - 1; i >= 0; i--) {
       const s = this.sweets[i];
-      s.x += s.vx;
-      s.y += s.vy;
-      s.vy += 0.42;
-      s.rot += s.rotSpeed;
-
-      const floorY = this.height - 40;
-      if (s.y >= floorY) {
-        s.y = floorY;
-        s.vy = -s.vy * 0.65;
-        s.vx *= 0.82;
-        s.bounces++;
-        if (s.bounces > 4) {
-          s.alpha -= 0.025;
+      if (this.isReducedMotion) {
+        s.alpha -= 0.015 * dt;
+      } else {
+        s.x += s.vx * dt;
+        s.rot += s.rotSpeed * dt;
+        // Integrate collisions in bounded substeps so floor contact does not jitter.
+        const steps = Math.ceil(dt);
+        const step = dt / steps;
+        const floorY = this.height - 40;
+        for (let collisionStep = 0; collisionStep < steps; collisionStep++) {
+          if (s.settled) break;
+          s.y += s.vy * step + 0.21 * step * step;
+          s.vy += 0.42 * step;
+          if (s.y >= floorY && s.vy > 0) {
+            s.y = floorY;
+            s.vy = -s.vy * 0.65;
+            s.vx *= 0.82;
+            s.bounces++;
+            if (Math.abs(s.vy) < 0.8 || s.bounces > 4) {
+              s.settled = true;
+              s.vy = 0;
+              s.rotSpeed = 0;
+            }
+          }
         }
+        if (s.bounces > 4 || s.settled) s.alpha -= 0.025 * dt;
       }
 
       if (s.alpha <= 0 || s.x < -60 || s.x > this.width + 60) {
@@ -720,6 +879,15 @@ class ParticleEngine {
         this.ctx.arc(0, 0, s.size * 0.5, 0, Math.PI * 2);
         this.ctx.fill();
 
+        // Small, deterministic motichoor grains give the sweet a tangible surface.
+        this.ctx.fillStyle = 'rgba(129, 60, 10, 0.3)';
+        for (let grain = 0; grain < 13; grain++) {
+          const angle = grain * 2.39996;
+          const radius = Math.sqrt((grain + 0.5) / 13) * s.size * 0.43;
+          this.ctx.beginPath();
+          this.ctx.arc(Math.cos(angle) * radius, Math.sin(angle) * radius, 0.9, 0, Math.PI * 2);
+          this.ctx.fill();
+        }
         this.ctx.fillStyle = '#7CB342';
         this.ctx.beginPath();
         this.ctx.arc(-4, -2, 2.2, 0, Math.PI * 2);
