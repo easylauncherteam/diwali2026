@@ -1,0 +1,8 @@
+# Robots.txt for Shivam Bajpai Diwali 2026 Celebration
+# https://diwali-shivam.hostapp.in
+
+User-agent: *
+Allow: /
+Disallow: /tests/
+
+Sitemap: https://diwali-shivam.hostapp.in/sitemap.xml

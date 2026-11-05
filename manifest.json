@@ -1,10 +1,21 @@
 {
-  "name": "Diwali Celebration 2026",
+  "name": "Diwali 2026 Interactive Celebration | Shivam Bajpai",
   "short_name": "Happy Diwali",
-  "start_url": "./",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#070719",
   "theme_color": "#140C29",
-  "description": "Interactive Diwali Celebration with Fireworks, Glowing Diyas, and Animated Mascots Golu & Mithoo."
+  "description": "Interactive Diwali Celebration with 60 FPS pyrotechnics, glowing terracotta diyas, cute 3D cartoon mascots Golu & Mithoo, and Indian classical melodies.",
+  "icons": [
+    {
+      "src": "/assets/easylauncher-logo.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/easylauncher-icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    }
+  ]
 }
-

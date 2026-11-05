@@ -186,6 +186,31 @@ body {
   letter-spacing: 0.04em;
   color: var(--gold-light);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), 0 0 12px rgba(255, 215, 0, 0.15);
+  text-decoration: none;
+}
+
+.hub-backlink-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--gold-light);
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.hub-backlink-btn:hover {
+  background: rgba(255, 215, 0, 0.2);
+  border-color: rgba(255, 215, 0, 0.6);
+  color: #FFF;
+  transform: translateY(-2px);
 }
 
 .brand-badge .diya-icon {
