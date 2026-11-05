@@ -91,7 +91,7 @@ export const RAMAYANA_SCENES = [
     key: 'AYODHYA_AAGMAN',
     titleEnglish: 'Grand Return to Ayodhya & The First Diwali',
     titleHindi: 'अयोध्या आगमन – भव्य दीपोत्सव',
-    episode: 'SCENE 6 • GRAND DIWALI FINALE',
+    episode: 'SCENE 6 • SHUBH DEEPAWALI',
     narrationEnglish: 'After fourteen years of exile, Lord Shri Ram returned to Ayodhya. In celebration of his return, the entire city was illuminated with countless glowing diyas—giving birth to the festival of Diwali.',
     narration: 'चौदह वर्षों के वनवास के बाद प्रभु श्री राम अयोध्या लौटे। उनके स्वागत में पूरी अयोध्या दीपों से जगमगा उठी। इसी पावन उत्सव को हम दीपावली के रूप में मनाते हैं।',
     description: 'Lord Ram, Mata Sita, Lakshman, and Hanuman return victoriously to Ayodhya. Millions of glowing lamps illuminate the Sarayu river and grand fireworks celebrate the festival of lights.',

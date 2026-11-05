@@ -554,7 +554,7 @@ export default function CinematicSceneCarousel({
                   gap: '0.35rem'
                 }}
               >
-                <span>{currentSceneIndex === totalScenes - 1 ? 'Grand Diwali Finale 🎆' : 'Next Scene ▶'}</span>
+                <span>{currentSceneIndex === totalScenes - 1 ? 'शुभ दीपावली (Shubh Deepawali) 🪔' : 'Next Scene ▶'}</span>
               </button>
             </div>
           </motion.div>
