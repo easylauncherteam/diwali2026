@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🪔 Happy Diwali 2026</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1a0a2e, #16213e, #0f3460);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .container {
+            z-index: 2;
+            padding: 2rem;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            color: #ffd700;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+            margin-bottom: 1rem;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        .diya {
+            font-size: 5rem;
+            margin: 1rem 0;
+            animation: flicker 1.5s ease-in-out infinite alternate;
+        }
+
+        p {
+            font-size: 1.3rem;
+            color: #f0e68c;
+            max-width: 600px;
+            line-height: 1.8;
+            margin: 1rem auto;
+        }
+
+        .wish {
+            font-size: 1.1rem;
+            color: #ffa500;
+            font-style: italic;
+            margin-top: 2rem;
+        }
+
+        .sparkle {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: #ffd700;
+            border-radius: 50%;
+            animation: twinkle 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 20px rgba(255, 215, 0, 0.6); }
+            to { text-shadow: 0 0 40px rgba(255, 215, 0, 0.9), 0 0 60px rgba(255, 165, 0, 0.5); }
+        }
+
+        @keyframes flicker {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.85; }
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        footer {
+            position: fixed;
+            bottom: 1rem;
+            color: #888;
+            font-size: 0.9rem;
+            z-index: 2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="diya">🪔</div>
+        <h1>Happy Diwali 2026</h1>
+        <p>May the festival of lights fill your home with happiness, your heart with love, and your life with prosperity.</p>
+        <p class="wish">✨ Wishing you and your family a very Happy Diwali! ✨</p>
+    </div>
+
+    <footer>&copy; 2026 Easy Launcher Team</footer>
+
+    <script>
+        // Create sparkles
+        for (let i = 0; i < 40; i++) {
+            const sparkle = document.createElement('div');
+            sparkle.classList.add('sparkle');
+            sparkle.style.left = Math.random() * 100 + 'vw';
+            sparkle.style.top = Math.random() * 100 + 'vh';
+            sparkle.style.animationDelay = Math.random() * 3 + 's';
+            sparkle.style.animationDuration = (2 + Math.random() * 3) + 's';
+            document.body.appendChild(sparkle);
+        }
+    </script>
+</body>
+</html>
+
