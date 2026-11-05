@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google" content="notranslate">
+    <title>Happy Diwali Wishes from Harsh Trivedi 🪔</title>
+    
+    <!-- Open Graph Preview -->
+    <meta property="og:title" content="🪔 Happy Diwali Wishes from Harsh Trivedi">
+    <meta property="og:description" content="Warm festive greetings and a special Diwali surprise from Harsh Trivedi! 🎁✨">
+    <meta property="og:image" content="pushpak-viman.jpg">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Happy Diwali">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="🪔 Happy Diwali Wishes from Harsh Trivedi">
+    <meta name="twitter:description" content="Warm festive greetings and a special Diwali surprise from Harsh Trivedi! 🎁">
+    <meta name="twitter:image" content="pushpak-viman.jpg">
+    
+    <link rel="stylesheet" href="style.css?v=3.0">
+</head>
+<body translate="no">
+    <!-- Festive Background Music -->
+    <audio id="bgMusic" src="audio/videoplayback.mp3?v=3.0" loop autoplay preload="auto"></audio>
+
+    <!-- Floating Sound Toggle Button -->
+    <button id="soundToggle" class="sound-toggle" onclick="toggleSound()" aria-label="Toggle Sound">
+        <span id="soundIcon">🔊</span>
+        <span id="soundText">Music: ON</span>
+    </button>
+
+    <!-- Fireworks Background -->
+    <canvas id="fireworks"></canvas>
+    
+    <!-- Flying Sky Lanterns (Candles) -->
+    <div class="sky-lantern"><div class="lantern-glow"></div><div class="lantern-flame"></div><div class="lantern-body"></div></div>
+    <div class="sky-lantern"><div class="lantern-glow"></div><div class="lantern-flame"></div><div class="lantern-body"></div></div>
+    <div class="sky-lantern"><div class="lantern-glow"></div><div class="lantern-flame"></div><div class="lantern-body"></div></div>
+    <div class="sky-lantern"><div class="lantern-glow"></div><div class="lantern-flame"></div><div class="lantern-body"></div></div>
+    <div class="sky-lantern"><div class="lantern-glow"></div><div class="lantern-flame"></div><div class="lantern-body"></div></div>
+    <div class="sky-lantern"><div class="lantern-glow"></div><div class="lantern-flame"></div><div class="lantern-body"></div></div>
+    <div class="sky-lantern"><div class="lantern-glow"></div><div class="lantern-flame"></div><div class="lantern-body"></div></div>
+    <div class="sky-lantern"><div class="lantern-glow"></div><div class="lantern-flame"></div><div class="lantern-body"></div></div>
+    
+    <!-- Main Container (Hidden - Harsh Trivedi is default sender) -->
+    <div class="container hidden" id="nameForm" style="display: none;"></div>
+
+    <!-- Gift Opening Animation -->
+    <div class="gift-container" id="giftContainer">
+        <!-- Tap To Play Music Banner (shown if browser blocked unmuted autoplay) -->
+        <div id="tapMusicBanner" class="tap-music-banner" onclick="startMusic()">
+            🎵 Tap anywhere to start music! 🔊
+        </div>
+
+        <div class="gift-glow-aura"></div>
+        <div class="gift-box" id="giftBox">
+            <div class="gift-lid">
+                <div class="bow"></div>
+            </div>
+            <div class="gift-body"></div>
+        </div>
+        <p class="tap-text">🎁 Click To Open Your Diwali Gift 🎁</p>
+        <div class="tap-subtext">✨ Tap To Open Your Special Surprise! ✨</div>
+    </div>
+
+    <!-- Pushpak Viman Divine Scene -->
+    <div class="viman-animation-container hidden" id="boatAnimationContainer">
+        <!-- Cinematic Background of Pushpak Viman with Lord Ram, Mata Sita, Lakshman Ji, Hanuman Ji -->
+        <div class="pushpak-backdrop"></div>
+        <div class="divine-golden-overlay"></div>
+        
+        <!-- Celestial Starry Sparkles & Flower Petals -->
+        <div class="divine-celestial-particles" id="vimanParticles"></div>
+
+        <!-- Skip Button -->
+        <button class="skip-viman-btn" onclick="skipBoatAnimation()">View Wishes ⏭️</button>
+        
+        <!-- Divine Banner Text -->
+        <div class="viman-text-banner">
+            <h2 class="viman-title">✨ Divine Arrival In Pushpak Viman ✨</h2>
+            <p class="viman-desc">
+                Lord Rama, Mata Sita, Lakshman Ji and Hanuman Ji<br>
+                returning to the holy city of Ayodhya in the Pushpak Viman
+            </p>
+            <div class="viman-mantra">॥ Jai Shree Ram ॥</div>
+        </div>
+    </div>
+
+    <!-- Wish Display -->
+    <div class="wish-container hidden" id="wishContainer">
+        <!-- Falling Flower Petals Shower -->
+        <div class="flower-petals-container" id="flowerPetals"></div>
+
+        <div class="wish-card">
+            <div class="card-glow-border"></div>
+            <div class="sparkles">
+                <div class="sparkle"></div>
+                <div class="sparkle"></div>
+                <div class="sparkle"></div>
+                <div class="sparkle"></div>
+            </div>
+            
+            <div class="rangoli"></div>
+            
+            <!-- User Image Circle -->
+            <div class="user-image-container hidden" id="userImageContainer">
+                <div class="user-image-circle">
+                    <img id="displayUserImage" src="" alt="User Photo">
+                </div>
+            </div>
+            
+            <h1 class="name-text" id="displayName">Harsh Trivedi</h1>
+            <h2 class="from-text">Wishes You A Happy Diwali</h2>
+            
+            <div class="wish-text">
+                <p class="hindi-wish">
+                    🪔 May the divine light of Diwali fill your life with peace, prosperity, happiness and good health! ✨<br><br>
+                    🌟 Happy Diwali 🌟
+                </p>
+            </div>
+
+            <div class="diyas-row">
+                <div class="diya small"><div class="flame"></div></div>
+                <div class="diya small"><div class="flame"></div></div>
+                <div class="diya small"><div class="flame"></div></div>
+            </div>
+
+            <button class="btn-voice-greeting" onclick="speakWishVoice()">
+                <span class="speaker-icon">🔊</span> Listen To Greeting
+            </button>
+
+            <div class="tap-firework-hint">
+                <span>✨ Tap anywhere on the screen to burst fireworks! 🎆</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

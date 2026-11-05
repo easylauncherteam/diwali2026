@@ -1,0 +1,35 @@
+# Environment files with credentials
+.env
+*.env
+.diwali-vps.env
+
+# Node modules
+node_modules/
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Backup files
+*.backup
+*.bak
+script.js.backup*
+
+# Temporary files
+*.tmp
+*.temp
+preview-original.jpg
+preview-generator.html
+create-preview.js
+
+# PM2 logs
+*.log
+logs/

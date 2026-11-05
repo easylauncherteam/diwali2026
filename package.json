@@ -1,0 +1,10 @@
+{
+  "name": "diwali-gift-wishes",
+  "version": "1.0.0",
+  "description": "Diwali gift wishes website",
+  "scripts": {
+    "start": "node server.js",
+    "build": "echo \"Build complete\""
+  }
+}
+
