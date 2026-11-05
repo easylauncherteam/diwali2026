@@ -27,14 +27,17 @@
   --smooth-curve: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
   -webkit-tap-highlight-color: transparent;
 }
 
-html, body {
+html,
+body {
   width: 100%;
   height: 100%;
   overflow-x: hidden;
@@ -66,14 +69,14 @@ body {
 .sky-stars {
   position: absolute;
   inset: 0;
-  background-image: 
-    radial-gradient(1.5px 1.5px at 20px 30px, #ffffff, rgba(0,0,0,0)),
-    radial-gradient(1px 1px at 40px 70px, #ffd700, rgba(0,0,0,0)),
-    radial-gradient(1.5px 1.5px at 90px 40px, #ffffff, rgba(0,0,0,0)),
-    radial-gradient(2px 2px at 160px 120px, #ffe4b5, rgba(0,0,0,0)),
-    radial-gradient(1.5px 1.5px at 230px 190px, #ffffff, rgba(0,0,0,0)),
-    radial-gradient(1px 1px at 310px 80px, #ffb703, rgba(0,0,0,0)),
-    radial-gradient(2px 2px at 390px 220px, #ffffff, rgba(0,0,0,0));
+  background-image:
+    radial-gradient(1.5px 1.5px at 20px 30px, #ffffff, rgba(0, 0, 0, 0)),
+    radial-gradient(1px 1px at 40px 70px, #ffd700, rgba(0, 0, 0, 0)),
+    radial-gradient(1.5px 1.5px at 90px 40px, #ffffff, rgba(0, 0, 0, 0)),
+    radial-gradient(2px 2px at 160px 120px, #ffe4b5, rgba(0, 0, 0, 0)),
+    radial-gradient(1.5px 1.5px at 230px 190px, #ffffff, rgba(0, 0, 0, 0)),
+    radial-gradient(1px 1px at 310px 80px, #ffb703, rgba(0, 0, 0, 0)),
+    radial-gradient(2px 2px at 390px 220px, #ffffff, rgba(0, 0, 0, 0));
   background-repeat: repeat;
   background-size: 300px 300px;
   opacity: 0.65;
@@ -97,9 +100,17 @@ body {
 }
 
 @keyframes twinkle {
-  0% { opacity: 0.45; }
-  50% { opacity: 0.75; }
-  100% { opacity: 0.55; }
+  0% {
+    opacity: 0.45;
+  }
+
+  50% {
+    opacity: 0.75;
+  }
+
+  100% {
+    opacity: 0.55;
+  }
 }
 
 /* Ambient glow on big firework bursts */
@@ -140,10 +151,11 @@ body {
   min-height: 100vh;
   justify-content: space-between;
   padding: 16px 20px 24px;
-  pointer-events: none; /* Let clicks fall through to canvas, children re-enable pointer-events */
+  pointer-events: none;
+  /* Let clicks fall through to canvas, children re-enable pointer-events */
 }
 
-.celebration-app > * {
+.celebration-app>* {
   pointer-events: auto;
 }
 
@@ -182,8 +194,15 @@ body {
 }
 
 @keyframes flame-wiggle {
-  0%, 100% { transform: rotate(-3deg) scale(1); }
-  50% { transform: rotate(4deg) scale(1.08); }
+
+  0%,
+  100% {
+    transform: rotate(-3deg) scale(1);
+  }
+
+  50% {
+    transform: rotate(4deg) scale(1.08);
+  }
 }
 
 .controls-bar {
@@ -209,7 +228,8 @@ body {
   transition: transform 0.25s var(--smooth-curve), background 0.25s, border-color 0.25s;
 }
 
-.icon-button:hover, .icon-button:focus-visible {
+.icon-button:hover,
+.icon-button:focus-visible {
   background: rgba(255, 215, 0, 0.18);
   border-color: var(--gold-primary);
   transform: translateY(-2px);
@@ -261,8 +281,15 @@ body {
 }
 
 @keyframes pulse-gentle {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
 }
 
 /* ==========================================================================
@@ -286,8 +313,13 @@ body {
 }
 
 @keyframes toran-sway {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(4px); }
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(4px);
+  }
 }
 
 .festive-title {
@@ -460,9 +492,17 @@ body {
 }
 
 @keyframes mascot-bob {
-  0% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-7px) rotate(-1.5deg); }
-  100% { transform: translateY(0) rotate(1.5deg); }
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-7px) rotate(-1.5deg);
+  }
+
+  100% {
+    transform: translateY(0) rotate(1.5deg);
+  }
 }
 
 /* Golu Spring Bounce Action (Using modern linear physics curve) */
@@ -471,11 +511,25 @@ body {
 }
 
 @keyframes mascot-spring-jump {
-  0% { transform: scale(1, 1) translateY(0); }
-  25% { transform: scale(1.15, 0.85) translateY(10px); }
-  50% { transform: scale(0.9, 1.25) translateY(-32px) rotate(8deg); }
-  75% { transform: scale(1.05, 0.95) translateY(0) rotate(-4deg); }
-  100% { transform: scale(1, 1) translateY(0); }
+  0% {
+    transform: scale(1, 1) translateY(0);
+  }
+
+  25% {
+    transform: scale(1.15, 0.85) translateY(10px);
+  }
+
+  50% {
+    transform: scale(0.9, 1.25) translateY(-32px) rotate(8deg);
+  }
+
+  75% {
+    transform: scale(1.05, 0.95) translateY(0) rotate(-4deg);
+  }
+
+  100% {
+    transform: scale(1, 1) translateY(0);
+  }
 }
 
 /* Mithoo 360 Spin Action */
@@ -484,9 +538,17 @@ body {
 }
 
 @keyframes mascot-spin-launch {
-  0% { transform: rotate(0deg) scale(1); }
-  50% { transform: rotate(180deg) scale(1.18) translateY(-20px); }
-  100% { transform: rotate(360deg) scale(1) translateY(0); }
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+
+  50% {
+    transform: rotate(180deg) scale(1.18) translateY(-20px);
+  }
+
+  100% {
+    transform: rotate(360deg) scale(1) translateY(0);
+  }
 }
 
 /* Synchronized Dancing Mode */
@@ -499,8 +561,13 @@ body {
 }
 
 @keyframes mascot-bhangra {
-  0% { transform: translateY(0) rotate(-6deg) scale(0.98, 1.02); }
-  100% { transform: translateY(-16px) rotate(6deg) scale(1.02, 0.98); }
+  0% {
+    transform: translateY(0) rotate(-6deg) scale(0.98, 1.02);
+  }
+
+  100% {
+    transform: translateY(-16px) rotate(6deg) scale(1.02, 0.98);
+  }
 }
 
 /* Sparkler sparks from Golu's sparkler */
@@ -510,8 +577,15 @@ body {
 }
 
 @keyframes sparkler-flicker {
-  0% { opacity: 0.8; transform: scale(0.9) rotate(-4deg); }
-  100% { opacity: 1; transform: scale(1.2) rotate(4deg); }
+  0% {
+    opacity: 0.8;
+    transform: scale(0.9) rotate(-4deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1.2) rotate(4deg);
+  }
 }
 
 /* Flame hair on Mithoo */
@@ -521,8 +595,13 @@ body {
 }
 
 @keyframes flame-dance {
-  0% { transform: scale(1, 1) skewX(-4deg); }
-  100% { transform: scale(1.08, 1.15) skewX(4deg); }
+  0% {
+    transform: scale(1, 1) skewX(-4deg);
+  }
+
+  100% {
+    transform: scale(1.08, 1.15) skewX(4deg);
+  }
 }
 
 /* ==========================================================================
@@ -595,7 +674,8 @@ body {
   transition: transform 0.25s var(--smooth-curve);
 }
 
-.interactive-diya:hover, .interactive-diya:focus-visible {
+.interactive-diya:hover,
+.interactive-diya:focus-visible {
   transform: translateY(-4px) scale(1.06);
 }
 
@@ -630,11 +710,25 @@ body {
 }
 
 @keyframes diya-burn {
-  0% { transform: scale(1, 1) skewX(-2deg) rotate(-1.5deg); }
-  25% { transform: scale(1.05, 1.14) skewX(2.5deg) rotate(1.8deg); }
-  50% { transform: scale(0.97, 1.06) skewX(-1.8deg) rotate(-1.2deg); }
-  75% { transform: scale(1.06, 1.18) skewX(2.8deg) rotate(2deg); }
-  100% { transform: scale(1, 1) skewX(-2deg) rotate(-1.5deg); }
+  0% {
+    transform: scale(1, 1) skewX(-2deg) rotate(-1.5deg);
+  }
+
+  25% {
+    transform: scale(1.05, 1.14) skewX(2.5deg) rotate(1.8deg);
+  }
+
+  50% {
+    transform: scale(0.97, 1.06) skewX(-1.8deg) rotate(-1.2deg);
+  }
+
+  75% {
+    transform: scale(1.06, 1.18) skewX(2.8deg) rotate(2deg);
+  }
+
+  100% {
+    transform: scale(1, 1) skewX(-2deg) rotate(-1.5deg);
+  }
 }
 
 .diya-glow {
@@ -653,8 +747,15 @@ body {
 }
 
 @keyframes diya-glow-pulse {
-  0% { transform: translateX(-50%) scale(0.95); opacity: 0.85; }
-  100% { transform: translateX(-50%) scale(1.08); opacity: 1; }
+  0% {
+    transform: translateX(-50%) scale(0.95);
+    opacity: 0.85;
+  }
+
+  100% {
+    transform: translateX(-50%) scale(1.08);
+    opacity: 1;
+  }
 }
 
 .interactive-diya.is-lit .diya-glow {
@@ -698,10 +799,25 @@ body {
 }
 
 @keyframes float-up-fade {
-  0% { opacity: 0; transform: translate(-50%, 0) scale(0.8); }
-  15% { opacity: 1; transform: translate(-50%, -35px) scale(1); }
-  80% { opacity: 1; transform: translate(-50%, -60px) scale(1); }
-  100% { opacity: 0; transform: translate(-50%, -85px) scale(0.9); }
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 0) scale(0.8);
+  }
+
+  15% {
+    opacity: 1;
+    transform: translate(-50%, -35px) scale(1);
+  }
+
+  80% {
+    opacity: 1;
+    transform: translate(-50%, -60px) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -85px) scale(0.9);
+  }
 }
 
 /* Floor Rangoli Graphic */
@@ -761,7 +877,8 @@ body {
   transition: transform 0.2s var(--smooth-curve), background 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
 
-.action-pill:hover, .action-pill:focus-visible {
+.action-pill:hover,
+.action-pill:focus-visible {
   background: rgba(255, 215, 0, 0.2);
   border-color: var(--gold-primary);
   transform: translateY(-2px);
@@ -814,7 +931,8 @@ body {
   transition: transform 0.25s var(--smooth-curve), box-shadow 0.25s;
 }
 
-.share-main-btn:hover, .share-main-btn:focus-visible {
+.share-main-btn:hover,
+.share-main-btn:focus-visible {
   transform: translateY(-2px) scale(1.02);
   box-shadow: 0 12px 30px rgba(37, 211, 102, 0.55);
   outline: none;
@@ -841,7 +959,8 @@ body {
   transition: transform 0.2s, background 0.2s, border-color 0.2s;
 }
 
-.customize-wish-btn:hover, .customize-wish-btn:focus-visible {
+.customize-wish-btn:hover,
+.customize-wish-btn:focus-visible {
   background: rgba(255, 215, 0, 0.2);
   border-color: var(--gold-primary);
   transform: translateY(-2px);
@@ -868,7 +987,8 @@ body {
   transition: transform 0.3s var(--spring-easing), box-shadow 0.3s;
 }
 
-.floating-whatsapp-btn:hover, .floating-whatsapp-btn:focus-visible {
+.floating-whatsapp-btn:hover,
+.floating-whatsapp-btn:focus-visible {
   transform: scale(1.12);
   box-shadow: 0 12px 28px rgba(37, 211, 102, 0.6);
   outline: none;
@@ -975,7 +1095,8 @@ dialog::backdrop {
   letter-spacing: 0.02em;
 }
 
-.form-input, .form-select {
+.form-input,
+.form-select {
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 215, 0, 0.3);
   border-radius: 12px;
@@ -987,7 +1108,8 @@ dialog::backdrop {
   transition: border-color 0.2s, background 0.2s;
 }
 
-.form-input:focus, .form-select:focus {
+.form-input:focus,
+.form-select:focus {
   border-color: var(--gold-primary);
   background: rgba(255, 255, 255, 0.12);
   box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
@@ -1114,6 +1236,7 @@ dialog::backdrop {
    Follows modern-web-guidance for prefers-reduced-motion
    ========================================================================== */
 @media (prefers-reduced-motion: reduce) {
+
   .sky-stars,
   .brand-badge .diya-icon,
   .floating-music-pill,
@@ -1136,7 +1259,9 @@ dialog::backdrop {
     transition: opacity 0.3s ease;
   }
 
-  .icon-button, .action-pill, .share-main-btn {
+  .icon-button,
+  .action-pill,
+  .share-main-btn {
     transition: background-color 0.2s ease, border-color 0.2s ease;
   }
 }
@@ -1165,9 +1290,10 @@ body.reduced-motion-mode .interactive-diya.is-lit .diya-flame-group {
   .celebration-app {
     padding: 12px 14px 20px;
   }
-  
+
   .controls-bar .btn-label {
-    display: none; /* Icon only on extra small screens */
+    display: none;
+    /* Icon only on extra small screens */
   }
 
   .action-pill {
@@ -1180,9 +1306,9 @@ body.reduced-motion-mode .interactive-diya.is-lit .diya-flame-group {
     width: 100%;
   }
 
-  .share-main-btn, .customize-wish-btn {
+  .share-main-btn,
+  .customize-wish-btn {
     width: 100%;
     justify-content: center;
   }
 }
-
