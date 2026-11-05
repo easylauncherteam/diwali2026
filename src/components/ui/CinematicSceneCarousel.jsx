@@ -410,21 +410,12 @@ export default function CinematicSceneCarousel({
               marginBottom: '0.2rem'
             }}>
               <div>
-                <span style={{
-                  color: '#FFD54F',
-                  fontSize: isMobile ? '0.66rem' : '0.76rem',
-                  fontWeight: 700,
-                  letterSpacing: '0.4px',
-                  textTransform: 'uppercase'
-                }}>
-                  🪔 {activeScene.episode}
-                </span>
                 <h2
                   className="font-devanagari-royal gold-gradient-text"
                   style={{
                     fontSize: isMobile ? 'clamp(1.15rem, 4.0vw, 1.45rem)' : 'clamp(1.35rem, 2.4vw, 1.9rem)',
                     lineHeight: 1.2,
-                    margin: '0.1rem 0 0 0',
+                    margin: 0,
                     fontWeight: 800,
                     letterSpacing: '0.3px'
                   }}
