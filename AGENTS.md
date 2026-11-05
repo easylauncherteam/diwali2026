@@ -25,3 +25,4 @@ Update the application with professional, subtle **EasyLauncher branding**.
 - Preserve existing functionality, design consistency, and performance.
 - Follow current Google SEO guidelines and avoid duplicate content, keyword stuffing, and other practices that could harm rankings.
 - Optimize and configure all websites for seamless deployment on Cloudflare Pages. Ensure full compatibility, production-ready builds, correct routing, assets, and performance optimization. Deployment must work out of the box without additional Cloudflare configuration or manual steps.
+- Make the app mobile-first, fully responsive, and optimized for mobile, tablet, and desktop screens. Ensure adaptive layouts, touch-friendly navigation, and consistent usability across all devices.
