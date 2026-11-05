@@ -3,532 +3,280 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Happy Diwali 2026! 🪔✨ A Joyful Festive Celebration</title>
-  
-  <!-- SEO & Social OpenGraph Tags (Optimized for WhatsApp / Social Link Sharing) -->
-  <meta name="description" content="A magical, interactive Diwali celebration! Light sacred diyas, launch fireworks, dance with cute mascots Golu & Mithoo, and send personalized wishes to loved ones.">
-  <meta property="og:title" content="Happy Diwali! 🪔✨ Celebrate with Magical Lights & Fireworks">
-  <meta property="og:description" content="Tap to light diyas, launch spectacular fireworks, and celebrate with cute 3D cartoon mascots Golu & Mithoo!">
+  <title>Diwali 2026 Wishes & Celebration Showcase | Easy Launcher Team</title>
+
+  <!-- SEO & Social OpenGraph Tags -->
+  <meta name="description" content="Explore beautiful, interactive Diwali 2026 greetings and digital celebrations crafted by the Easy Launcher team members.">
+  <meta property="og:title" content="Diwali 2026 Celebration Showcase | Easy Launcher Team">
+  <meta property="og:description" content="Discover unique Diwali experiences, 3D Mahotsavs, fireworks, and heartfelt greetings created by our team members.">
   <meta property="og:type" content="website">
-  <meta name="theme-color" content="#140C29">
+  <meta property="og:url" content="https://diwali2026.hostapp.in">
+  <meta name="theme-color" content="#090514">
   <link rel="manifest" href="manifest.json">
-  
-  <!-- Google Fonts: Baloo 2 & Outfit -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🪔</text></svg>">
+
+  <!-- Google Fonts: Cinzel & Outfit -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
   <!-- Stylesheet -->
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/portal.css">
 </head>
 <body>
 
-  <!-- Celestial Night Sky & Twinkling Stars -->
-  <div class="sky-background" aria-hidden="true">
-    <div class="sky-stars"></div>
-    <div id="sky-glow"></div>
-  </div>
+  <!-- Subtle Ambient Embers Canvas -->
+  <canvas id="ambient-canvas" class="ambient-canvas" aria-hidden="true"></canvas>
+  <div class="ambient-aura" aria-hidden="true"></div>
 
-  <!-- Interactive 60fps Fireworks & Particle Canvas -->
-  <canvas id="fireworks-canvas" aria-label="Interactive fireworks sky. Tap anywhere in the sky to launch fireworks or draw sparklers."></canvas>
+  <!-- Main Container -->
+  <div class="app-container">
 
-  <!-- Floating Music Start Prompt Pill (Pulsing invitation for users) -->
-  <button id="floating-music-pill" class="floating-music-pill" aria-label="Play festive background music">
-    <span class="music-note">🎵</span>
-    <span>Play Festive Music</span>
-  </button>
-
-  <!-- Main Celebration Application Container -->
-  <div class="celebration-app">
-
-    <!-- Top Header Navigation & Controls -->
-    <header class="top-header" role="banner">
-      <div class="brand-badge" aria-label="Diwali Celebration 2026">
-        <span class="diya-icon">🪔</span>
-        <span>Deepavali 2026</span>
+    <!-- Header Section -->
+    <header class="portal-header" role="banner">
+      <div class="brand-pill">
+        <span class="sparkle">✦</span>
+        <span>Easy Launcher Team Showcase</span>
+        <span class="sparkle">✦</span>
       </div>
 
-      <div class="controls-bar" role="toolbar" aria-label="Celebration settings">
-        <!-- Sound Toggle -->
-        <button id="sound-toggle" class="icon-button" aria-pressed="false" aria-label="Toggle festive sound and music">
-          <span class="btn-icon">🔔</span>
-          <span class="btn-label" id="sound-status">Sound</span>
-        </button>
+      <h1 class="main-title">Festival of Lights</h1>
+      
+      <p class="portal-subtitle">
+        A curated showcase of festive greetings, creative experiments, and joyful Diwali celebrations crafted with warmth and creativity by our team members.
+      </p>
 
-        <!-- Motion & Performance Toggle -->
-        <button id="motion-toggle" class="icon-button" aria-pressed="false" aria-label="Toggle motion effects and calm mode">
-          <span class="btn-icon">✨</span>
-          <span class="btn-label">Full Magic</span>
-        </button>
+      <div class="festive-divider" aria-hidden="true">
+        <span class="diya-emblem">🪔</span>
       </div>
     </header>
 
-    <!-- Main Hero Section: Personalized Festive Greeting -->
-    <main class="hero-greeting" role="main">
-      <div class="festive-toran" aria-hidden="true">
-        <span>✨</span><span>🪔</span><span>🌸</span><span>✨</span><span>🌸</span><span>🪔</span><span>✨</span>
+    <!-- Showcase Grid -->
+    <main class="showcase-section" role="main">
+      <div class="section-label">
+        <h2>
+          <span>Team Creations</span>
+        </h2>
+        <span class="sites-count-badge">4 Dedicated Experiences</span>
       </div>
 
-      <h1 id="greeting-title" class="festive-title">Happy Diwali! 🪔✨</h1>
+      <div class="cards-grid">
 
-      <p id="greeting-subtitle" class="festive-message">
-        May the divine light of Diwali illuminate your life with boundless peace, radiant health, joyful laughter, and prosperous blessings.
-      </p>
+        <!-- Card 1: Shivansh Sharma -->
+        <article class="member-card" aria-label="Diwali experience by Shivansh Sharma">
+          <div class="card-top">
+            <div class="author-profile">
+              <div class="author-avatar" aria-hidden="true">SS</div>
+              <div class="author-meta">
+                <h3 class="author-name">Shivansh Sharma</h3>
+                <span class="author-role">Ayodhya 3D Mahotsav</span>
+              </div>
+            </div>
+            <div class="live-badge" title="Live Website Active">
+              <span class="pulse-dot"></span>
+              <span>Live</span>
+            </div>
+          </div>
 
-      <div id="greeting-sender" class="greeting-sender-card hidden"></div>
+          <div class="card-body">
+            <h4 class="experience-title">
+              <span>🏛️ Grand Ayodhya Celebration</span>
+            </h4>
+            <p class="experience-desc">
+              A cinematic 3D tribute celebrating Lord Shri Ram’s triumphant return to Ayodhya. Immerse yourself in glowing sacred diyas along the holy Saryu river, majestic temple spires, and celebratory night fireworks.
+            </p>
+            <div class="tags-list">
+              <span class="tag-item">3D Mahotsav</span>
+              <span class="tag-item">Cinematic Visuals</span>
+              <span class="tag-item">Ayodhya Heritage</span>
+            </div>
+          </div>
 
-      <div class="sky-tap-hint">
-        <span class="sparkle-pulse">✨</span>
-        <span>Tap anywhere in the sky to launch fireworks!</span>
-        <span class="sparkle-pulse">✨</span>
+          <div>
+            <div class="card-footer">
+              <a href="https://diwali-shivansh.hostapp.in" target="_blank" rel="noopener noreferrer" class="btn-visit" aria-label="Visit Shivansh Sharma's Diwali website">
+                <span>Explore Experience</span>
+                <span aria-hidden="true">↗</span>
+              </a>
+              <button type="button" class="btn-icon-action" data-copy-url="https://diwali-shivansh.hostapp.in" data-author="Shivansh Sharma" title="Copy Website Link" aria-label="Copy link for Shivansh Sharma">
+                <span>📋</span>
+              </button>
+            </div>
+            <span class="site-url-preview">diwali-shivansh.hostapp.in</span>
+          </div>
+        </article>
+
+        <!-- Card 2: Shivam Bajpai -->
+        <article class="member-card" aria-label="Diwali experience by Shivam Bajpai">
+          <div class="card-top">
+            <div class="author-profile">
+              <div class="author-avatar" aria-hidden="true">SB</div>
+              <div class="author-meta">
+                <h3 class="author-name">Shivam Bajpai</h3>
+                <span class="author-role">Pyrotechnics & 3D Mascots</span>
+              </div>
+            </div>
+            <div class="live-badge" title="Live Website Active">
+              <span class="pulse-dot"></span>
+              <span>Live</span>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <h4 class="experience-title">
+              <span>🎆 Interactive Festive Carnival</span>
+            </h4>
+            <p class="experience-desc">
+              High-performance 60 FPS pyrotechnic engine featuring realistic Chrysanthemum fireworks, cute 3D cartoon mascots (Golu & Mithoo) with pointer tracking, ceremonial terracotta diyas, and procedural Indian flute & rhythm audio.
+            </p>
+            <div class="tags-list">
+              <span class="tag-item">60 FPS Canvas</span>
+              <span class="tag-item">Procedural Audio</span>
+              <span class="tag-item">3D Mascots</span>
+            </div>
+          </div>
+
+          <div>
+            <div class="card-footer">
+              <a href="https://diwali-shivam.hostapp.in" target="_blank" rel="noopener noreferrer" class="btn-visit" aria-label="Visit Shivam Bajpai's Diwali website">
+                <span>Explore Experience</span>
+                <span aria-hidden="true">↗</span>
+              </a>
+              <button type="button" class="btn-icon-action" data-copy-url="https://diwali-shivam.hostapp.in" data-author="Shivam Bajpai" title="Copy Website Link" aria-label="Copy link for Shivam Bajpai">
+                <span>📋</span>
+              </button>
+            </div>
+            <span class="site-url-preview">diwali-shivam.hostapp.in</span>
+          </div>
+        </article>
+
+        <!-- Card 3: Harsh -->
+        <article class="member-card" aria-label="Diwali experience by Harsh">
+          <div class="card-top">
+            <div class="author-profile">
+              <div class="author-avatar" aria-hidden="true">H</div>
+              <div class="author-meta">
+                <h3 class="author-name">Harsh</h3>
+                <span class="author-role">Golden Radiance & Blessings</span>
+              </div>
+            </div>
+            <div class="live-badge" title="Live Website Active">
+              <span class="pulse-dot"></span>
+              <span>Live</span>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <h4 class="experience-title">
+              <span>✨ Sacred Lights & Warmth</span>
+            </h4>
+            <p class="experience-desc">
+              An evocative, serene celebration adorned with a glowing sacred diya, gentle ambient sparkling stars across a rich gradient night sky, and heartfelt blessings wishing harmony and prosperity to loved ones.
+            </p>
+            <div class="tags-list">
+              <span class="tag-item">Golden Diya</span>
+              <span class="tag-item">Ambient Sparkles</span>
+              <span class="tag-item">Warm Blessings</span>
+            </div>
+          </div>
+
+          <div>
+            <div class="card-footer">
+              <a href="https://diwali-harsh.hostapp.in" target="_blank" rel="noopener noreferrer" class="btn-visit" aria-label="Visit Harsh's Diwali website">
+                <span>Explore Experience</span>
+                <span aria-hidden="true">↗</span>
+              </a>
+              <button type="button" class="btn-icon-action" data-copy-url="https://diwali-harsh.hostapp.in" data-author="Harsh" title="Copy Website Link" aria-label="Copy link for Harsh">
+                <span>📋</span>
+              </button>
+            </div>
+            <span class="site-url-preview">diwali-harsh.hostapp.in</span>
+          </div>
+        </article>
+
+        <!-- Card 4: Ritesh Patel -->
+        <article class="member-card" aria-label="Diwali experience by Ritesh Patel">
+          <div class="card-top">
+            <div class="author-profile">
+              <div class="author-avatar" aria-hidden="true">RP</div>
+              <div class="author-meta">
+                <h3 class="author-name">Ritesh Patel</h3>
+                <span class="author-role">Festive Greetings</span>
+              </div>
+            </div>
+            <div class="live-badge" title="Live Website Active">
+              <span class="pulse-dot"></span>
+              <span>Live</span>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <h4 class="experience-title">
+              <span>🪔 Joyful Deepavali Greetings</span>
+            </h4>
+            <p class="experience-desc">
+              Celebration of the festival of light, bringing together warm goodwill, festive unity, and joyful wishes for health, happiness, and prosperity in the coming year.
+            </p>
+            <div class="tags-list">
+              <span class="tag-item">Diwali Wishes</span>
+              <span class="tag-item">Festive Spirit</span>
+              <span class="tag-item">Team Showcase</span>
+            </div>
+          </div>
+
+          <div>
+            <div class="card-footer">
+              <a href="https://diwali-ritesh.hostapp.in" target="_blank" rel="noopener noreferrer" class="btn-visit" aria-label="Visit Ritesh Patel's Diwali website">
+                <span>Explore Experience</span>
+                <span aria-hidden="true">↗</span>
+              </a>
+              <button type="button" class="btn-icon-action" data-copy-url="https://diwali-ritesh.hostapp.in" data-author="Ritesh Patel" title="Copy Website Link" aria-label="Copy link for Ritesh Patel">
+                <span>📋</span>
+              </button>
+            </div>
+            <span class="site-url-preview">diwali-ritesh.hostapp.in</span>
+          </div>
+        </article>
+
       </div>
     </main>
 
-    <!-- Adorable 3D Cartoon Mascot Duo: Golu & Mithoo -->
-    <section class="mascots-stage" aria-label="Festive Mascots: Golu and Mithoo">
-      
-      <!-- Mascot 1: GOLU (The Sweet Golden Laddoo Boy) -->
-      <div class="mascot-container" id="container-golu">
-        <div class="speech-bubble" id="bubble-golu" role="status" aria-live="polite">
-          Happy Diwali! Tap me for sweets! 😋✨
-        </div>
-        
-        <div class="mascot-character idle-bob" id="character-golu" role="button" tabindex="0" aria-label="Golu the Laddoo mascot. Click or tap to make him jump, giggle, and pop laddoos!">
-          <svg class="mascot-svg" viewBox="0 0 160 180" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <!-- Golu Gold Gradient -->
-              <radialGradient id="golu-body-grad" cx="40%" cy="35%" r="60%">
-                <stop offset="0%" stop-color="#FFE082" />
-                <stop offset="50%" stop-color="#FFA000" />
-                <stop offset="90%" stop-color="#FF6F00" />
-                <stop offset="100%" stop-color="#E65100" />
-              </radialGradient>
-              <!-- Pagri / Turban Gradient -->
-              <linearGradient id="pagri-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#FF1744" />
-                <stop offset="50%" stop-color="#D50000" />
-                <stop offset="100%" stop-color="#880E4F" />
-              </linearGradient>
-              <!-- Ruby Jewel Gradient -->
-              <radialGradient id="jewel-grad" cx="30%" cy="30%" r="70%">
-                <stop offset="0%" stop-color="#FF8A80" />
-                <stop offset="60%" stop-color="#D50000" />
-                <stop offset="100%" stop-color="#4A0007" />
-              </radialGradient>
-              <!-- Kurta / Waistcoat Gradient -->
-              <linearGradient id="kurta-grad" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stop-color="#C2185B" />
-                <stop offset="100%" stop-color="#880E4F" />
-              </linearGradient>
-            </defs>
+    <!-- Celebration Message Banner -->
+    <section class="celebration-banner" aria-label="Diwali blessing from the team">
+      <p class="banner-quote">
+        “May the radiant glow of diyas light up your path with wisdom, peace, prosperity, and joyous camaraderie.”
+      </p>
+      <p class="banner-author">Warm Wishes from the Easy Launcher Team</p>
 
-            <!-- Mascot Shadow -->
-            <ellipse cx="80" cy="172" rx="46" ry="7" fill="rgba(0,0,0,0.3)" />
-
-            <!-- Chubby Feet -->
-            <ellipse cx="58" cy="165" rx="14" ry="9" fill="#E65100" />
-            <ellipse cx="102" cy="165" rx="14" ry="9" fill="#E65100" />
-
-            <!-- Main Round Laddoo Body -->
-            <circle cx="80" cy="110" r="54" fill="url(#golu-body-grad)" />
-
-            <!-- Pistachio Garnish Dots on Body -->
-            <circle cx="50" cy="95" r="3.5" fill="#7CB342" />
-            <circle cx="112" cy="98" r="3" fill="#7CB342" />
-            <circle cx="78" cy="138" r="3.2" fill="#7CB342" />
-
-            <!-- Waistcoat (Bandhgala Kurta) -->
-            <path d="M 42 120 Q 80 148 118 120 L 114 154 Q 80 162 46 154 Z" fill="url(#kurta-grad)" stroke="#FFD700" stroke-width="2.5" />
-            <!-- Golden Buttons -->
-            <circle cx="80" cy="132" r="3" fill="#FFD700" />
-            <circle cx="80" cy="144" r="3" fill="#FFD700" />
-
-            <!-- Rosy Blushing Cheeks -->
-            <circle cx="52" cy="114" r="9" fill="#FF5252" opacity="0.6" filter="blur(2px)" />
-            <circle cx="108" cy="114" r="9" fill="#FF5252" opacity="0.6" filter="blur(2px)" />
-
-            <!-- Big Cute 3D Cartoon Eyes -->
-            <!-- Left Eye -->
-            <ellipse cx="62" cy="98" rx="12" ry="15" fill="#FFFFFF" />
-            <g class="mascot-eye-pupil-container">
-              <circle class="mascot-pupil" cx="63" cy="98" r="7.5" fill="#2E1C0C" />
-              <circle cx="65.5" cy="94" r="3" fill="#FFFFFF" />
-              <circle cx="61.5" cy="101" r="1.5" fill="#FFFFFF" />
-            </g>
-
-            <!-- Right Eye -->
-            <ellipse cx="98" cy="98" rx="12" ry="15" fill="#FFFFFF" />
-            <g class="mascot-eye-pupil-container">
-              <circle class="mascot-pupil" cx="97" cy="98" r="7.5" fill="#2E1C0C" />
-              <circle cx="99.5" cy="94" r="3" fill="#FFFFFF" />
-              <circle cx="95.5" cy="101" r="1.5" fill="#FFFFFF" />
-            </g>
-
-            <!-- Cheerful Cartoon Smile -->
-            <path d="M 68 118 Q 80 132 92 118" stroke="#5D2600" stroke-width="3.5" stroke-linecap="round" fill="none" />
-            <!-- Open mouth tongue -->
-            <path d="M 72 121 Q 80 130 88 121 Q 80 134 72 121 Z" fill="#FF5252" />
-
-            <!-- Festive Turban / Pagri -->
-            <path d="M 38 72 C 34 50, 60 38, 80 38 C 100 38, 126 50, 122 72 C 122 78, 38 78, 38 72 Z" fill="url(#pagri-grad)" />
-            <!-- Pagri Swirl Swathe -->
-            <path d="M 40 70 Q 80 56 120 70" stroke="#FFD700" stroke-width="3.5" fill="none" />
-            <path d="M 45 58 Q 80 46 115 58" stroke="#FFE082" stroke-width="2" fill="none" />
-            <!-- Pagri Kalgi (Jeweled Feather Brooch) -->
-            <polygon points="80,18 74,38 86,38" fill="#FFD700" />
-            <circle cx="80" cy="38" r="6" fill="url(#jewel-grad)" stroke="#FFD700" stroke-width="1.5" />
-            <circle cx="78" cy="36" r="2" fill="#FFFFFF" />
-
-            <!-- Hands -->
-            <!-- Left Hand Waving -->
-            <circle cx="30" cy="122" r="10" fill="#FFA000" />
-            <!-- Right Hand Holding Sparkler -->
-            <circle cx="130" cy="120" r="10" fill="#FFA000" />
-            <!-- Sparkler Stick -->
-            <line x1="130" y1="120" x2="148" y2="82" stroke="#B0BEC5" stroke-width="3" stroke-linecap="round" />
-            <!-- Sparkler Burning Tip & Sparks -->
-            <circle class="sparkler-flame" cx="148" cy="82" r="7" fill="#FFF9C4" />
-            <g class="sparkler-flame">
-              <line x1="148" y1="82" x2="158" y2="72" stroke="#FFD700" stroke-width="2" stroke-linecap="round" />
-              <line x1="148" y1="82" x2="142" y2="68" stroke="#FF9800" stroke-width="2" stroke-linecap="round" />
-              <line x1="148" y1="82" x2="158" y2="90" stroke="#FFEB3B" stroke-width="2" stroke-linecap="round" />
-            </g>
-          </svg>
-        </div>
-        <div class="mascot-tag">Golu ✨</div>
+      <div class="share-showcase-bar">
+        <span class="share-label">Share this showcase:</span>
+        <button type="button" id="share-portal-btn" class="btn-share" aria-label="Share Showcase Portal">
+          <span>📤</span>
+          <span>Share Portal</span>
+        </button>
+        <a href="https://api.whatsapp.com/send?text=Check%20out%20the%20Diwali%202026%20celebration%20websites%20by%20the%20Easy%20Launcher%20team%3A%20https%3A%2F%2Fdiwali2026.hostapp.in" target="_blank" rel="noopener noreferrer" class="btn-share" aria-label="Share on WhatsApp">
+          <span>💬</span>
+          <span>WhatsApp</span>
+        </a>
       </div>
-
-      <!-- Mascot 2: MITHOO (The Energetic Diya & Rocket Friend) -->
-      <div class="mascot-container" id="container-mithoo">
-        <div class="speech-bubble" id="bubble-mithoo" role="status" aria-live="polite">
-          Dhamaka time! Tap me to launch! 🚀💥
-        </div>
-        
-        <div class="mascot-character idle-bob" id="character-mithoo" role="button" tabindex="0" aria-label="Mithoo the Firecracker mascot. Click or tap to make him spin and launch a rocket!">
-          <svg class="mascot-svg" viewBox="0 0 160 180" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <!-- Mithoo Flame Body Gradient -->
-              <radialGradient id="mithoo-body-grad" cx="45%" cy="40%" r="60%">
-                <stop offset="0%" stop-color="#FFE082" />
-                <stop offset="45%" stop-color="#FF9100" />
-                <stop offset="85%" stop-color="#FF3D00" />
-                <stop offset="100%" stop-color="#BF360C" />
-              </radialGradient>
-              <!-- Flame Hairstyle Gradient -->
-              <linearGradient id="flame-hair-grad" x1="0%" y1="100%" x2="0%" y2="0%">
-                <stop offset="0%" stop-color="#FF5722" />
-                <stop offset="50%" stop-color="#FFD700" />
-                <stop offset="100%" stop-color="#FFFFFF" />
-              </linearGradient>
-              <!-- Rocket Gradient -->
-              <linearGradient id="rocket-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#00E5FF" />
-                <stop offset="100%" stop-color="#0091EA" />
-              </linearGradient>
-            </defs>
-
-            <!-- Shadow -->
-            <ellipse cx="80" cy="172" rx="42" ry="7" fill="rgba(0,0,0,0.3)" />
-
-            <!-- Little Feet -->
-            <ellipse cx="62" cy="165" rx="12" ry="8" fill="#BF360C" />
-            <ellipse cx="98" cy="165" rx="12" ry="8" fill="#BF360C" />
-
-            <!-- Backpack Rocket (Peeking behind) -->
-            <rect x="22" y="70" width="16" height="48" rx="8" fill="url(#rocket-grad)" stroke="#FFD700" stroke-width="2" transform="rotate(-15 30 94)" />
-            <polygon points="26,52 38,72 14,72" fill="#FF1744" transform="rotate(-15 26 62)" />
-
-            <!-- Teardrop Diya Flame Mascot Body -->
-            <path d="M 80 50 C 125 78, 128 152, 80 156 C 32 152, 35 78, 80 50 Z" fill="url(#mithoo-body-grad)" />
-
-            <!-- Dancing Flame Hairstyle -->
-            <path class="mithoo-flame" d="M 80 48 C 65 30, 80 14, 80 6 C 84 16, 102 24, 88 48 Z" fill="url(#flame-hair-grad)" />
-
-            <!-- Peacock Blue Silk Scarf / Collar -->
-            <path d="M 52 135 Q 80 150 108 135 L 105 146 Q 80 156 55 146 Z" fill="#00B4D8" stroke="#FFD700" stroke-width="2" />
-            <!-- Scarf Tails -->
-            <path d="M 75 145 L 70 162 L 78 158 L 84 164 L 82 146 Z" fill="#00B4D8" />
-
-            <!-- Minions-style Goggles Strap -->
-            <rect x="36" y="85" width="88" height="12" rx="6" fill="#212121" />
-
-            <!-- Big Round Goggles Frames -->
-            <!-- Left Lens -->
-            <circle cx="64" cy="91" r="16" fill="#9E9E9E" stroke="#E0E0E0" stroke-width="2.5" />
-            <circle cx="64" cy="91" r="12" fill="#FFFFFF" />
-            <g class="mascot-eye-pupil-container">
-              <circle class="mascot-pupil" cx="64" cy="91" r="6.5" fill="#5D4037" />
-              <circle cx="66" cy="88" r="2.5" fill="#FFFFFF" />
-            </g>
-
-            <!-- Right Lens -->
-            <circle cx="96" cy="91" r="16" fill="#9E9E9E" stroke="#E0E0E0" stroke-width="2.5" />
-            <circle cx="96" cy="91" r="12" fill="#FFFFFF" />
-            <g class="mascot-eye-pupil-container">
-              <circle class="mascot-pupil" cx="96" cy="91" r="6.5" fill="#5D4037" />
-              <circle cx="98" cy="88" r="2.5" fill="#FFFFFF" />
-            </g>
-
-            <!-- Rosy Cheeks -->
-            <circle cx="48" cy="112" r="8" fill="#FF1744" opacity="0.5" filter="blur(2px)" />
-            <circle cx="112" cy="112" r="8" fill="#FF1744" opacity="0.5" filter="blur(2px)" />
-
-            <!-- Energetic Grinning Mouth -->
-            <path d="M 68 116 Q 80 134 92 116" stroke="#4E1402" stroke-width="3" stroke-linecap="round" fill="#D50000" />
-            <!-- Cute Top Tooth -->
-            <rect x="77" y="116" width="6" height="5" rx="2" fill="#FFFFFF" />
-
-            <!-- Hands -->
-            <!-- Left Hand Thumbs Up -->
-            <circle cx="34" cy="120" r="9" fill="#FF9100" />
-            <!-- Right Hand Ready to Launch -->
-            <circle cx="126" cy="120" r="9" fill="#FF9100" />
-          </svg>
-        </div>
-        <div class="mascot-tag">Mithoo 🚀</div>
-      </div>
-
     </section>
 
-    <!-- 5 Sacred Interactive Diyas & Rangoli Platform -->
-    <section class="diyas-section" aria-label="Interactive Diya lighting terrace">
-      <div class="diyas-status-bar">
-        <div class="diya-counter">
-          <span>🪔</span>
-          <span id="diyas-lit-count">0/5</span>
-          <span>Diyas Lit</span>
-        </div>
-        <div class="diya-status-message" id="diya-status-message">
-          Tap unlit diyas to ignite auspicious blessings!
-        </div>
-      </div>
-
-      <div class="diyas-row" role="group" aria-label="Five sacred blessing diyas">
-        <!-- Diya 1: Arogya (Health) -->
-        <button class="interactive-diya" data-diya="0" aria-label="Light Diya 1 for Arogya - Radiant Health" aria-checked="false" role="switch">
-          <div class="diya-glow"></div>
-          <div class="diya-graphic">
-            <svg class="diya-svg" viewBox="0 0 80 70">
-              <!-- Animated Flame Group -->
-              <g class="diya-flame-group">
-                <path d="M 40 28 C 30 18, 38 6, 40 0 C 42 6, 50 18, 40 28 Z" fill="url(#flame-hair-grad)" />
-                <ellipse cx="40" cy="24" rx="4" ry="7" fill="#FFFFFF" />
-              </g>
-              <!-- Clay Diya Base -->
-              <ellipse cx="40" cy="46" rx="34" ry="12" fill="#8D4925" />
-              <path d="M 6 46 Q 40 68 74 46 Q 40 54 6 46 Z" fill="#D35400" />
-              <path d="M 12 46 Q 40 38 68 46 Q 40 42 12 46 Z" fill="#F39C12" />
-              <!-- Wick -->
-              <line x1="40" y1="36" x2="40" y2="28" stroke="#3E2723" stroke-width="2.5" stroke-linecap="round" />
-            </svg>
-          </div>
-          <span class="diya-label">Arogya 🌿</span>
-        </button>
-
-        <!-- Diya 2: Samriddhi (Wealth) -->
-        <button class="interactive-diya" data-diya="1" aria-label="Light Diya 2 for Samriddhi - Prosperity & Abundance" aria-checked="false" role="switch">
-          <div class="diya-glow"></div>
-          <div class="diya-graphic">
-            <svg class="diya-svg" viewBox="0 0 80 70">
-              <g class="diya-flame-group">
-                <path d="M 40 28 C 30 18, 38 6, 40 0 C 42 6, 50 18, 40 28 Z" fill="url(#flame-hair-grad)" />
-                <ellipse cx="40" cy="24" rx="4" ry="7" fill="#FFFFFF" />
-              </g>
-              <ellipse cx="40" cy="46" rx="34" ry="12" fill="#8D4925" />
-              <path d="M 6 46 Q 40 68 74 46 Q 40 54 6 46 Z" fill="#D35400" />
-              <path d="M 12 46 Q 40 38 68 46 Q 40 42 12 46 Z" fill="#F39C12" />
-              <line x1="40" y1="36" x2="40" y2="28" stroke="#3E2723" stroke-width="2.5" stroke-linecap="round" />
-            </svg>
-          </div>
-          <span class="diya-label">Samriddhi 💰</span>
-        </button>
-
-        <!-- Diya 3: Ananda (Joy) -->
-        <button class="interactive-diya" data-diya="2" aria-label="Light Diya 3 for Ananda - Joy and Celebration" aria-checked="false" role="switch">
-          <div class="diya-glow"></div>
-          <div class="diya-graphic">
-            <svg class="diya-svg" viewBox="0 0 80 70">
-              <g class="diya-flame-group">
-                <path d="M 40 28 C 30 18, 38 6, 40 0 C 42 6, 50 18, 40 28 Z" fill="url(#flame-hair-grad)" />
-                <ellipse cx="40" cy="24" rx="4" ry="7" fill="#FFFFFF" />
-              </g>
-              <ellipse cx="40" cy="46" rx="34" ry="12" fill="#8D4925" />
-              <path d="M 6 46 Q 40 68 74 46 Q 40 54 6 46 Z" fill="#D35400" />
-              <path d="M 12 46 Q 40 38 68 46 Q 40 42 12 46 Z" fill="#F39C12" />
-              <line x1="40" y1="36" x2="40" y2="28" stroke="#3E2723" stroke-width="2.5" stroke-linecap="round" />
-            </svg>
-          </div>
-          <span class="diya-label">Ananda 🎉</span>
-        </button>
-
-        <!-- Diya 4: Prem (Love) -->
-        <button class="interactive-diya" data-diya="3" aria-label="Light Diya 4 for Prem - Love and Harmony" aria-checked="false" role="switch">
-          <div class="diya-glow"></div>
-          <div class="diya-graphic">
-            <svg class="diya-svg" viewBox="0 0 80 70">
-              <g class="diya-flame-group">
-                <path d="M 40 28 C 30 18, 38 6, 40 0 C 42 6, 50 18, 40 28 Z" fill="url(#flame-hair-grad)" />
-                <ellipse cx="40" cy="24" rx="4" ry="7" fill="#FFFFFF" />
-              </g>
-              <ellipse cx="40" cy="46" rx="34" ry="12" fill="#8D4925" />
-              <path d="M 6 46 Q 40 68 74 46 Q 40 54 6 46 Z" fill="#D35400" />
-              <path d="M 12 46 Q 40 38 68 46 Q 40 42 12 46 Z" fill="#F39C12" />
-              <line x1="40" y1="36" x2="40" y2="28" stroke="#3E2723" stroke-width="2.5" stroke-linecap="round" />
-            </svg>
-          </div>
-          <span class="diya-label">Prem 💖</span>
-        </button>
-
-        <!-- Diya 5: Shanti (Peace) -->
-        <button class="interactive-diya" data-diya="4" aria-label="Light Diya 5 for Shanti - Peace and Serenity" aria-checked="false" role="switch">
-          <div class="diya-glow"></div>
-          <div class="diya-graphic">
-            <svg class="diya-svg" viewBox="0 0 80 70">
-              <g class="diya-flame-group">
-                <path d="M 40 28 C 30 18, 38 6, 40 0 C 42 6, 50 18, 40 28 Z" fill="url(#flame-hair-grad)" />
-                <ellipse cx="40" cy="24" rx="4" ry="7" fill="#FFFFFF" />
-              </g>
-              <ellipse cx="40" cy="46" rx="34" ry="12" fill="#8D4925" />
-              <path d="M 6 46 Q 40 68 74 46 Q 40 54 6 46 Z" fill="#D35400" />
-              <path d="M 12 46 Q 40 38 68 46 Q 40 42 12 46 Z" fill="#F39C12" />
-              <line x1="40" y1="36" x2="40" y2="28" stroke="#3E2723" stroke-width="2.5" stroke-linecap="round" />
-            </svg>
-          </div>
-          <span class="diya-label">Shanti 🕊️</span>
-        </button>
-      </div>
-
-      <div class="rangoli-platform" aria-hidden="true"></div>
-    </section>
-
-    <!-- Bottom Controls & Interactive Action Toolbar -->
-    <div class="bottom-controls">
-      <div class="action-toolbar" role="toolbar" aria-label="Celebration effects toolbar">
-        <button id="btn-action-firework" class="action-pill" aria-label="Launch a colorful firework rocket">
-          <span>🚀</span><span>Launch Rocket</span>
-        </button>
-        <button id="btn-action-lantern" class="action-pill" aria-label="Release a glowing floating sky lantern">
-          <span>🏮</span><span>Release Lantern</span>
-        </button>
-        <button id="btn-action-sweets" class="action-pill" aria-label="Shower bouncing golden laddoos and sweets">
-          <span>🍬</span><span>Sweet Rain</span>
-        </button>
-        <button id="btn-action-dance" class="action-pill" aria-label="Toggle mascot celebratory bhangra dance">
-          <span>💃</span><span>Mascot Dance</span>
-        </button>
-        <button id="btn-action-finale" class="action-pill highlight" aria-label="Start Grand Finale Fireworks barrage">
-          <span>🎆</span><span>Grand Finale</span>
-        </button>
-      </div>
-
-      <!-- Easy Sharing Bar (Instant WhatsApp & Customizer) -->
-      <div class="share-action-bar">
-        <button id="btn-share-whatsapp" class="share-main-btn" aria-label="Share Diwali wishes instantly on WhatsApp">
-          <svg class="whatsapp-icon-svg" viewBox="0 0 24 24">
-            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
-          </svg>
-          <span>Share on WhatsApp</span>
-        </button>
-
-        <button id="btn-open-share" class="customize-wish-btn" aria-label="Open wish customizer and more sharing options">
-          <span>🎁</span>
-          <span>Personalize & Share</span>
-        </button>
-      </div>
-    </div>
+    <!-- Footer -->
+    <footer class="portal-footer" role="contentinfo">
+      <p>
+        <span class="footer-highlight">Deepavali 2026</span> • Crafted by the Easy Launcher Engineering Team
+      </p>
+      <p>
+        Index Page: <a href="https://diwali2026.hostapp.in" style="color: var(--color-gold-300); text-decoration: none;">diwali2026.hostapp.in</a>
+      </p>
+    </footer>
 
   </div>
 
-  <!-- Floating Quick-Access WhatsApp Button -->
-  <button id="btn-floating-whatsapp" class="floating-whatsapp-btn" aria-label="Quick share on WhatsApp">
-    <svg class="whatsapp-icon-svg" viewBox="0 0 24 24">
-      <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
-    </svg>
-  </button>
+  <!-- Toast Notification element -->
+  <div id="toast-notice" class="toast-notice" role="status" aria-live="polite"></div>
 
-  <!-- Modern Accessible Native <dialog> for Personalizing & Sharing Wishes -->
-  <!-- Conforms to Modern Web Guidance: closedby="any", overscroll-behavior: contain -->
-  <dialog id="share-dialog" closedby="any" aria-labelledby="share-title">
-    <div class="dialog-header">
-      <h2 id="share-title" class="dialog-title">
-        <span>✨</span>
-        <span>Send Diwali Wishes</span>
-      </h2>
-      <button type="button" id="btn-close-share" class="dialog-close-btn" aria-label="Close dialog">✕</button>
-    </div>
-
-    <p class="dialog-intro">
-      Add your name & friend's name to generate a personalized interactive celebration page they can open and enjoy!
-    </p>
-
-    <form class="share-form" method="dialog" onsubmit="return false;">
-      <div class="form-group">
-        <label for="share-from-name" class="form-label">Your Name (Sender)</label>
-        <input type="text" id="share-from-name" class="form-input" placeholder="e.g. Rahul, Priya, Sharma Family" maxlength="40" autofocus>
-      </div>
-
-      <div class="form-group">
-        <label for="share-to-name" class="form-label">Recipient's Name (Friend / Family)</label>
-        <input type="text" id="share-to-name" class="form-input" placeholder="e.g. Amit, Pooja, Friends" maxlength="40">
-      </div>
-
-      <div class="form-group">
-        <label for="share-wish-style" class="form-label">Choose Blessing Theme</label>
-        <select id="share-wish-style" class="form-select">
-          <option value="1">🪔 Traditional & Blessed (Lakshmi & Ganesha Blessings)</option>
-          <option value="2">🎉 Sweet & Joyful (Laddoo, Laughter & Celebrations)</option>
-          <option value="3">💖 Warm & Family (Peace, Love & Togetherness)</option>
-          <option value="4">🚀 Success & Growth (Glorious New Milestones)</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <span class="form-label">Personalized Link Preview</span>
-        <div id="share-link-preview" class="link-preview-box"></div>
-      </div>
-
-      <!-- Multiple Easy Sharing Methods -->
-      <div class="share-buttons-grid">
-        <button type="button" id="btn-modal-whatsapp" class="share-btn-primary" aria-label="Share via WhatsApp">
-          <svg class="whatsapp-icon-svg" style="width:20px;height:20px;" viewBox="0 0 24 24">
-            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
-          </svg>
-          <span>Share on WhatsApp</span>
-        </button>
-
-        <button type="button" id="btn-share-native" class="share-btn-secondary" aria-label="Share via phone share sheet">
-          <span>📲</span>
-          <span>Share via Apps</span>
-        </button>
-
-        <button type="button" id="btn-copy-link" class="share-btn-secondary" aria-label="Copy personalized celebration link">
-          <span>📋</span>
-          <span>Copy Link</span>
-        </button>
-
-        <button type="button" id="btn-share-telegram" class="share-btn-secondary" aria-label="Share via Telegram">
-          <span>✈️</span>
-          <span>Telegram</span>
-        </button>
-      </div>
-
-      <div id="copy-feedback" class="copy-feedback-toast" role="status" aria-live="polite">
-        ✨ Link copied to clipboard! Ready to share!
-      </div>
-    </form>
-  </dialog>
-
-  <!-- Maha Celebration Banner / Toast -->
-  <div id="maha-celebration-toast" class="maha-celebration-toast" role="status" aria-live="polite">
-    <span>🌟</span>
-    <span>Maha Deepavali Blessing! All 5 Diyas Glowing! 🪔✨</span>
-    <span>🌟</span>
-  </div>
-
-  <!-- Scripts -->
-  <script src="js/audio.js"></script>
-  <script src="js/fireworks.js"></script>
-  <script src="js/characters.js"></script>
-  <script src="js/app.js"></script>
+  <!-- Client Script -->
+  <script src="js/portal.js"></script>
 </body>
 </html>
