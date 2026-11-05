@@ -6,9 +6,9 @@ export default function GreetingCardModal({ isOpen, onClose }) {
 
   if (!isOpen) return null
 
-  const greetingMessage = `🪔 *शुभ दीपावली २०२६* 🪔\n\n"अधर्म पर धर्म की विजय, अंधकार पर प्रकाश की विजय।"\n\n${
-    senderName ? `*${senderName}*` : 'हम'
-  } की ओर से आपको एवं आपके पूरे परिवार को दीपावली की हार्दिक शुभकामनाएं!\n\nजय श्री राम 🚩✨`
+  const greetingMessage = `🪔 *HAPPY DIWALI 2026* 🪔\n\n"Triumph of righteousness over evil, victory of light over darkness."\n\nWarmest Diwali wishes to you and your family from ${
+    senderName ? `*${senderName}*` : 'us'
+  }!\n\nJai Shri Ram 🚩✨`
 
   const handleCopy = () => {
     navigator.clipboard.writeText(greetingMessage)
@@ -27,9 +27,10 @@ export default function GreetingCardModal({ isOpen, onClose }) {
       top: 0,
       left: 0,
       width: '100vw',
-      height: '100vh',
-      background: 'rgba(2, 6, 20, 0.82)',
+      height: '100dvh',
+      background: 'rgba(2, 6, 20, 0.85)',
       backdropFilter: 'blur(12px)',
+      WebkitBackdropFilter: 'blur(12px)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -63,20 +64,21 @@ export default function GreetingCardModal({ isOpen, onClose }) {
             alignItems: 'center',
             justifyContent: 'center'
           }}
+          title="Close"
         >
           ✕
         </button>
 
         {/* Card Header */}
         <div style={{ fontSize: '2.8rem', marginBottom: '0.4rem' }}>🪔 ✨ 🪔</div>
-        <h2 className="font-devanagari-royal gold-gradient-text" style={{ fontSize: '2.2rem', marginBottom: '0.4rem' }}>
-          शुभ दीपावली २०२६
+        <h2 className="font-cinzel gold-gradient-text" style={{ fontSize: '2.2rem', marginBottom: '0.4rem', fontWeight: 800 }}>
+          HAPPY DIWALI 2026
         </h2>
         <p style={{ color: '#FFA726', fontSize: '1rem', fontWeight: 600, marginBottom: '1.2rem' }}>
-          अयोध्या धाम महा दीपोत्सव
+          Ayodhya Grand Deepotsav Celebration
         </p>
 
-        {/* Shloka Quote */}
+        {/* Inscription Quote */}
         <div style={{
           background: 'rgba(255, 215, 0, 0.08)',
           borderLeft: '3px solid #FFD700',
@@ -88,18 +90,18 @@ export default function GreetingCardModal({ isOpen, onClose }) {
           fontSize: '0.95rem',
           lineHeight: 1.6
         }}>
-          "अधर्म पर धर्म की विजय, अंधकार पर प्रकाश की विजय।" <br />
-          <span style={{ color: '#FF7043', fontWeight: 'bold' }}>जय श्री राम 🚩</span>
+          "Victory of Truth over Falsehood • Triumph of Light over Darkness" <br />
+          <span style={{ color: '#FF7043', fontWeight: 'bold' }}>Jai Shri Ram 🚩</span>
         </div>
 
         {/* Name Input */}
         <div style={{ margin: '1.4rem 0 1rem' }}>
           <label style={{ display: 'block', color: '#FFE082', fontSize: '0.9rem', marginBottom: '0.5rem', textAlign: 'left' }}>
-            आपका नाम दर्ज करें (Enter your name):
+            Enter your name:
           </label>
           <input
             type="text"
-            placeholder="उदा. राघव शर्मा"
+            placeholder="e.g. Raghav Sharma"
             value={senderName}
             onChange={(e) => setSenderName(e.target.value)}
             style={{
@@ -128,7 +130,7 @@ export default function GreetingCardModal({ isOpen, onClose }) {
               fontSize: '0.95rem'
             }}
           >
-            {copied ? '✓ कॉपी हो गया!' : '📋 कॉपी करें'}
+            {copied ? '✓ Copied to Clipboard!' : '📋 Copy Greeting'}
           </button>
           <button
             onClick={handleWhatsApp}
@@ -145,11 +147,10 @@ export default function GreetingCardModal({ isOpen, onClose }) {
               boxShadow: '0 4px 14px rgba(37, 211, 102, 0.4)'
             }}
           >
-            💬 WhatsApp शेयर
+            💬 Share on WhatsApp
           </button>
         </div>
       </div>
     </div>
   )
 }
-
