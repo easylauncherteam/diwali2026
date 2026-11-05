@@ -1,0 +1,1156 @@
+/* ==========================================================================
+   DIWALI CELEBRATION 2026 - MODERN FESTIVE STYLESHEET
+   Mobile-first, 60fps compositor animations, physics-based easing curves,
+   accessible reduced-motion fallbacks, and dialog modal scrolling controls.
+   ========================================================================== */
+
+:root {
+  /* Festive Palette */
+  --gold-primary: #FFD700;
+  --gold-light: #FFF0A8;
+  --gold-deep: #D4AF37;
+  --amber-glow: #FF9800;
+  --flame-orange: #FF5722;
+  --festive-crimson: #E63946;
+  --ruby-red: #C1121F;
+  --royal-purple: #1A0B2E;
+  --night-sky-dark: #070719;
+  --night-sky-mid: #140C29;
+  --peacock-teal: #00F5D4;
+  --peacock-blue: #0077B6;
+  --text-primary: #FFFFFF;
+  --text-muted: #E2D9F3;
+
+  /* Physics-Based Easing Stop Curves from Modern Web Guidance */
+  --spring-easing: linear(0, 0.016 0.5%, 0.06 1%, 0.226 2%, 1.116 5.4%, 1.375 6.6%, 1.527 7.7%, 1.565 8.2%, 1.585 8.8%, 1.581 9.3%, 1.559 9.8%, 1.458 10.9%, 0.937 14.3%, 0.784 15.5%, 0.693 16.6%, 0.67 17.1%, 0.657 17.7%, 0.671 18.7%, 0.729 19.8%, 1.042 23.3%, 1.13 24.5%, 1.182 25.6%, 1.201 26.7%, 1.192 27.7%, 1.156 28.8%, 0.977 32.2%, 0.925 33.4%, 0.894 34.5%, 0.882 35.6%, 0.887 36.6%, 0.907 37.7%, 1.045 42.4%, 1.069 44.5%, 1.059 46.3%, 0.979 50.9%, 0.96 53.4%, 0.966 55.3%, 1.013 59.9%, 1.024 62.3%, 0.986 71.2%, 1.008 79.9%, 0.995 88.9%, 1);
+  --bounce-easing: linear(0, 0.214 14.7%, 0.386 23.7%, 0.598 31.9%, 0.999 44.7%, 0.807 52.6%, 0.762 56%, 0.747 59.4%, 0.758 62.4%, 0.793 65.6%, 0.999 77.4%, 0.961 81.2%, 0.949 84.8%, 0.956 88%, 0.993 95.5%, 1);
+  --smooth-curve: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  background-color: var(--night-sky-dark);
+  color: var(--text-primary);
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.5;
+  touch-action: manipulation;
+}
+
+/* Base night sky gradient */
+body {
+  background: radial-gradient(circle at 50% 10%, #2A1152 0%, #15092E 40%, var(--night-sky-dark) 85%);
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Background celestial layers */
+.sky-background {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.sky-stars {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    radial-gradient(1.5px 1.5px at 20px 30px, #ffffff, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 40px 70px, #ffd700, rgba(0,0,0,0)),
+    radial-gradient(1.5px 1.5px at 90px 40px, #ffffff, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 160px 120px, #ffe4b5, rgba(0,0,0,0)),
+    radial-gradient(1.5px 1.5px at 230px 190px, #ffffff, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 310px 80px, #ffb703, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 390px 220px, #ffffff, rgba(0,0,0,0));
+  background-repeat: repeat;
+  background-size: 300px 300px;
+  opacity: 0.65;
+  animation: twinkle 8s ease-in-out infinite alternate;
+}
+
+@keyframes twinkle {
+  0% { opacity: 0.45; }
+  50% { opacity: 0.75; }
+  100% { opacity: 0.55; }
+}
+
+/* Ambient glow on big firework bursts */
+#sky-glow {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  left: -200px;
+  top: -200px;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.28) 0%, rgba(255, 69, 0, 0.12) 40%, transparent 70%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+}
+
+#sky-glow.active {
+  opacity: 1;
+  transition: none;
+}
+
+/* Fireworks Interactive Canvas */
+#fireworks-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  cursor: crosshair;
+}
+
+/* Main UI Container */
+.celebration-app {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: space-between;
+  padding: 16px 20px 24px;
+  pointer-events: none; /* Let clicks fall through to canvas, children re-enable pointer-events */
+}
+
+.celebration-app > * {
+  pointer-events: auto;
+}
+
+/* ==========================================================================
+   TOP HEADER & CONTROLS
+   ========================================================================== */
+.top-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.brand-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--gold-light);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), 0 0 12px rgba(255, 215, 0, 0.15);
+}
+
+.brand-badge .diya-icon {
+  font-size: 1.1rem;
+  animation: flame-wiggle 2s ease-in-out infinite;
+}
+
+@keyframes flame-wiggle {
+  0%, 100% { transform: rotate(-3deg) scale(1); }
+  50% { transform: rotate(4deg) scale(1.08); }
+}
+
+.controls-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.icon-button {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 9999px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: transform 0.25s var(--smooth-curve), background 0.25s, border-color 0.25s;
+}
+
+.icon-button:hover, .icon-button:focus-visible {
+  background: rgba(255, 215, 0, 0.18);
+  border-color: var(--gold-primary);
+  transform: translateY(-2px);
+  outline: none;
+}
+
+.icon-button:active {
+  transform: scale(0.96);
+}
+
+.icon-button.playing {
+  background: rgba(255, 215, 0, 0.22);
+  border-color: var(--gold-primary);
+  color: var(--gold-light);
+}
+
+.icon-button.calm-mode {
+  background: rgba(0, 245, 212, 0.15);
+  border-color: var(--peacock-teal);
+  color: #E0FCF7;
+}
+
+/* Floating Music Unlock Pill */
+.floating-music-pill {
+  position: fixed;
+  top: 70px;
+  right: 20px;
+  z-index: 15;
+  background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+  color: #fff;
+  border: none;
+  border-radius: 9999px;
+  padding: 10px 18px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 8px 24px rgba(255, 107, 107, 0.4), 0 0 16px rgba(255, 215, 0, 0.3);
+  cursor: pointer;
+  animation: pulse-gentle 2.2s infinite var(--smooth-curve);
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.floating-music-pill.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.8);
+}
+
+@keyframes pulse-gentle {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* ==========================================================================
+   HERO GREETING SECTION
+   ========================================================================== */
+.hero-greeting {
+  text-align: center;
+  margin: 18px auto 8px;
+  max-width: 680px;
+  padding: 0 10px;
+}
+
+.festive-toran {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 12px;
+  font-size: 1.25rem;
+  opacity: 0.9;
+  animation: toran-sway 4s ease-in-out infinite alternate;
+}
+
+@keyframes toran-sway {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(4px); }
+}
+
+.festive-title {
+  font-family: 'Baloo 2', 'Outfit', cursive, sans-serif;
+  font-size: clamp(2.2rem, 7vw, 3.8rem);
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, #FFF9D2 0%, #FFD700 45%, #FFA500 80%, #FF6D00 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 4px 14px rgba(255, 152, 0, 0.45));
+}
+
+.recipient-highlight {
+  display: inline-block;
+  background: linear-gradient(135deg, #00F5D4, #70E000, #FFD700);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-decoration: underline wavy rgba(255, 215, 0, 0.6);
+  text-underline-offset: 6px;
+}
+
+.festive-message {
+  font-size: clamp(1rem, 3.2vw, 1.2rem);
+  color: var(--text-muted);
+  max-width: 580px;
+  margin: 0 auto 12px;
+  font-weight: 400;
+  line-height: 1.6;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+.greeting-sender-card {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 215, 0, 0.12);
+  border: 1px solid rgba(255, 215, 0, 0.35);
+  padding: 6px 18px;
+  border-radius: 9999px;
+  font-size: 0.92rem;
+  color: var(--gold-light);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  margin-top: 4px;
+}
+
+.greeting-sender-card.hidden {
+  display: none;
+}
+
+.sky-tap-hint {
+  margin-top: 8px;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  letter-spacing: 0.02em;
+}
+
+.sparkle-pulse {
+  animation: pulse-gentle 1.8s infinite ease-in-out;
+}
+
+/* ==========================================================================
+   MASCOTS SECTION (Golu & Mithoo)
+   ========================================================================== */
+.mascots-stage {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: clamp(30px, 10vw, 100px);
+  margin: 8px auto 16px;
+  max-width: 600px;
+  position: relative;
+}
+
+.mascot-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+}
+
+.mascot-character {
+  position: relative;
+  width: clamp(120px, 30vw, 165px);
+  height: clamp(135px, 34vw, 185px);
+  transition: transform 0.4s var(--smooth-curve);
+  user-select: none;
+  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.5));
+}
+
+.mascot-character:hover {
+  transform: translateY(-6px) scale(1.03);
+}
+
+/* Speech bubbles */
+.speech-bubble {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-10px) scale(0.85);
+  background: rgba(255, 255, 255, 0.95);
+  color: #1A0B2E;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+  width: max-content;
+  max-width: 190px;
+  text-align: center;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s, transform 0.3s var(--spring-easing), visibility 0.25s;
+  z-index: 20;
+}
+
+.speech-bubble::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.95) transparent transparent transparent;
+}
+
+.speech-bubble.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(-18px) scale(1);
+}
+
+.mascot-tag {
+  margin-top: 8px;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  padding: 3px 12px;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--gold-light);
+  letter-spacing: 0.03em;
+}
+
+/* Mascot SVG Styling & Animations */
+.mascot-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Idle Breathing & Bobbing */
+.mascot-character.idle-bob {
+  animation: mascot-bob 3.2s ease-in-out infinite alternate;
+}
+
+#character-mithoo.idle-bob {
+  animation-delay: -1.6s;
+}
+
+@keyframes mascot-bob {
+  0% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-7px) rotate(-1.5deg); }
+  100% { transform: translateY(0) rotate(1.5deg); }
+}
+
+/* Golu Spring Bounce Action (Using modern linear physics curve) */
+.mascot-character.bounce-action {
+  animation: mascot-spring-jump 0.75s var(--spring-easing);
+}
+
+@keyframes mascot-spring-jump {
+  0% { transform: scale(1, 1) translateY(0); }
+  25% { transform: scale(1.15, 0.85) translateY(10px); }
+  50% { transform: scale(0.9, 1.25) translateY(-32px) rotate(8deg); }
+  75% { transform: scale(1.05, 0.95) translateY(0) rotate(-4deg); }
+  100% { transform: scale(1, 1) translateY(0); }
+}
+
+/* Mithoo 360 Spin Action */
+.mascot-character.spin-action {
+  animation: mascot-spin-launch 0.85s var(--smooth-curve);
+}
+
+@keyframes mascot-spin-launch {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.18) translateY(-20px); }
+  100% { transform: rotate(360deg) scale(1) translateY(0); }
+}
+
+/* Synchronized Dancing Mode */
+.mascot-character.dancing {
+  animation: mascot-bhangra 0.55s ease-in-out infinite alternate !important;
+}
+
+#character-mithoo.dancing {
+  animation-delay: -0.27s !important;
+}
+
+@keyframes mascot-bhangra {
+  0% { transform: translateY(0) rotate(-6deg) scale(0.98, 1.02); }
+  100% { transform: translateY(-16px) rotate(6deg) scale(1.02, 0.98); }
+}
+
+/* Sparkler sparks from Golu's sparkler */
+.sparkler-flame {
+  transform-origin: center;
+  animation: sparkler-flicker 0.12s infinite alternate;
+}
+
+@keyframes sparkler-flicker {
+  0% { opacity: 0.8; transform: scale(0.9) rotate(-4deg); }
+  100% { opacity: 1; transform: scale(1.2) rotate(4deg); }
+}
+
+/* Flame hair on Mithoo */
+.mithoo-flame {
+  transform-origin: bottom center;
+  animation: flame-dance 0.4s ease-in-out infinite alternate;
+}
+
+@keyframes flame-dance {
+  0% { transform: scale(1, 1) skewX(-4deg); }
+  100% { transform: scale(1.08, 1.15) skewX(4deg); }
+}
+
+/* ==========================================================================
+   INTERACTIVE SACRED DIYAS & RANGOLI FLOOR
+   ========================================================================== */
+.diyas-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto 12px;
+  position: relative;
+}
+
+.diyas-status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 520px;
+  margin-bottom: 12px;
+  padding: 6px 14px;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 215, 0, 0.25);
+  border-radius: 9999px;
+  font-size: 0.84rem;
+}
+
+.diya-counter {
+  font-weight: 700;
+  color: var(--gold-primary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.diya-status-message {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Diyas Row */
+.diyas-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(10px, 3.5vw, 24px);
+  width: 100%;
+  padding: 10px 0;
+  position: relative;
+  z-index: 10;
+}
+
+.interactive-diya {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: inherit;
+  outline: none;
+  transition: transform 0.25s var(--smooth-curve);
+}
+
+.interactive-diya:hover, .interactive-diya:focus-visible {
+  transform: translateY(-4px) scale(1.06);
+}
+
+.interactive-diya:active {
+  transform: scale(0.94);
+}
+
+.diya-graphic {
+  position: relative;
+  width: clamp(52px, 13vw, 76px);
+  height: clamp(48px, 12vw, 70px);
+}
+
+.diya-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Diya Flame States */
+.diya-flame-group {
+  opacity: 0;
+  transform-origin: center bottom;
+  transform: scale(0.2);
+  transition: opacity 0.4s var(--smooth-curve), transform 0.5s var(--spring-easing);
+}
+
+.interactive-diya.is-lit .diya-flame-group {
+  opacity: 1;
+  transform: scale(1);
+  animation: diya-burn 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes diya-burn {
+  0% { transform: scale(1, 1) rotate(-2deg); }
+  50% { transform: scale(1.06, 1.12) rotate(2deg); }
+  100% { transform: scale(0.96, 1.04) rotate(-1deg); }
+}
+
+.diya-glow {
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.45) 0%, rgba(255, 87, 34, 0.2) 50%, transparent 75%);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.interactive-diya.is-lit .diya-glow {
+  opacity: 1;
+}
+
+.diya-label {
+  margin-top: 4px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+
+.interactive-diya.is-lit .diya-label {
+  color: var(--gold-light);
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+}
+
+/* Floating Blessing Toast on lighting diya */
+.floating-blessing {
+  position: fixed;
+  transform: translate(-50%, -100%);
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.95), rgba(255, 140, 0, 0.95));
+  color: #1A0B2E;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+  z-index: 100;
+  animation: float-up-fade 2.6s var(--smooth-curve) forwards;
+}
+
+.floating-blessing strong {
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+@keyframes float-up-fade {
+  0% { opacity: 0; transform: translate(-50%, 0) scale(0.8); }
+  15% { opacity: 1; transform: translate(-50%, -35px) scale(1); }
+  80% { opacity: 1; transform: translate(-50%, -60px) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -85px) scale(0.9); }
+}
+
+/* Floor Rangoli Graphic */
+.rangoli-platform {
+  width: 100%;
+  max-width: 580px;
+  height: 48px;
+  margin-top: -24px;
+  background: radial-gradient(ellipse at center, rgba(255, 215, 0, 0.22) 0%, rgba(230, 57, 70, 0.15) 45%, transparent 75%);
+  pointer-events: none;
+  border-radius: 50%;
+}
+
+/* ==========================================================================
+   ACTION TOOLBAR & EASY SHARING BUTTONS
+   ========================================================================== */
+.bottom-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.action-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.action-pill {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: transform 0.2s var(--smooth-curve), background 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.action-pill:hover, .action-pill:focus-visible {
+  background: rgba(255, 215, 0, 0.2);
+  border-color: var(--gold-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(255, 215, 0, 0.25);
+  outline: none;
+}
+
+.action-pill:active {
+  transform: scale(0.95);
+}
+
+.action-pill.highlight {
+  background: linear-gradient(135deg, rgba(255, 109, 0, 0.8), rgba(255, 215, 0, 0.85));
+  border-color: #FFE082;
+  color: #12072B;
+  font-weight: 700;
+  box-shadow: 0 4px 16px rgba(255, 109, 0, 0.35);
+}
+
+.action-pill.highlight:hover {
+  background: linear-gradient(135deg, #FF6D00, #FFD700);
+  transform: translateY(-2px) scale(1.02);
+}
+
+/* Easy Sharing Bar */
+.share-action-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 480px;
+}
+
+.share-main-btn {
+  flex: 1;
+  background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 12px 22px;
+  border-radius: 9999px;
+  font-size: 0.98rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4), 0 0 15px rgba(255, 215, 0, 0.2);
+  transition: transform 0.25s var(--smooth-curve), box-shadow 0.25s;
+}
+
+.share-main-btn:hover, .share-main-btn:focus-visible {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 12px 30px rgba(37, 211, 102, 0.55);
+  outline: none;
+}
+
+.share-main-btn:active {
+  transform: scale(0.96);
+}
+
+.customize-wish-btn {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 215, 0, 0.4);
+  color: var(--gold-light);
+  padding: 12px 20px;
+  border-radius: 9999px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s, border-color 0.2s;
+}
+
+.customize-wish-btn:hover, .customize-wish-btn:focus-visible {
+  background: rgba(255, 215, 0, 0.2);
+  border-color: var(--gold-primary);
+  transform: translateY(-2px);
+  outline: none;
+}
+
+/* Floating WhatsApp Quick-Share Button */
+.floating-whatsapp-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 20px;
+  z-index: 50;
+  background: #25D366;
+  color: #fff;
+  border: none;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.45);
+  transition: transform 0.3s var(--spring-easing), box-shadow 0.3s;
+}
+
+.floating-whatsapp-btn:hover, .floating-whatsapp-btn:focus-visible {
+  transform: scale(1.12);
+  box-shadow: 0 12px 28px rgba(37, 211, 102, 0.6);
+  outline: none;
+}
+
+.floating-whatsapp-btn:active {
+  transform: scale(0.92);
+}
+
+.whatsapp-icon-svg {
+  width: 28px;
+  height: 28px;
+  fill: currentColor;
+}
+
+/* ==========================================================================
+   MODERN ACCESSIBLE SHARE DIALOG (<dialog>)
+   Adhering to Modern Web Guidance on Dialogs & Scrolling
+   ========================================================================== */
+dialog#share-dialog {
+  border: 1px solid rgba(255, 215, 0, 0.4);
+  border-radius: 24px;
+  background: linear-gradient(160deg, #1E0F3D 0%, #110724 100%);
+  color: #ffffff;
+  padding: 28px 24px;
+  width: min(92vw, 480px);
+  margin: auto;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65), 0 0 40px rgba(255, 215, 0, 0.2);
+}
+
+/* MANDATORY per Modern Web Guidance: stop background scrolling */
+dialog:modal {
+  overscroll-behavior: contain;
+}
+
+dialog::backdrop {
+  background: rgba(5, 3, 15, 0.82);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  overflow: hidden;
+  overscroll-behavior: contain;
+}
+
+.dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.dialog-title {
+  font-family: 'Baloo 2', 'Outfit', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--gold-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dialog-close-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #fff;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.dialog-close-btn:hover {
+  background: rgba(255, 255, 255, 0.22);
+  transform: scale(1.08);
+}
+
+.dialog-intro {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.share-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--gold-light);
+  letter-spacing: 0.02em;
+}
+
+.form-input, .form-select {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  border-radius: 12px;
+  padding: 10px 14px;
+  color: #fff;
+  font-size: 0.92rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.form-input:focus, .form-select:focus {
+  border-color: var(--gold-primary);
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+}
+
+.form-select option {
+  background: #190B2E;
+  color: #fff;
+}
+
+.link-preview-box {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px dashed rgba(255, 215, 0, 0.35);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 0.78rem;
+  color: var(--gold-light);
+  word-break: break-all;
+  max-height: 60px;
+  overflow-y: auto;
+}
+
+/* Modal Sharing Buttons */
+.share-buttons-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.share-btn-primary {
+  grid-column: span 2;
+  background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+  color: #fff;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 14px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.35);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.share-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(37, 211, 102, 0.5);
+}
+
+.share-btn-secondary {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 0.86rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.share-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: var(--gold-primary);
+  transform: translateY(-1px);
+}
+
+.copy-feedback-toast {
+  text-align: center;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #00F5D4;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.25s, transform 0.25s;
+  height: 20px;
+}
+
+.copy-feedback-toast.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ==========================================================================
+   MAHA CELEBRATION TOAST / BANNER
+   ========================================================================== */
+.maha-celebration-toast {
+  position: fixed;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-100px);
+  background: linear-gradient(135deg, #FF6D00, #FFD700);
+  color: #12072B;
+  padding: 14px 24px;
+  border-radius: 9999px;
+  box-shadow: 0 16px 40px rgba(255, 109, 0, 0.5), 0 0 30px rgba(255, 215, 0, 0.4);
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s var(--smooth-curve), transform 0.5s var(--spring-easing);
+}
+
+.maha-celebration-toast.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ==========================================================================
+   ACCESSIBILITY & REDUCED MOTION PREFERENCES
+   Follows modern-web-guidance for prefers-reduced-motion
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .sky-stars,
+  .brand-badge .diya-icon,
+  .floating-music-pill,
+  .festive-toran,
+  .sparkle-pulse,
+  .mascot-character.idle-bob,
+  .sparkler-flame,
+  .mithoo-flame,
+  .diya-flame-group {
+    animation: none !important;
+  }
+
+  .interactive-diya.is-lit .diya-flame-group {
+    opacity: 1;
+    transform: scale(1);
+    animation: none !important;
+  }
+
+  .mascot-character {
+    transition: opacity 0.3s ease;
+  }
+
+  .icon-button, .action-pill, .share-main-btn {
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+  }
+}
+
+/* Class-based reduced motion mode for manual toggle */
+body.reduced-motion-mode .sky-stars,
+body.reduced-motion-mode .brand-badge .diya-icon,
+body.reduced-motion-mode .floating-music-pill,
+body.reduced-motion-mode .festive-toran,
+body.reduced-motion-mode .sparkle-pulse,
+body.reduced-motion-mode .mascot-character.idle-bob,
+body.reduced-motion-mode .sparkler-flame,
+body.reduced-motion-mode .mithoo-flame,
+body.reduced-motion-mode .diya-flame-group {
+  animation: none !important;
+}
+
+body.reduced-motion-mode .interactive-diya.is-lit .diya-flame-group {
+  opacity: 1;
+  transform: scale(1);
+  animation: none !important;
+}
+
+/* Mobile Small Screen Fine-tuning */
+@media (max-width: 480px) {
+  .celebration-app {
+    padding: 12px 14px 20px;
+  }
+  
+  .controls-bar .btn-label {
+    display: none; /* Icon only on extra small screens */
+  }
+
+  .action-pill {
+    padding: 6px 12px;
+    font-size: 0.78rem;
+  }
+
+  .share-action-bar {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .share-main-btn, .customize-wish-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+

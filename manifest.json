@@ -1,0 +1,10 @@
+{
+  "name": "Diwali Celebration 2026",
+  "short_name": "Happy Diwali",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#070719",
+  "theme_color": "#140C29",
+  "description": "Interactive Diwali Celebration with Fireworks, Glowing Diyas, and Animated Mascots Golu & Mithoo."
+}
+
