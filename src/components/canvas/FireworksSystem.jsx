@@ -459,3 +459,4 @@ export default function FireworksSystem({ triggerGrandBarrage = false, onBarrage
     </group>
   )
 }
+

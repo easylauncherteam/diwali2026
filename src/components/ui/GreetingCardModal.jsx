@@ -152,3 +152,4 @@ export default function GreetingCardModal({ isOpen, onClose }) {
     </div>
   )
 }
+
