@@ -107,9 +107,59 @@ class SoundEngine {
     }
   }
 
-  // Alias for backward compatibility
+  // REAL HINDI VOICE NARRATION (Web Speech API)
   speakHindi(text, onEnd) {
-    this.speakEnglish(text, onEnd)
+    if (this.isMuted) {
+      if (onEnd) setTimeout(onEnd, 3500)
+      return
+    }
+
+    if (!('speechSynthesis' in window)) {
+      console.warn('Speech synthesis not supported in this browser')
+      if (onEnd) setTimeout(onEnd, 4500)
+      return
+    }
+
+    try {
+      window.speechSynthesis.cancel() // Stop any previous narration
+
+      const utterance = new SpeechSynthesisUtterance(text)
+      utterance.lang = 'hi-IN'
+      utterance.rate = 0.90
+      utterance.pitch = 1.0
+
+      // Look for authentic Hindi voice (Google हिन्दी, Kalpana, Hemant, etc.)
+      const voices = window.speechSynthesis.getVoices()
+      const hiVoice = voices.find(v =>
+        v.lang === 'hi-IN' || v.lang.startsWith('hi') || v.name.includes('Hindi') || v.name.includes('हिन्दी')
+      ) || voices.find(v => v.lang.includes('IN'))
+
+      if (hiVoice) {
+        utterance.voice = hiVoice
+      }
+
+      let ended = false
+      const finish = () => {
+        if (!ended) {
+          ended = true
+          if (onEnd) onEnd()
+        }
+      }
+
+      utterance.onend = finish
+      utterance.onerror = finish
+
+      const estimatedDurationMs = Math.max(4000, text.length * 90)
+      setTimeout(() => {
+        if (!ended) finish()
+      }, estimatedDurationMs + 1000)
+
+      this.speechUtterance = utterance
+      window.speechSynthesis.speak(utterance)
+    } catch (e) {
+      console.error('Speech error:', e)
+      if (onEnd) setTimeout(onEnd, 4000)
+    }
   }
 
   stopSpeech() {

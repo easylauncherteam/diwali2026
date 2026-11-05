@@ -40,11 +40,11 @@ export default function CinematicSceneCarousel({
   const totalScenes = RAMAYANA_SCENES.length
   const activeScene = RAMAYANA_SCENES[currentSceneIndex] || RAMAYANA_SCENES[0]
 
-  // Play English narration & audio theme when active scene changes
+  // Play Hindi narration & audio theme when active scene changes
   useEffect(() => {
     setIsSpeaking(true)
     soundEngine.playSceneTheme(currentSceneIndex)
-    soundEngine.speakEnglish(activeScene.narrationEnglish, () => {
+    soundEngine.speakHindi(activeScene.narration, () => {
       setIsSpeaking(false)
     })
 
@@ -102,7 +102,9 @@ export default function CinematicSceneCarousel({
   }
 
   const handleReplayNarration = () => {
-    soundEngine.speakEnglish(activeScene.narrationEnglish)
+    soundEngine.speakHindi(activeScene.narration, () => {
+      setIsSpeaking(false)
+    })
     setIsSpeaking(true)
   }
 
@@ -398,7 +400,7 @@ export default function CinematicSceneCarousel({
               boxShadow: '0 10px 32px rgba(0, 0, 0, 0.85), 0 0 25px rgba(255, 160, 0, 0.18)'
             }}
           >
-            {/* Title, Episode & Replay Voice Pill */}
+            {/* Title & Controls Row */}
             <div style={{
               display: 'flex',
               justifyContent: 'space-between',
@@ -418,15 +420,16 @@ export default function CinematicSceneCarousel({
                   🪔 {activeScene.episode}
                 </span>
                 <h2
-                  className="gold-gradient-text"
+                  className="font-devanagari-royal gold-gradient-text"
                   style={{
-                    fontSize: isMobile ? 'clamp(1.05rem, 3.8vw, 1.35rem)' : 'clamp(1.25rem, 2.3vw, 1.8rem)',
-                    lineHeight: 1.18,
+                    fontSize: isMobile ? 'clamp(1.15rem, 4.0vw, 1.45rem)' : 'clamp(1.35rem, 2.4vw, 1.9rem)',
+                    lineHeight: 1.2,
                     margin: '0.1rem 0 0 0',
-                    fontWeight: 700
+                    fontWeight: 800,
+                    letterSpacing: '0.3px'
                   }}
                 >
-                  {activeScene.titleEnglish}
+                  {activeScene.titleHindi}
                 </h2>
               </div>
 
@@ -472,30 +475,31 @@ export default function CinematicSceneCarousel({
               </div>
             </div>
 
-            {/* Sacred English Narration Quote */}
+            {/* Sacred Hindi Narration Quote */}
             <p
-              className="gold-glow-text"
+              className="font-devanagari-royal gold-glow-text"
               style={{
-                fontSize: isMobile ? 'clamp(0.85rem, 3.2vw, 1.05rem)' : 'clamp(1.02rem, 1.8vw, 1.25rem)',
-                lineHeight: 1.36,
+                fontSize: isMobile ? 'clamp(0.92rem, 3.4vw, 1.15rem)' : 'clamp(1.1rem, 2.0vw, 1.35rem)',
+                lineHeight: 1.45,
                 margin: '0.15rem 0',
                 color: '#FFF9C4',
-                fontWeight: 500
+                fontWeight: 600,
+                letterSpacing: '0.2px'
               }}
             >
-              "{activeScene.narrationEnglish}"
+              "{activeScene.narration}"
             </p>
 
-            {/* Subtle Hindi Original Line */}
+            {/* English translation as clean secondary line */}
             {!isShortScreen && (
-              <p className="font-devanagari-royal" style={{
+              <p style={{
                 fontSize: isMobile ? '0.74rem' : '0.84rem',
                 color: '#FFE082',
-                opacity: 0.8,
+                opacity: 0.82,
                 margin: '0 0 0.55rem 0',
-                lineHeight: 1.25
+                lineHeight: 1.28
               }}>
-                {activeScene.narration}
+                {activeScene.narrationEnglish}
               </p>
             )}
 
@@ -705,20 +709,22 @@ export default function CinematicSceneCarousel({
               maxWidth: '820px',
               padding: '0.4rem 1.0rem'
             }}>
-              <p className="gold-glow-text" style={{
-                fontSize: isMobile ? '0.95rem' : '1.2rem',
-                margin: '0 0 0.2rem 0',
-                fontWeight: 600
+              <p className="font-devanagari-royal gold-glow-text" style={{
+                fontSize: isMobile ? '0.98rem' : '1.25rem',
+                margin: '0 0 0.25rem 0',
+                lineHeight: 1.45,
+                fontWeight: 600,
+                color: '#FFF9C4'
               }}>
-                "{activeScene.narrationEnglish}"
+                "{activeScene.narration}"
               </p>
-              <p className="font-devanagari-royal" style={{
-                fontSize: isMobile ? '0.74rem' : '0.84rem',
+              <p style={{
+                fontSize: isMobile ? '0.74rem' : '0.86rem',
                 color: '#FFE082',
-                opacity: 0.8,
+                opacity: 0.85,
                 margin: 0
               }}>
-                {activeScene.narration}
+                {activeScene.narrationEnglish}
               </p>
             </div>
           </motion.div>

@@ -3,7 +3,7 @@ export const RAMAYANA_SCENES = [
   {
     id: 1,
     key: 'VANVAS',
-    titleEnglish: "Dasharath's Heartbreak & Ram's Exile (दशरथ का राम वियोग)",
+    titleEnglish: "Dasharath's Heartbreak & Ram's Exile",
     titleHindi: 'दशरथ का राम वियोग – अयोध्या शोक',
     episode: 'SCENE 1 • EXILE BEGINS',
     narrationEnglish: 'When Lord Shri Ram departed for fourteen years of exile, King Dasharath wept inconsolably in agonizing sorrow, broken-hearted by separation from his beloved son.',
@@ -55,7 +55,7 @@ export const RAMAYANA_SCENES = [
   {
     id: 4,
     key: 'HANUMAN_MILAP',
-    titleEnglish: 'The Divine Meeting with Hanuman Ji',
+    titleEnglish: 'Divine Meeting with Hanuman Ji',
     titleHindi: 'हनुमान-राम मिलन – किष्किंधा',
     episode: 'SCENE 4 • HANUMAN & RAM',
     narrationEnglish: 'Then Lord Shri Ram met his foremost devotee, Hanuman Ji. Hanuman Ji pledged to cross the oceans and find Mata Sita.',
