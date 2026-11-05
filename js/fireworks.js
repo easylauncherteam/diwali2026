@@ -1,13 +1,15 @@
 /**
- * Diwali Celebration Canvas Particle Engine
+ * Diwali Celebration Realistic Pyrotechnics & Particle Engine
  * Features:
- * - Multi-stage fireworks (Chrysanthemum, Willow cascade, Rainbow peony, Heart-burst)
- * - Ground Chakri (spinning fire wheel with swirling sparks)
- * - Anar (golden sparkling fountain)
- * - Floating Sky Lanterns (Akash Kandil) drifting into the night sky
- * - Bouncing Laddoo Sweet Shower
+ * - Optical Bloom & Additive Blending (globalCompositeOperation = 'lighter')
+ * - Real-world atmospheric drag, gravity, and terminal velocity
+ * - Multi-stage fireworks: Chrysanthemums with delay pistils, Willow golden brocades with glittering lingering charcoal trails, Peonies, Heart bursts
+ * - Dendritic branching sparks for realistic Sparklers (Phuljhadi)
+ * - Authentic Anar (Fountain firecracker) with intense volcanic spray
+ * - Authentic Ground Chakri with centrifugal sparks
+ * - Volumetric Glowing Sky Lanterns with internal candle flicker
+ * - Dynamic scene flash illumination
  * - 60 FPS mobile-optimized particle pooling
- * - Full support for prefers-reduced-motion
  */
 
 class ParticleEngine {
@@ -17,33 +19,33 @@ class ParticleEngine {
     
     this.width = 0;
     this.height = 0;
-    this.dpr = Math.min(window.devicePixelRatio || 1, 2); // Cap at 2 for mobile battery efficiency
+    this.dpr = Math.min(window.devicePixelRatio || 1, 2);
     
     this.rockets = [];
     this.particles = [];
+    this.smokeParticles = [];
     this.lanterns = [];
     this.chakris = [];
-    this.sweets = [];
     this.anars = [];
+    this.sweets = [];
     
-    // Performance and accessibility settings
+    // Performance & Accessibility
     this.isReducedMotion = false;
     this.autoLaunchTimer = null;
-    this.lastTime = 0;
     this.isPageVisible = true;
     
-    // Check system preference
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       this.isReducedMotion = true;
     }
     
-    // Festive Color Palettes
+    // Photorealistic Pyrotechnic Color Palettes
     this.palettes = {
-      gold: ['#FFD700', '#FFA500', '#FFECB3', '#FFE082', '#FFF8E1'],
-      royal: ['#FF1493', '#9D4EDD', '#00F5D4', '#FFD166', '#FF4D6D'],
-      diwali: ['#FF4500', '#FFD700', '#FF007F', '#00E5FF', '#76FF03', '#FFF'],
-      flame: ['#FF3D00', '#FF9100', '#FFEA00', '#FFFFFF'],
-      peacock: ['#00B4D8', '#0077B6', '#06D6A0', '#FFD166', '#F72585']
+      goldBrocade: ['#FFE082', '#FFD54F', '#FFCA28', '#FFB300', '#FFA000', '#FFF8E1'],
+      crimsonRuby: ['#FF1744', '#FF5252', '#FF8A80', '#D50000', '#FFCDD2'],
+      peacockRoyal: ['#00E5FF', '#18FFFF', '#00B0FF', '#76FF03', '#FFD600'],
+      festiveFlame: ['#FF3D00', '#FF6E40', '#FF9100', '#FFD600', '#FFFFFF'],
+      amethystRose: ['#E040FB', '#EA80FC', '#FF4081', '#FF80AB', '#FFFFFF'],
+      emeraldGlow: ['#00E676', '#69F0AE', '#B9F6CA', '#FFEA00', '#FFFFFF']
     };
 
     this.resize();
@@ -73,13 +75,12 @@ class ParticleEngine {
 
   startAutoCelebration() {
     this.stopAutoCelebration();
-    const interval = this.isReducedMotion ? 6000 : 2600;
+    const interval = this.isReducedMotion ? 6000 : 2800;
     this.autoLaunchTimer = setInterval(() => {
       if (this.isPageVisible) {
         this.launchRandomFirework();
       }
     }, interval);
-    // Launch initial firework
     this.launchRandomFirework();
   }
 
@@ -92,216 +93,272 @@ class ParticleEngine {
 
   launchRandomFirework() {
     const x = this.width * (0.2 + Math.random() * 0.6);
-    const targetY = this.height * (0.15 + Math.random() * 0.35);
-    const types = ['peony', 'chrysanthemum', 'willow', 'heart', 'ring'];
+    const targetY = this.height * (0.12 + Math.random() * 0.32);
+    const types = ['brocade', 'peony', 'chrysanthemum', 'heart', 'ring'];
     const chosenType = types[Math.floor(Math.random() * types.length)];
     this.launchRocket(x, targetY, chosenType);
   }
 
-  launchRocket(targetX, targetY, burstType = 'peony') {
-    const startX = targetX + (Math.random() * 80 - 40);
-    const startY = this.height + 10;
+  launchRocket(targetX, targetY, burstType = 'brocade') {
+    const startX = targetX + (Math.random() * 60 - 30);
+    const startY = this.height + 15;
     
-    // Play launch audio
     if (window.diwaliAudio) {
       window.diwaliAudio.playRocketLaunch(targetX / this.width);
     }
+
+    const distY = startY - targetY;
+    const vy = -Math.sqrt(2 * 0.24 * distY);
+    const flightTime = Math.abs(vy / 0.24);
+    const vx = (targetX - startX) / flightTime;
 
     this.rockets.push({
       x: startX,
       y: startY,
       targetX: targetX,
       targetY: targetY,
-      vx: (targetX - startX) / 38,
-      vy: -Math.sqrt(2 * 0.22 * (startY - targetY)), // Physics upward launch
+      vx: vx,
+      vy: vy,
+      gravity: 0.24,
       burstType: burstType,
-      color: '#FFD700',
       trail: [],
-      alpha: 1
+      hue: Math.floor(Math.random() * 360)
     });
   }
 
-  explode(x, y, type = 'peony') {
+  explode(x, y, type = 'brocade') {
     if (window.diwaliAudio) {
-      window.diwaliAudio.playFireworkBurst(type === 'willow' ? 'large' : 'medium');
+      window.diwaliAudio.playFireworkBurst(type === 'brocade' ? 'large' : 'medium');
     }
 
-    // Trigger subtle screen glow
-    this.triggerFlash(x, y);
+    this.triggerDynamicIllumination(x, y, type);
 
-    const count = this.isReducedMotion ? 25 : 70;
     const paletteKeys = Object.keys(this.palettes);
     const palette = this.palettes[paletteKeys[Math.floor(Math.random() * paletteKeys.length)]];
 
-    if (type === 'heart') {
-      // Parametric heart formula
+    // 1. Imperial Gold Brocade / Willow (Cascading glittering charcoal trails)
+    if (type === 'brocade') {
+      const count = this.isReducedMotion ? 40 : 100;
       for (let i = 0; i < count; i++) {
-        const t = (i / count) * Math.PI * 2;
-        // Heart curve
-        const hx = 16 * Math.pow(Math.sin(t), 3);
-        const hy = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
-        const speed = 0.22 + Math.random() * 0.05;
-        this.particles.push({
-          x: x,
-          y: y,
-          vx: hx * speed,
-          vy: hy * speed,
-          alpha: 1,
-          decay: 0.012 + Math.random() * 0.008,
-          color: '#FF1493',
-          size: 2.5 + Math.random() * 1.5,
-          gravity: 0.04,
-          sparkle: true,
-          flickerRate: Math.random() * 0.2
-        });
-      }
-      return;
-    }
-
-    if (type === 'willow') {
-      // Golden cascading drooping weeping willow trails
-      const willowCount = this.isReducedMotion ? 35 : 90;
-      for (let i = 0; i < willowCount; i++) {
         const angle = Math.random() * Math.PI * 2;
-        const speed = 2 + Math.random() * 4.5;
+        const speed = 2.0 + Math.random() * 5.2;
         this.particles.push({
           x: x,
           y: y,
           vx: Math.cos(angle) * speed,
           vy: Math.sin(angle) * speed,
-          alpha: 1,
-          decay: 0.006 + Math.random() * 0.005, // Long lingering life
-          color: '#FFD700',
+          alpha: 1.0,
+          decay: 0.005 + Math.random() * 0.005, // Long lingering hang-time
+          color: '#FFD54F',
           size: 2.2,
-          gravity: 0.07,
-          willow: true,
+          gravity: 0.055,
+          airDrag: 0.985,
+          trail: [],
+          isBrocade: true,
+          flicker: Math.random() > 0.3
+        });
+      }
+      this.addCentralCoreFlash(x, y, '#FFF8E1');
+      return;
+    }
+
+    // 2. Romantic Heart-Shaped Burst
+    if (type === 'heart') {
+      const count = this.isReducedMotion ? 30 : 75;
+      for (let i = 0; i < count; i++) {
+        const t = (i / count) * Math.PI * 2;
+        const hx = 16 * Math.pow(Math.sin(t), 3);
+        const hy = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
+        const speed = 0.24 + Math.random() * 0.05;
+        this.particles.push({
+          x: x,
+          y: y,
+          vx: hx * speed,
+          vy: hy * speed,
+          alpha: 1.0,
+          decay: 0.012 + Math.random() * 0.006,
+          color: Math.random() > 0.2 ? '#FF1744' : '#FFD54F',
+          size: 2.6,
+          gravity: 0.038,
+          airDrag: 0.98,
+          trail: [],
+          flicker: true
+        });
+      }
+      this.addCentralCoreFlash(x, y, '#FF8A80');
+      return;
+    }
+
+    // 3. Chrysanthemum with Delay Crackling Pistils (Dragon's Eggs)
+    if (type === 'chrysanthemum') {
+      const count = this.isReducedMotion ? 35 : 90;
+      for (let i = 0; i < count; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = 2.5 + Math.random() * 5.8;
+        const color = palette[Math.floor(Math.random() * palette.length)];
+        this.particles.push({
+          x: x,
+          y: y,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          alpha: 1.0,
+          decay: 0.011 + Math.random() * 0.008,
+          color: color,
+          size: 2.5,
+          gravity: 0.048,
+          airDrag: 0.978,
+          trail: [],
+          flicker: true,
+          hasPistil: Math.random() > 0.45,
+          pistilTriggered: false
+        });
+      }
+      this.addCentralCoreFlash(x, y, '#FFFFFF');
+      return;
+    }
+
+    // 4. Concentric Dual Ring Burst
+    if (type === 'ring') {
+      const count = this.isReducedMotion ? 30 : 70;
+      const ringColor1 = palette[0];
+      const ringColor2 = palette[2] || '#FFD700';
+      for (let i = 0; i < count; i++) {
+        const angle = (i / count) * Math.PI * 2;
+        const speed = 4.2 + (Math.random() * 0.3 - 0.15);
+        this.particles.push({
+          x: x,
+          y: y,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          alpha: 1.0,
+          decay: 0.013 + Math.random() * 0.005,
+          color: i % 2 === 0 ? ringColor1 : ringColor2,
+          size: 2.8,
+          gravity: 0.04,
+          airDrag: 0.982,
           trail: []
         });
       }
       return;
     }
 
-    if (type === 'ring') {
-      // Concentric ring burst
-      const ringColor = palette[Math.floor(Math.random() * palette.length)];
-      for (let i = 0; i < count; i++) {
-        const angle = (i / count) * Math.PI * 2;
-        const speed = 3.8 + Math.random() * 0.4;
-        this.particles.push({
-          x: x,
-          y: y,
-          vx: Math.cos(angle) * speed,
-          vy: Math.sin(angle) * speed,
-          alpha: 1,
-          decay: 0.014 + Math.random() * 0.006,
-          color: ringColor,
-          size: 2.8,
-          gravity: 0.05
-        });
-      }
-      return;
-    }
-
-    // Default: Multi-color Peony & Chrysanthemum
+    // 5. Peony Spherical Starburst (Multi-color vibrant festival explosion)
+    const count = this.isReducedMotion ? 30 : 80;
     for (let i = 0; i < count; i++) {
       const angle = Math.random() * Math.PI * 2;
-      const speed = 1.5 + Math.random() * 5.5;
+      const speed = 1.8 + Math.random() * 5.4;
       const color = palette[Math.floor(Math.random() * palette.length)];
       this.particles.push({
         x: x,
         y: y,
         vx: Math.cos(angle) * speed,
         vy: Math.sin(angle) * speed,
-        alpha: 1,
-        decay: 0.013 + Math.random() * 0.012,
+        alpha: 1.0,
+        decay: 0.012 + Math.random() * 0.01,
         color: color,
-        size: 2.4 + Math.random() * 1.6,
-        gravity: 0.06,
-        sparkle: Math.random() > 0.4,
-        flickerRate: Math.random() * 0.3
+        size: 2.6,
+        gravity: 0.05,
+        airDrag: 0.976,
+        trail: [],
+        flicker: Math.random() > 0.35
       });
     }
+    this.addCentralCoreFlash(x, y, '#FFFFFF');
   }
 
-  triggerFlash(x, y) {
+  addCentralCoreFlash(x, y, color) {
+    this.particles.push({
+      x: x,
+      y: y,
+      vx: 0,
+      vy: 0,
+      alpha: 1.0,
+      decay: 0.12,
+      color: color,
+      size: 24,
+      isCoreFlash: true
+    });
+  }
+
+  triggerDynamicIllumination(x, y, type) {
     if (this.isReducedMotion) return;
     const glow = document.getElementById('sky-glow');
     if (glow) {
       glow.style.transform = `translate(${x}px, ${y}px)`;
       glow.classList.remove('active');
-      void glow.offsetWidth; // Trigger reflow
+      void glow.offsetWidth;
       glow.classList.add('active');
     }
   }
 
-  // Interactive Ground Chakri (Spinning Fire Wheel)
-  spawnChakri(x, y) {
-    if (window.diwaliAudio) {
-      window.diwaliAudio.playChakriSound();
+  addSparkler(x, y) {
+    const count = this.isReducedMotion ? 2 : 5;
+    for (let i = 0; i < count; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = 1.2 + Math.random() * 3.2;
+      this.particles.push({
+        x: x + (Math.random() * 6 - 3),
+        y: y + (Math.random() * 6 - 3),
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        alpha: 1.0,
+        decay: 0.035 + Math.random() * 0.025,
+        color: Math.random() > 0.3 ? '#FFE082' : '#FFFFFF',
+        size: 1.6 + Math.random() * 1.2,
+        gravity: 0.08,
+        airDrag: 0.96,
+        trail: [],
+        branchTimer: 0,
+        canBranch: Math.random() > 0.5
+      });
     }
-    this.chakris.push({
-      x: x,
-      y: y,
-      angle: 0,
-      spinSpeed: 0.45,
-      life: 1.0,
-      decay: 0.008,
-      sparksTimer: 0
-    });
   }
 
-  // Interactive Anar (Fountain firecracker)
   spawnAnar(x, y) {
     if (window.diwaliAudio) {
       window.diwaliAudio.playChakriSound();
     }
     this.anars.push({
-      x: x,
-      y: y,
+      x: x || this.width * 0.5,
+      y: y || this.height - 50,
       life: 1.0,
-      decay: 0.009,
-      height: 180 + Math.random() * 80
+      decay: 0.007,
+      coneSpread: 0.42
     });
   }
 
-  // Sparkler trail from finger / mouse touch drag
-  addSparkler(x, y) {
-    const count = this.isReducedMotion ? 2 : 5;
-    for (let i = 0; i < count; i++) {
-      const angle = Math.random() * Math.PI * 2;
-      const speed = 1 + Math.random() * 2.5;
-      this.particles.push({
-        x: x + (Math.random() * 10 - 5),
-        y: y + (Math.random() * 10 - 5),
-        vx: Math.cos(angle) * speed,
-        vy: Math.sin(angle) * speed,
-        alpha: 1,
-        decay: 0.03 + Math.random() * 0.02,
-        color: Math.random() > 0.3 ? '#FFD700' : '#FFFFFF',
-        size: 1.8 + Math.random() * 1.2,
-        gravity: 0.08,
-        sparkle: true
-      });
+  spawnChakri(x, y) {
+    if (window.diwaliAudio) {
+      window.diwaliAudio.playChakriSound();
     }
+    this.chakris.push({
+      x: x || this.width * 0.5,
+      y: y || this.height - 60,
+      angle: 0,
+      spinSpeed: 0.52,
+      life: 1.0,
+      decay: 0.007,
+      radius: 12
+    });
   }
 
-  // Sky Lanterns drifting upwards
   spawnLantern(x) {
     const startX = x || (this.width * (0.15 + Math.random() * 0.7));
     this.lanterns.push({
       x: startX,
-      y: this.height + 40,
-      vx: (Math.random() - 0.5) * 0.4,
-      vy: -(0.7 + Math.random() * 0.5),
+      y: this.height + 45,
+      vx: (Math.random() - 0.5) * 0.35,
+      vy: -(0.65 + Math.random() * 0.4),
       sway: Math.random() * Math.PI * 2,
-      swaySpeed: 0.02 + Math.random() * 0.02,
-      scale: 0.8 + Math.random() * 0.4,
+      swaySpeed: 0.018 + Math.random() * 0.015,
+      tilt: 0,
+      scale: 0.85 + Math.random() * 0.35,
       alpha: 0,
-      targetAlpha: 0.95
+      targetAlpha: 0.95,
+      flameFlicker: Math.random() * 10
     });
   }
 
-  // Bouncing Sweets / Laddoos shower
   spawnSweetShower() {
     if (window.diwaliAudio) {
       window.diwaliAudio.playSweetBounce();
@@ -313,88 +370,147 @@ class ParticleEngine {
       const type = sweetTypes[Math.floor(Math.random() * sweetTypes.length)];
       this.sweets.push({
         x: this.width * (0.1 + Math.random() * 0.8),
-        y: -30 - Math.random() * 200,
-        vx: (Math.random() - 0.5) * 4,
-        vy: Math.random() * 2,
+        y: -30 - Math.random() * 180,
+        vx: (Math.random() - 0.5) * 3.8,
+        vy: Math.random() * 2.2,
         rot: Math.random() * 360,
         rotSpeed: (Math.random() - 0.5) * 8,
         type: type,
         bounces: 0,
         size: 26 + Math.random() * 8,
-        alpha: 1
+        alpha: 1.0
       });
     }
   }
 
-  // Grand Finale Barrage
   launchFinale() {
-    const burstTypes = ['peony', 'chrysanthemum', 'willow', 'heart', 'ring'];
-    const count = 12;
+    const types = ['brocade', 'peony', 'chrysanthemum', 'heart', 'ring'];
+    const count = 14;
     for (let i = 0; i < count; i++) {
       setTimeout(() => {
-        const x = this.width * (0.15 + (i / count) * 0.7 + (Math.random() * 0.1 - 0.05));
-        const y = this.height * (0.12 + Math.random() * 0.35);
-        this.launchRocket(x, y, burstTypes[i % burstTypes.length]);
-      }, i * 220);
+        const x = this.width * (0.12 + (i / count) * 0.76 + (Math.random() * 0.08 - 0.04));
+        const y = this.height * (0.1 + Math.random() * 0.32);
+        this.launchRocket(x, y, types[i % types.length]);
+      }, i * 200);
     }
   }
 
-  // Main rendering & physics update loop
   animate(timestamp) {
     requestAnimationFrame(this.animate);
-
     if (!this.isPageVisible) return;
 
-    // Trail fade effect (composite dark overlay)
-    this.ctx.fillStyle = 'rgba(10, 10, 26, 0.22)';
+    this.ctx.globalCompositeOperation = 'source-over';
+    this.ctx.fillStyle = 'rgba(7, 7, 25, 0.22)';
     this.ctx.fillRect(0, 0, this.width, this.height);
 
-    // 1. Update & Render Rockets
+    // 1. Rockets
     for (let i = this.rockets.length - 1; i >= 0; i--) {
       const r = this.rockets[i];
       r.x += r.vx;
       r.y += r.vy;
-      r.vy += 0.22; // Gravity slows rocket
+      r.vy += r.gravity;
 
-      // Add trail sparks
-      r.trail.push({ x: r.x, y: r.y, alpha: 1 });
-      if (r.trail.length > 6) r.trail.shift();
+      r.trail.push({ x: r.x, y: r.y, alpha: 1.0 });
+      if (r.trail.length > 7) r.trail.shift();
 
-      // Render trail
       this.ctx.save();
+      this.ctx.globalCompositeOperation = 'lighter';
       for (let j = 0; j < r.trail.length; j++) {
-        const tp = r.trail[j];
-        this.ctx.fillStyle = `rgba(255, 215, 0, ${(j / r.trail.length) * 0.8})`;
+        const t = r.trail[j];
+        const ratio = (j / r.trail.length);
+        this.ctx.fillStyle = `rgba(255, 200, 50, ${ratio * 0.9})`;
         this.ctx.beginPath();
-        this.ctx.arc(tp.x, tp.y, 2, 0, Math.PI * 2);
+        this.ctx.arc(t.x, t.y, 1.2 + ratio * 2.2, 0, Math.PI * 2);
         this.ctx.fill();
       }
-      
-      // Rocket head
+
       this.ctx.fillStyle = '#FFFFFF';
+      this.ctx.shadowColor = '#FFD54F';
+      this.ctx.shadowBlur = 10;
       this.ctx.beginPath();
       this.ctx.arc(r.x, r.y, 3.2, 0, Math.PI * 2);
       this.ctx.fill();
       this.ctx.restore();
 
-      // Check detonation when near target or upward speed zeroes
       if (r.y <= r.targetY || r.vy >= 0) {
         this.explode(r.x, r.y, r.burstType);
         this.rockets.splice(i, 1);
       }
     }
 
-    // 2. Update & Render Explosion Particles
+    // 2. Explosion Particles
+    this.ctx.save();
+    this.ctx.globalCompositeOperation = 'lighter';
+
     for (let i = this.particles.length - 1; i >= 0; i--) {
       const p = this.particles[i];
+
+      if (p.isCoreFlash) {
+        p.alpha -= p.decay;
+        if (p.alpha <= 0) {
+          this.particles.splice(i, 1);
+          continue;
+        }
+        const grad = this.ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * (1.5 - p.alpha));
+        grad.addColorStop(0, `rgba(255, 255, 255, ${p.alpha * 0.9})`);
+        grad.addColorStop(0.5, `rgba(255, 215, 0, ${p.alpha * 0.4})`);
+        grad.addColorStop(1, 'rgba(255, 215, 0, 0)');
+        this.ctx.fillStyle = grad;
+        this.ctx.beginPath();
+        this.ctx.arc(p.x, p.y, p.size * (1.5 - p.alpha), 0, Math.PI * 2);
+        this.ctx.fill();
+        continue;
+      }
+
       p.x += p.vx;
       p.y += p.vy;
+      p.vx *= p.airDrag || 0.98;
+      p.vy *= p.airDrag || 0.98;
       p.vy += p.gravity || 0.05;
-      p.vx *= 0.98; // Air friction
-      p.vy *= 0.98;
       p.alpha -= p.decay;
 
-      if (p.willow) {
+      if (p.canBranch && !this.isReducedMotion) {
+        p.branchTimer++;
+        if (p.branchTimer > 6 && Math.random() > 0.6) {
+          p.canBranch = false;
+          const branchAngle = Math.atan2(p.vy, p.vx) + (Math.random() * 1.2 - 0.6);
+          this.particles.push({
+            x: p.x,
+            y: p.y,
+            vx: Math.cos(branchAngle) * 1.5,
+            vy: Math.sin(branchAngle) * 1.5,
+            alpha: p.alpha * 0.8,
+            decay: p.decay * 1.5,
+            color: '#FFFFFF',
+            size: 1.2,
+            gravity: 0.08,
+            airDrag: 0.94,
+            trail: []
+          });
+        }
+      }
+
+      if (p.hasPistil && !p.pistilTriggered && p.alpha < 0.4) {
+        p.pistilTriggered = true;
+        for (let s = 0; s < 3; s++) {
+          const sAngle = Math.random() * Math.PI * 2;
+          this.particles.push({
+            x: p.x,
+            y: p.y,
+            vx: Math.cos(sAngle) * 1.8,
+            vy: Math.sin(sAngle) * 1.8,
+            alpha: 0.9,
+            decay: 0.05,
+            color: '#FFFFFF',
+            size: 1.5,
+            gravity: 0.06,
+            airDrag: 0.95,
+            trail: []
+          });
+        }
+      }
+
+      if (p.isBrocade && p.trail) {
         p.trail.push({ x: p.x, y: p.y, alpha: p.alpha });
         if (p.trail.length > 5) p.trail.shift();
       }
@@ -404,34 +520,64 @@ class ParticleEngine {
         continue;
       }
 
-      this.ctx.save();
-      let currentAlpha = p.alpha;
-      if (p.sparkle) {
-        currentAlpha *= 0.6 + 0.4 * Math.sin(timestamp * 0.03 + p.x);
+      let renderAlpha = p.alpha;
+      if (p.flicker) {
+        renderAlpha *= 0.65 + 0.35 * Math.sin(timestamp * 0.05 + p.x);
       }
-      this.ctx.globalAlpha = Math.max(0, currentAlpha);
-      this.ctx.fillStyle = p.color;
-      this.ctx.shadowBlur = 8;
-      this.ctx.shadowColor = p.color;
 
-      if (p.willow && p.trail.length > 1) {
+      this.ctx.fillStyle = p.color;
+      this.ctx.shadowColor = p.color;
+      this.ctx.shadowBlur = 6;
+
+      if (p.isBrocade && p.trail && p.trail.length > 1) {
         this.ctx.beginPath();
         this.ctx.moveTo(p.trail[0].x, p.trail[0].y);
         for (let t = 1; t < p.trail.length; t++) {
           this.ctx.lineTo(p.trail[t].x, p.trail[t].y);
         }
-        this.ctx.strokeStyle = p.color;
+        this.ctx.strokeStyle = `rgba(255, 215, 0, ${Math.max(0, renderAlpha)})`;
         this.ctx.lineWidth = p.size;
         this.ctx.stroke();
       } else {
+        this.ctx.globalAlpha = Math.max(0, renderAlpha);
         this.ctx.beginPath();
         this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         this.ctx.fill();
       }
-      this.ctx.restore();
+    }
+    this.ctx.restore();
+
+    // 3. Anar (Fountain)
+    for (let i = this.anars.length - 1; i >= 0; i--) {
+      const a = this.anars[i];
+      a.life -= a.decay;
+
+      if (a.life <= 0) {
+        this.anars.splice(i, 1);
+        continue;
+      }
+
+      const sparkCount = this.isReducedMotion ? 4 : 10;
+      for (let s = 0; s < sparkCount; s++) {
+        const spread = (Math.random() - 0.5) * a.coneSpread * 2;
+        const speed = 4.5 + Math.random() * 7.5 * a.life;
+        this.particles.push({
+          x: a.x + (Math.random() * 8 - 4),
+          y: a.y,
+          vx: spread * 2.2,
+          vy: -speed,
+          alpha: 1.0,
+          decay: 0.028,
+          color: Math.random() > 0.3 ? '#FFF59D' : '#FF7043',
+          size: 2.2,
+          gravity: 0.22,
+          airDrag: 0.98,
+          flicker: true
+        });
+      }
     }
 
-    // 3. Update & Render Chakris (Spinning Ground Wheels)
+    // 4. Ground Chakri
     for (let i = this.chakris.length - 1; i >= 0; i--) {
       const c = this.chakris[i];
       c.angle += c.spinSpeed;
@@ -442,77 +588,51 @@ class ParticleEngine {
         continue;
       }
 
-      // Shoot spiral sparks
-      const sparkCount = this.isReducedMotion ? 2 : 5;
+      const sparkCount = this.isReducedMotion ? 3 : 7;
       for (let s = 0; s < sparkCount; s++) {
         const sparkAngle = c.angle + (s * (Math.PI * 2 / sparkCount));
-        const speed = 2.5 + Math.random() * 3.5;
+        const speed = 2.8 + Math.random() * 4.2;
         this.particles.push({
           x: c.x,
           y: c.y,
           vx: Math.cos(sparkAngle) * speed,
-          vy: Math.sin(sparkAngle) * speed,
-          alpha: 1,
+          vy: Math.sin(sparkAngle) * speed * 0.7,
+          alpha: 1.0,
           decay: 0.04,
-          color: Math.random() > 0.4 ? '#FFD700' : '#FF4500',
-          size: 2,
-          gravity: 0.03
+          color: Math.random() > 0.3 ? '#FFE082' : '#FF5722',
+          size: 2.0,
+          gravity: 0.04,
+          airDrag: 0.96
         });
       }
 
-      // Draw Chakri Center Disc
       this.ctx.save();
       this.ctx.translate(c.x, c.y);
+      this.ctx.scale(1, 0.45);
       this.ctx.rotate(c.angle);
-      this.ctx.fillStyle = '#FF4500';
+      this.ctx.fillStyle = '#FF5722';
       this.ctx.beginPath();
-      this.ctx.arc(0, 0, 10 * c.life, 0, Math.PI * 2);
+      this.ctx.arc(0, 0, 14 * c.life, 0, Math.PI * 2);
       this.ctx.fill();
-      this.ctx.fillStyle = '#FFD700';
+      this.ctx.fillStyle = '#FFD54F';
       this.ctx.beginPath();
-      this.ctx.arc(0, 0, 5 * c.life, 0, Math.PI * 2);
+      this.ctx.arc(0, 0, 6 * c.life, 0, Math.PI * 2);
       this.ctx.fill();
       this.ctx.restore();
     }
 
-    // 4. Update & Render Anar (Golden Fountain)
-    for (let i = this.anars.length - 1; i >= 0; i--) {
-      const a = this.anars[i];
-      a.life -= a.decay;
-
-      if (a.life <= 0) {
-        this.anars.splice(i, 1);
-        continue;
-      }
-
-      const sparkCount = this.isReducedMotion ? 3 : 8;
-      for (let s = 0; s < sparkCount; s++) {
-        const spread = (Math.random() - 0.5) * 1.8;
-        const speed = 4 + Math.random() * 6 * a.life;
-        this.particles.push({
-          x: a.x + (Math.random() * 8 - 4),
-          y: a.y,
-          vx: spread,
-          vy: -speed,
-          alpha: 1,
-          decay: 0.03,
-          color: Math.random() > 0.3 ? '#FFEA00' : '#FF5722',
-          size: 2.2,
-          gravity: 0.18,
-          sparkle: true
-        });
-      }
-    }
-
-    // 5. Update & Render Sky Lanterns (Akash Kandils)
+    // 5. Sky Lanterns
     for (let i = this.lanterns.length - 1; i >= 0; i--) {
       const l = this.lanterns[i];
       l.sway += l.swaySpeed;
-      l.x += l.vx + Math.sin(l.sway) * 0.4;
+      l.tilt = Math.sin(l.sway) * 0.08;
+      l.x += l.vx + Math.sin(l.sway) * 0.35;
       l.y += l.vy;
+      l.flameFlicker += 0.15;
+
       if (l.alpha < l.targetAlpha) l.alpha += 0.02;
 
-      if (l.y < -80) {
+      if (l.y < -90) {
         this.lanterns.splice(i, 1);
         continue;
       }
@@ -520,62 +640,67 @@ class ParticleEngine {
       this.ctx.save();
       this.ctx.globalAlpha = l.alpha;
       this.ctx.translate(l.x, l.y);
+      this.ctx.rotate(l.tilt);
       this.ctx.scale(l.scale, l.scale);
 
-      // Warm glow behind lantern
-      const radGrad = this.ctx.createRadialGradient(0, 0, 4, 0, 0, 32);
-      radGrad.addColorStop(0, 'rgba(255, 200, 50, 0.7)');
-      radGrad.addColorStop(0.5, 'rgba(255, 120, 0, 0.3)');
-      radGrad.addColorStop(1, 'rgba(255, 100, 0, 0)');
-      this.ctx.fillStyle = radGrad;
+      const halo = this.ctx.createRadialGradient(0, 0, 2, 0, 0, 36);
+      halo.addColorStop(0, 'rgba(255, 200, 50, 0.7)');
+      halo.addColorStop(0.4, 'rgba(255, 120, 20, 0.3)');
+      halo.addColorStop(1, 'rgba(255, 100, 0, 0)');
+      this.ctx.fillStyle = halo;
       this.ctx.beginPath();
-      this.ctx.arc(0, 0, 32, 0, Math.PI * 2);
+      this.ctx.arc(0, 0, 36, 0, Math.PI * 2);
       this.ctx.fill();
 
-      // Lantern body (Festive warm orange/gold polygon)
-      this.ctx.fillStyle = '#FFA726';
+      const paperGrad = this.ctx.createLinearGradient(0, -18, 0, 16);
+      paperGrad.addColorStop(0, '#FFA726');
+      paperGrad.addColorStop(0.6, '#FF7043');
+      paperGrad.addColorStop(1, '#D84315');
+      this.ctx.fillStyle = paperGrad;
+
       this.ctx.beginPath();
-      this.ctx.moveTo(-12, 16);
-      this.ctx.lineTo(-15, -12);
-      this.ctx.lineTo(15, -12);
-      this.ctx.lineTo(12, 16);
+      this.ctx.moveTo(-13, 16);
+      this.ctx.lineTo(-17, -14);
+      this.ctx.lineTo(17, -14);
+      this.ctx.lineTo(13, 16);
       this.ctx.closePath();
       this.ctx.fill();
 
-      // Golden ribs
-      this.ctx.strokeStyle = '#FFE082';
-      this.ctx.lineWidth = 1;
+      this.ctx.strokeStyle = 'rgba(255, 236, 179, 0.7)';
+      this.ctx.lineWidth = 1.2;
       this.ctx.stroke();
 
-      // Little inner flame dot
+      const flameOffset = Math.sin(l.flameFlicker) * 1.0;
       this.ctx.fillStyle = '#FFFDE7';
+      this.ctx.shadowColor = '#FFE082';
+      this.ctx.shadowBlur = 8;
       this.ctx.beginPath();
-      this.ctx.arc(0, 8, 3, 0, Math.PI * 2);
+      this.ctx.arc(flameOffset, 7, 3.2, 0, Math.PI * 2);
       this.ctx.fill();
 
       this.ctx.restore();
     }
 
-    // 6. Update & Render Bouncing Sweets (Laddoo Shower)
+    // 6. Sweets
     for (let i = this.sweets.length - 1; i >= 0; i--) {
       const s = this.sweets[i];
       s.x += s.vx;
       s.y += s.vy;
-      s.vy += 0.45; // Gravity
+      s.vy += 0.42;
       s.rot += s.rotSpeed;
 
       const floorY = this.height - 40;
       if (s.y >= floorY) {
         s.y = floorY;
-        s.vy = -s.vy * 0.65; // Elastic bounce
-        s.vx *= 0.8;
+        s.vy = -s.vy * 0.65;
+        s.vx *= 0.82;
         s.bounces++;
         if (s.bounces > 4) {
-          s.alpha -= 0.03;
+          s.alpha -= 0.025;
         }
       }
 
-      if (s.alpha <= 0 || s.x < -50 || s.x > this.width + 50) {
+      if (s.alpha <= 0 || s.x < -60 || s.x > this.width + 60) {
         this.sweets.splice(i, 1);
         continue;
       }
@@ -586,31 +711,29 @@ class ParticleEngine {
       this.ctx.rotate((s.rot * Math.PI) / 180);
 
       if (s.type === 'laddoo') {
-        // Golden Motichoor Laddoo with pistachios
-        this.ctx.fillStyle = '#FF9800';
+        const grad = this.ctx.createRadialGradient(-3, -3, 2, 0, 0, s.size * 0.5);
+        grad.addColorStop(0, '#FFE082');
+        grad.addColorStop(0.6, '#FFA000');
+        grad.addColorStop(1, '#D84315');
+        this.ctx.fillStyle = grad;
         this.ctx.beginPath();
         this.ctx.arc(0, 0, s.size * 0.5, 0, Math.PI * 2);
         this.ctx.fill();
 
-        // Shading
-        const grad = this.ctx.createRadialGradient(-3, -3, 2, 0, 0, s.size * 0.5);
-        grad.addColorStop(0, '#FFE082');
-        grad.addColorStop(0.7, '#FFA000');
-        grad.addColorStop(1, '#E65100');
-        this.ctx.fillStyle = grad;
-        this.ctx.fill();
-
-        // Pistachio green dots
         this.ctx.fillStyle = '#7CB342';
         this.ctx.beginPath();
-        this.ctx.arc(-3, -2, 2, 0, Math.PI * 2);
-        this.ctx.arc(4, 2, 1.8, 0, Math.PI * 2);
+        this.ctx.arc(-4, -2, 2.2, 0, Math.PI * 2);
+        this.ctx.arc(5, 3, 2.0, 0, Math.PI * 2);
+        this.ctx.fill();
+
+        this.ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+        this.ctx.beginPath();
+        this.ctx.arc(-2, -4, 2.5, 0, Math.PI * 2);
         this.ctx.fill();
       } else if (s.type === 'kaju') {
-        // Silver Diamond Kaju Katli
-        this.ctx.fillStyle = '#F5F5F5';
-        this.ctx.strokeStyle = '#BDBDBD';
-        this.ctx.lineWidth = 1;
+        this.ctx.fillStyle = '#FAFAFA';
+        this.ctx.strokeStyle = '#CFD8DC';
+        this.ctx.lineWidth = 1.2;
         this.ctx.beginPath();
         this.ctx.moveTo(0, -s.size * 0.5);
         this.ctx.lineTo(s.size * 0.45, 0);
@@ -620,20 +743,19 @@ class ParticleEngine {
         this.ctx.fill();
         this.ctx.stroke();
 
-        // Edible silver leaf sparkle
-        this.ctx.fillStyle = '#FFFFFF';
+        this.ctx.fillStyle = '#ECEFF1';
         this.ctx.beginPath();
-        this.ctx.arc(-2, -2, 1.5, 0, Math.PI * 2);
+        this.ctx.arc(-3, -3, 2, 0, Math.PI * 2);
         this.ctx.fill();
       } else {
-        // Golden Swirly Jalebi
         this.ctx.strokeStyle = '#FF6D00';
-        this.ctx.lineWidth = 4;
+        this.ctx.lineWidth = 4.5;
+        this.ctx.lineCap = 'round';
         this.ctx.beginPath();
         this.ctx.arc(0, 0, s.size * 0.4, 0, Math.PI * 2);
         this.ctx.stroke();
         this.ctx.beginPath();
-        this.ctx.arc(0, 0, s.size * 0.22, 0, Math.PI * 2);
+        this.ctx.arc(0, 0, s.size * 0.2, 0, Math.PI * 2);
         this.ctx.stroke();
       }
 
@@ -643,4 +765,3 @@ class ParticleEngine {
 }
 
 window.ParticleEngine = ParticleEngine;
-

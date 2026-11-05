@@ -80,6 +80,22 @@ body {
   animation: twinkle 8s ease-in-out infinite alternate;
 }
 
+/* Distant Haveli / Palace Silhouettes for authentic Royal Diwali Night */
+.haveli-palace-silhouette {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 140px;
+  pointer-events: none;
+  opacity: 0.75;
+}
+
+.palace-svg {
+  width: 100%;
+  height: 100%;
+}
+
 @keyframes twinkle {
   0% { opacity: 0.45; }
   50% { opacity: 0.75; }
@@ -614,23 +630,31 @@ body {
 }
 
 @keyframes diya-burn {
-  0% { transform: scale(1, 1) rotate(-2deg); }
-  50% { transform: scale(1.06, 1.12) rotate(2deg); }
-  100% { transform: scale(0.96, 1.04) rotate(-1deg); }
+  0% { transform: scale(1, 1) skewX(-2deg) rotate(-1.5deg); }
+  25% { transform: scale(1.05, 1.14) skewX(2.5deg) rotate(1.8deg); }
+  50% { transform: scale(0.97, 1.06) skewX(-1.8deg) rotate(-1.2deg); }
+  75% { transform: scale(1.06, 1.18) skewX(2.8deg) rotate(2deg); }
+  100% { transform: scale(1, 1) skewX(-2deg) rotate(-1.5deg); }
 }
 
 .diya-glow {
   position: absolute;
-  width: 70px;
-  height: 70px;
-  top: -20px;
+  width: 90px;
+  height: 90px;
+  top: -28px;
   left: 50%;
   transform: translateX(-50%);
-  background: radial-gradient(circle, rgba(255, 215, 0, 0.45) 0%, rgba(255, 87, 34, 0.2) 50%, transparent 75%);
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.55) 0%, rgba(255, 87, 34, 0.28) 45%, transparent 75%);
   border-radius: 50%;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.5s ease;
+  animation: diya-glow-pulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes diya-glow-pulse {
+  0% { transform: translateX(-50%) scale(0.95); opacity: 0.85; }
+  100% { transform: translateX(-50%) scale(1.08); opacity: 1; }
 }
 
 .interactive-diya.is-lit .diya-glow {
@@ -683,12 +707,20 @@ body {
 /* Floor Rangoli Graphic */
 .rangoli-platform {
   width: 100%;
-  max-width: 580px;
-  height: 48px;
-  margin-top: -24px;
-  background: radial-gradient(ellipse at center, rgba(255, 215, 0, 0.22) 0%, rgba(230, 57, 70, 0.15) 45%, transparent 75%);
+  max-width: 620px;
+  height: 64px;
+  margin-top: -32px;
   pointer-events: none;
-  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rangoli-mandala-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 0 16px rgba(255, 215, 0, 0.45));
 }
 
 /* ==========================================================================
