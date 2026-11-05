@@ -1,10 +1,21 @@
 {
-  "name": "Diwali Celebration 2026",
-  "short_name": "Happy Diwali",
-  "start_url": "./",
+  "name": "Diwali 2026 Celebration Showcase | EasyLauncher",
+  "short_name": "Diwali 2026",
+  "start_url": "/",
   "display": "standalone",
-  "background_color": "#070719",
-  "theme_color": "#140C29",
-  "description": "Interactive Diwali Celebration with Fireworks, Glowing Diyas, and Animated Mascots Golu & Mithoo."
+  "background_color": "#080410",
+  "theme_color": "#080410",
+  "description": "Explore interactive Diwali 2026 greetings and digital celebrations crafted by the EasyLauncher engineering team.",
+  "icons": [
+    {
+      "src": "/assets/easylauncher-logo.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/easylauncher-icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    }
+  ]
 }
-
