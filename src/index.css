@@ -1,0 +1,189 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Rozha+One&family=Yatra+One&family=Cinzel:wght@600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --gold-primary: #FFD700;
+  --gold-light: #FFF2A1;
+  --gold-dark: #C68B16;
+  --saffron: #FF7722;
+  --deep-saffron: #E65100;
+  --vermillion: #D32F2F;
+  --royal-blue: #0A1128;
+  --midnight-blue: #040817;
+  --temple-stone: #E4A853;
+  --glass-bg: rgba(10, 17, 40, 0.65);
+  --glass-border: rgba(255, 215, 0, 0.3);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--midnight-blue);
+  color: #FFFFFF;
+  font-family: 'Outfit', sans-serif;
+  user-select: none;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.4);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--gold-dark);
+  border-radius: 3px;
+}
+
+/* Typography Classes */
+.font-devanagari-royal {
+  font-family: 'Rozha One', 'Yatra One', serif;
+}
+
+.font-devanagari-festive {
+  font-family: 'Yatra One', cursive;
+}
+
+.font-cinzel {
+  font-family: 'Cinzel Decorative', 'Cinzel', serif;
+}
+
+/* Golden Glow Text */
+.gold-glow-text {
+  color: var(--gold-primary);
+  text-shadow: 
+    0 0 10px rgba(255, 215, 0, 0.8),
+    0 0 25px rgba(255, 165, 0, 0.6),
+    0 0 50px rgba(255, 87, 34, 0.4);
+}
+
+.gold-gradient-text {
+  background: linear-gradient(135deg, #FFF6BD 0%, #FFD700 45%, #FFA500 80%, #E65100 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 8px rgba(255, 215, 0, 0.4));
+}
+
+.saffron-glow-text {
+  color: #FFA726;
+  text-shadow: 
+    0 0 10px rgba(255, 119, 34, 0.9),
+    0 0 25px rgba(230, 81, 0, 0.7);
+}
+
+/* Glassmorphism Cards */
+.glass-panel {
+  background: linear-gradient(135deg, rgba(20, 25, 45, 0.75) 0%, rgba(10, 15, 30, 0.85) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 215, 0, 0.25);
+  box-shadow: 
+    0 8px 32px 0 rgba(0, 0, 0, 0.6),
+    inset 0 0 20px rgba(255, 215, 0, 0.08);
+  position: relative;
+}
+
+/* Ornate Indian Golden Border Corner Accents */
+.ornate-border {
+  position: relative;
+}
+.ornate-border::before,
+.ornate-border::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: var(--gold-primary);
+  pointer-events: none;
+}
+.ornate-border::before {
+  top: -2px;
+  left: -2px;
+  border-top: 2px solid var(--gold-primary);
+  border-left: 2px solid var(--gold-primary);
+}
+.ornate-border::after {
+  bottom: -2px;
+  right: -2px;
+  border-bottom: 2px solid var(--gold-primary);
+  border-right: 2px solid var(--gold-primary);
+}
+
+/* Premium Golden Glowing Button */
+.gold-btn {
+  background: linear-gradient(135deg, #FFD700 0%, #FFA000 50%, #FF6F00 100%);
+  color: #1A0D00;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 
+    0 0 20px rgba(255, 193, 7, 0.6),
+    0 0 40px rgba(255, 111, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.gold-btn:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 
+    0 0 30px rgba(255, 215, 0, 0.9),
+    0 0 60px rgba(255, 111, 0, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.gold-btn:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+.gold-btn::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.5) 50%,
+    transparent 70%
+  );
+  transform: rotate(30deg) translateX(-100%);
+  animation: shine 3.5s infinite;
+}
+
+@keyframes shine {
+  0% { transform: rotate(30deg) translateX(-100%); }
+  25%, 100% { transform: rotate(30deg) translateX(100%); }
+}
+
+/* Subtle Pulsing / Breathing for Lights */
+@keyframes diyaFlicker {
+  0%, 100% { opacity: 0.9; transform: scale(1); filter: drop-shadow(0 0 8px rgba(255, 165, 0, 0.8)); }
+  50% { opacity: 1; transform: scale(1.08); filter: drop-shadow(0 0 16px rgba(255, 215, 0, 1)); }
+}
+
+.animate-diya {
+  animation: diyaFlicker 1.8s ease-in-out infinite alternate;
+}
+
+/* Shimmer Border */
+@keyframes borderShimmer {
+  0% { border-color: rgba(255, 215, 0, 0.2); }
+  50% { border-color: rgba(255, 215, 0, 0.7); }
+  100% { border-color: rgba(255, 215, 0, 0.2); }
+}
+
+.border-shimmer {
+  animation: borderShimmer 3s infinite ease-in-out;
+}
