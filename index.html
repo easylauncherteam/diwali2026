@@ -4,7 +4,46 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Diwali Glow 2026 — Sunlit Festival of Lights</title>
-  <meta name="description" content="Celebrate Diwali 2026 with Diwali Glow — a bright, joyful, sunlit festival experience featuring interactive diyas, rangoli mandala maker, greeting card studio, and five days of Diwali.">
+  <meta name="description" content="Celebrate Diwali 2026 with Diwali Glow — a bright, joyful, sunlit festival experience featuring a live countdown, personalized greeting card studio, and the five sacred days of Diwali.">
+  <link rel="canonical" href="https://easylauncher.net/diwali2026/">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Diwali Glow 2026 — Sunlit Festival of Lights">
+  <meta property="og:description" content="Bright, warm, joyful celebration of Diwali 2026 with live Lakshmi Puja countdown, custom greeting cards, and festival traditions.">
+  <meta property="og:url" content="https://easylauncher.net/diwali2026/">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Diwali Glow 2026 — Sunlit Festival of Lights">
+  <meta name="twitter:description" content="Celebrate Diwali 2026 with a bright, festive, sunlit experience.">
+
+  <!-- Structured Data JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Event",
+    "name": "Diwali 2026 — Festival of Lights",
+    "startDate": "2026-11-06",
+    "endDate": "2026-11-10",
+    "eventStatus": "https://schema.org/EventScheduled",
+    "eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode",
+    "description": "Celebrate Diwali 2026 with countdown to Lakshmi Puja on November 8, 2026, festive greeting cards, and traditional rituals.",
+    "organizer": {
+      "@type": "Organization",
+      "name": "EasyLauncher",
+      "url": "https://easylauncher.net"
+    }
+  }
+  </script>
+
+  <!-- Google Tag Manager (GTM-TWXXLBPN) -->
+  <script async src="https://www.googletagmanager.com/gtm.js?id=GTM-TWXXLBPN"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  </script>
   
   <!-- Festive Diya Favicon -->
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3c-1.5 3-4 6-4 9a4 4 0 0 0 8 0c0-3-2.5-6-4-9z' fill='%23FB8500'/%3E%3Cpath d='M16 6c-0.8 1.8-2 3.6-2 5.5a2 2 0 0 0 4 0c0-1.9-1.2-3.7-2-5.5z' fill='%23FFB703'/%3E%3Cpath d='M4 18c0 7 5.4 11 12 11s12-4 12-11c0-2-3-3-12-3s-12 1-12 3z' fill='%23D0532C'/%3E%3Cpath d='M6 18c2 4 5 7 10 7s8-3 10-7c-2 1-5 2-10 2s-8-1-10-2z' fill='%23FB8500'/%3E%3C/svg%3E">
@@ -381,6 +420,35 @@
       30% { transform: rotate(-10deg); }
       45% { transform: rotate(6deg); }
       60% { transform: rotate(0); }
+    }
+
+    /* Music equalizer animation when playing */
+    .sound-bars {
+      display: inline-flex;
+      align-items: flex-end;
+      gap: 2.5px;
+      height: 14px;
+      margin-left: 2px;
+    }
+    .sound-bar {
+      width: 2.5px;
+      background: currentColor;
+      border-radius: 1px;
+      height: 3px;
+      transition: height 0.2s ease;
+    }
+    .sound-toggle-btn.sound-on .sound-bar:nth-child(1) {
+      animation: barJump 0.9s infinite ease-in-out alternate;
+    }
+    .sound-toggle-btn.sound-on .sound-bar:nth-child(2) {
+      animation: barJump 0.7s infinite ease-in-out 0.2s alternate;
+    }
+    .sound-toggle-btn.sound-on .sound-bar:nth-child(3) {
+      animation: barJump 1.1s infinite ease-in-out 0.4s alternate;
+    }
+    @keyframes barJump {
+      0% { height: 3px; }
+      100% { height: 14px; }
     }
 
     /* Mobile Menu Toggle */
@@ -1257,20 +1325,25 @@
       <nav id="primary-navigation" aria-label="Primary Navigation">
         <ul class="nav-links" id="nav-links-menu">
           <li><a href="#hero" class="nav-link active">Home</a></li>
-          <li><a href="#diya-courtyard" class="nav-link">Light a Diya</a></li>
           <li><a href="#card-generator" class="nav-link">Greetings Card</a></li>
           <li><a href="#five-days" class="nav-link">Five Sacred Days</a></li>
         </ul>
       </nav>
 
       <div class="nav-actions">
-        <!-- Chime Sound Toggle Button -->
-        <button id="sound-toggle" class="sound-toggle-btn" aria-pressed="false" aria-label="Toggle festive temple chimes audio (currently off)">
+        <!-- Festive Instrumental Music & Sound Toggle Button -->
+        <button id="sound-toggle" class="sound-toggle-btn" aria-pressed="false" aria-label="Toggle festive instrumental music and chimes (currently off)">
           <svg class="sound-icon-ring" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            <path d="M9 18V5l12-2v13"></path>
+            <circle cx="6" cy="18" r="3"></circle>
+            <circle cx="18" cy="16" r="3"></circle>
           </svg>
           <span id="sound-status-text">Sound: Off</span>
+          <span class="sound-bars" aria-hidden="true">
+            <span class="sound-bar"></span>
+            <span class="sound-bar"></span>
+            <span class="sound-bar"></span>
+          </span>
         </button>
 
         <!-- Mobile Menu Toggle Button -->
@@ -1473,97 +1546,21 @@
 
         <!-- Action CTAs -->
         <div class="hero-cta-group">
-          <a href="#diya-courtyard" class="btn btn-primary">
-            <span>Light a Diya</span>
-            <span aria-hidden="true">🪔</span>
-          </a>
-          <a href="#card-generator" class="btn btn-secondary">
+          <a href="#card-generator" class="btn btn-primary">
             <span>Send Greeting Card</span>
             <span aria-hidden="true">💌</span>
           </a>
+          <a href="#five-days" class="btn btn-secondary">
+            <span>Five Sacred Days</span>
+            <span aria-hidden="true">✨</span>
+          </a>
         </div>
 
       </div>
     </section>
 
     <!-- ==========================================================================
-         SECTION 2: LIGHT A DIYA (Interactive Courtyard Scene)
-         ========================================================================== -->
-    <section id="diya-courtyard" class="courtyard-section" aria-labelledby="courtyard-title">
-      <div class="container">
-        
-        <div class="section-header fade-up">
-          <div class="section-eyebrow">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-            </svg>
-            Courtyard of Blessings
-          </div>
-          <h2 id="courtyard-title" class="section-title">Light a Festive Diya</h2>
-          <p class="section-subtitle">
-            Enter your heartfelt prayer or wish, then tap a clay diya to kindle its sacred flame, spreading warmth and good fortune throughout your courtyard.
-          </p>
-          <div class="mandala-divider" aria-hidden="true">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--saffron)" stroke-width="1.8">
-              <circle cx="12" cy="12" r="3" />
-              <path d="M12 2v4M12 18v4M2 12h4M18 12h4" />
-            </svg>
-          </div>
-        </div>
-
-        <div class="courtyard-panel fade-up">
-          
-          <!-- Optional Wish Input Box with Quick Chips -->
-          <div class="wish-controls-wrap">
-            <label for="user-wish-input" class="form-label" style="text-align: center; margin-bottom: 0.6rem;">
-              Type an optional wish or dedication (max 80 chars):
-            </label>
-            <div class="wish-input-box">
-              <input type="text" id="user-wish-input" class="wish-input" placeholder="e.g. May joy, health and abundance bless our home..." maxlength="80">
-              <span class="char-counter" id="wish-char-count">0/80</span>
-            </div>
-
-            <!-- Quick Suggestion Chips -->
-            <div class="wish-chips" aria-label="Suggested wish templates">
-              <button type="button" class="wish-chip" data-wish="Health, longevity and wellness for all 🌿">Health &amp; Wellness 🌿</button>
-              <button type="button" class="wish-chip" data-wish="Boundless prosperity, abundance and fortune 🪙">Abundance 🪙</button>
-              <button type="button" class="wish-chip" data-wish="Peace, harmony and calm in every heart 🕊️">Peace &amp; Harmony 🕊️</button>
-              <button type="button" class="wish-chip" data-wish="Laughter, golden memories and togetherness ✨">Laughter &amp; Joy ✨</button>
-              <button type="button" class="wish-chip" data-wish="Wisdom, new beginnings and victory of light 🌸">New Beginnings 🌸</button>
-            </div>
-          </div>
-
-          <!-- Counter Bar & Light All Toolbar -->
-          <div class="courtyard-toolbar">
-            <div class="diya-counter-badge">
-              <span>You have lit</span>
-              <span class="diya-counter-highlight" id="lit-count-num">0</span>
-              <span id="lit-count-total">of 8 sacred diyas</span>
-            </div>
-
-            <div class="courtyard-btn-group">
-              <button id="light-all-btn" class="btn btn-primary btn-sm" aria-label="Light all diyas one by one with festive animation">
-                <span>Light Them All</span>
-                <span aria-hidden="true">✨</span>
-              </button>
-              <button id="extinguish-all-btn" class="btn btn-secondary btn-sm" aria-label="Reset all diyas to unlit state">
-                <span>Reset Courtyard</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- 8 Handcrafted Clay Diyas Grid -->
-          <div class="diyas-grid" id="diyas-grid" role="region" aria-label="Row of clay diyas ready to be lit">
-            <!-- Diyas dynamically enhanced and fully rendered -->
-          </div>
-
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ==========================================================================
-         SECTION 3: GREETING CARD GENERATOR (Live Preview & Exporter)
+         SECTION 2: GREETING CARD GENERATOR (Live Preview & Exporter)
          ========================================================================== -->
     <section id="card-generator" class="card-generator-section" aria-labelledby="card-title">
       <div class="container">
@@ -1970,6 +1967,11 @@
         Wishing you and your family a luminous, prosperous, and blissful Shubh Deepavali!
       </p>
 
+      <!-- EasyLauncher Branding Backlink -->
+      <div style="margin-top: 1.5rem; font-size: 0.88rem; font-weight: 500;">
+        Powered by <a href="https://easylauncher.net" target="_blank" rel="noopener" style="color: var(--saffron-dark); font-weight: 700; text-decoration: underline; text-underline-offset: 3px;">EasyLauncher</a>
+      </div>
+
     </div>
   </footer>
 
@@ -1986,9 +1988,8 @@
        1. Web Audio Bell Chime Synthesizer (pure Web Audio, no external files)
        2. Floating Particle Engine (Golden sparkles & marigold petals)
        3. Live Countdown to Lakshmi Puja (Nov 8, 2026)
-       4. Courtyard "Light a Diya" System with Wishes & Sparkle Bursts
-       5. Greeting Card Live Designer & High-Res PNG Exporter
-       6. Five Days Carousel Navigation & Reduced Motion handling
+       4. Greeting Card Live Designer & High-Res PNG Exporter
+       5. Five Days Carousel Navigation & Reduced Motion handling
        ========================================================================== -->
   <script>
     (function() {
@@ -2229,201 +2230,6 @@
       updateCountdown();
       setInterval(updateCountdown, 1000);
 
-      /* ------------------------------------------------------------------------
-         4. COURTYARD "LIGHT A DIYA" WITH WISHES & SPARKLE BURSTS
-         ------------------------------------------------------------------------ */
-      const diyasGrid = document.getElementById('diyas-grid');
-      const litCountNum = document.getElementById('lit-count-num');
-      const wishInput = document.getElementById('user-wish-input');
-      const wishCharCount = document.getElementById('wish-char-count');
-      const lightAllBtn = document.getElementById('light-all-btn');
-      const extinguishAllBtn = document.getElementById('extinguish-all-btn');
-
-      const diyaData = [
-        { id: 1, virtue: 'Aarogya (Health)', defaultWish: 'Vibrant health and long life' },
-        { id: 2, virtue: 'Samriddhi (Wealth)', defaultWish: 'Golden abundance and good fortune' },
-        { id: 3, virtue: 'Shanti (Peace)', defaultWish: 'Inner stillness and peaceful harmony' },
-        { id: 4, virtue: 'Ananda (Joy)', defaultWish: 'Smiles, laughter and sweet celebrations' },
-        { id: 5, virtue: 'Gyaan (Wisdom)', defaultWish: 'Light of knowledge and truth' },
-        { id: 6, virtue: 'Prema (Love)', defaultWish: 'Warm affection and lasting friendship' },
-        { id: 7, virtue: 'Sadbhaav (Harmony)', defaultWish: 'Unity and warmth in community' },
-        { id: 8, virtue: 'Kritajnata (Gratitude)', defaultWish: 'Thankfulness for life’s blessings' }
-      ];
-
-      // Track state
-      let litStates = [false, false, false, false, false, false, false, false];
-      let assignedWishes = diyaData.map(d => d.defaultWish);
-
-      // Wish input counter
-      if (wishInput && wishCharCount) {
-        wishInput.addEventListener('input', () => {
-          wishCharCount.textContent = `${wishInput.value.length}/80`;
-        });
-      }
-
-      // Quick chip clicks
-      document.querySelectorAll('.wish-chip').forEach(chip => {
-        chip.addEventListener('click', () => {
-          if (wishInput) {
-            wishInput.value = chip.getAttribute('data-wish');
-            wishCharCount.textContent = `${wishInput.value.length}/80`;
-            wishInput.focus();
-          }
-        });
-      });
-
-      function renderDiyas() {
-        if (!diyasGrid) return;
-        diyasGrid.innerHTML = '';
-
-        diyaData.forEach((diya, index) => {
-          const isLit = litStates[index];
-          const wishText = assignedWishes[index];
-
-          const cell = document.createElement('div');
-          cell.className = 'diya-cell';
-
-          cell.innerHTML = `
-            <div class="diya-card ${isLit ? 'is-lit' : ''}" 
-                 data-index="${index}" 
-                 role="button" 
-                 tabindex="0" 
-                 aria-pressed="${isLit}" 
-                 aria-label="Diya ${diya.id} for ${diya.virtue}. ${isLit ? 'Lit with wish: ' + wishText : 'Click to light'}">
-              
-              <span class="diya-virtue-tag">${diya.virtue}</span>
-              
-              <div class="diya-svg-wrap">
-                <!-- SVG Clay Diya with layered flame -->
-                <svg viewBox="0 0 140 110" width="100%" height="100%" aria-hidden="true">
-                  <defs>
-                    <radialGradient id="diyaGlow${index}" cx="50%" cy="50%" r="50%">
-                      <stop offset="0%" stop-color="#FFE3C2" stop-opacity="0.9"/>
-                      <stop offset="45%" stop-color="#FFB703" stop-opacity="0.5"/>
-                      <stop offset="100%" stop-color="#FB8500" stop-opacity="0"/>
-                    </radialGradient>
-                    <linearGradient id="clayDiyaGrad${index}" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stop-color="#D96636"/>
-                      <stop offset="60%" stop-color="#AF4319"/>
-                      <stop offset="100%" stop-color="#732205"/>
-                    </linearGradient>
-                  </defs>
-
-                  <!-- Radial Glow halo -->
-                  <circle class="diya-glow-radial" cx="70" cy="40" r="38" fill="url(#diyaGlow${index})"/>
-
-                  <!-- Clay Base Shadow -->
-                  <ellipse cx="70" cy="98" rx="46" ry="7" fill="rgba(122, 31, 61, 0.12)" />
-
-                  <!-- Terracotta Bowl Base -->
-                  <path d="M22,76 C22,96 42,102 70,102 C98,102 118,96 118,76 C118,68 102,66 70,66 C38,66 22,68 22,76 Z" fill="url(#clayDiyaGrad${index})"/>
-                  <path d="M30,80 Q70,98 110,80" stroke="#FFB703" stroke-width="2" fill="none" opacity="0.6"/>
-
-                  <!-- Oil Pool Rim -->
-                  <ellipse cx="70" cy="74" rx="44" ry="10" fill="#913310"/>
-                  <ellipse cx="70" cy="74" rx="38" ry="7" fill="#691F05"/>
-                  <ellipse cx="70" cy="73" rx="30" ry="4" fill="#FFB703" opacity="0.35"/>
-
-                  <!-- Wick -->
-                  <path d="M70,75 Q68,66 69,58" stroke="#3D1204" stroke-width="3.5" stroke-linecap="round"/>
-
-                  <!-- Flame Group -->
-                  <g class="diya-flame-group">
-                    <path class="flame-element" d="M70,60 C58,54 54,36 68,12 C71,7 72,2 70,-2 C74,5 78,12 80,22 C86,38 82,54 70,60 Z" fill="url(#heroFlameGrad)"/>
-                    <path class="flame-inner" d="M70,58 C62,53 60,40 68,26 C70,22 71,18 70,15 C73,20 75,28 76,34 C79,44 76,53 70,58 Z" fill="#FFFDF8"/>
-                  </g>
-                </svg>
-              </div>
-
-              <!-- Wish Scroll Label beneath Lit Diya -->
-              <div class="diya-wish-scroll" title="${wishText}">
-                ${isLit ? '✨ ' + wishText : 'Tap to kindle wish'}
-              </div>
-
-            </div>
-          `;
-
-          const card = cell.querySelector('.diya-card');
-          card.addEventListener('click', () => toggleDiya(index, card));
-          card.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              toggleDiya(index, card);
-            }
-          });
-
-          diyasGrid.appendChild(cell);
-        });
-
-        updateLitCounter();
-      }
-
-      function updateLitCounter() {
-        const count = litStates.filter(Boolean).length;
-        if (litCountNum) litCountNum.textContent = count;
-      }
-
-      function toggleDiya(index, cardElement) {
-        const currentState = litStates[index];
-        const newState = !currentState;
-        litStates[index] = newState;
-
-        if (newState) {
-          // If user typed a custom wish, apply it
-          const typedWish = wishInput ? wishInput.value.trim() : '';
-          if (typedWish) {
-            assignedWishes[index] = typedWish;
-          }
-          playTempleChime(1.0 + index * 0.08);
-          createSparkleBurstAtElement(cardElement);
-          showToast(`Kindled flame for ${diyaData[index].virtue}! ✨`);
-        }
-
-        renderDiyas();
-
-        // Check if all are lit
-        if (litStates.every(Boolean)) {
-          setTimeout(() => {
-            showToast('🌟 Blessed courtyard! All 8 diyas are radiating sacred light!');
-          }, 350);
-        }
-      }
-
-      // Light them all staggered
-      if (lightAllBtn) {
-        lightAllBtn.addEventListener('click', () => {
-          let delay = 0;
-          litStates.forEach((isLit, i) => {
-            if (!isLit) {
-              setTimeout(() => {
-                litStates[i] = true;
-                const typedWish = wishInput ? wishInput.value.trim() : '';
-                if (typedWish && i === 0) assignedWishes[i] = typedWish;
-                playTempleChime(0.9 + i * 0.08);
-                renderDiyas();
-                const card = diyasGrid.children[i]?.querySelector('.diya-card');
-                if (card) createSparkleBurstAtElement(card);
-              }, delay);
-              delay += 240;
-            }
-          });
-          if (delay === 0) {
-            showToast('All diyas are already shining bright!');
-          }
-        });
-      }
-
-      // Extinguish all
-      if (extinguishAllBtn) {
-        extinguishAllBtn.addEventListener('click', () => {
-          litStates = litStates.map(() => false);
-          renderDiyas();
-          showToast('Courtyard reset. Tap any diya to rekindle.');
-        });
-      }
-
-      renderDiyas();
-
       // Sparkle burst effect at an element
       function createSparkleBurstAtElement(el) {
         if (prefersReduced || !el) return;
@@ -2484,7 +2290,7 @@
       }
 
       /* ------------------------------------------------------------------------
-         5. GREETING CARD GENERATOR (Live Preview & High-Res PNG Exporter)
+         4. GREETING CARD GENERATOR (Live Preview & High-Res PNG Exporter)
          ------------------------------------------------------------------------ */
       const cardToInput = document.getElementById('card-to-input');
       const cardFromInput = document.getElementById('card-from-input');
@@ -2700,7 +2506,7 @@
       }
 
       /* ------------------------------------------------------------------------
-         6. FIVE DAYS CAROUSEL NAVIGATION & INTERSECTION OBSERVER
+         5. FIVE DAYS CAROUSEL NAVIGATION & INTERSECTION OBSERVER
          ------------------------------------------------------------------------ */
       const fiveDaysRow = document.getElementById('five-days-row');
       const carouselPrev = document.getElementById('carousel-prev-btn');
@@ -2785,7 +2591,7 @@
       document.querySelectorAll('.fade-up').forEach(el => fadeObserver.observe(el));
 
       /* ------------------------------------------------------------------------
-         7. TOAST NOTIFICATION HELPER
+         6. TOAST NOTIFICATION HELPER
          ------------------------------------------------------------------------ */
       const toastPill = document.getElementById('toast-pill');
       const toastText = document.getElementById('toast-text');
