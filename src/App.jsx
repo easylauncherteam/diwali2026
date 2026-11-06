@@ -199,6 +199,39 @@ export default function App() {
         isOpen={isCardModalOpen}
         onClose={() => setIsCardModalOpen(false)}
       />
+
+      {/* Visible but unobtrusive EasyLauncher Branding Footer */}
+      <footer style={{
+        position: 'absolute',
+        bottom: '0.4rem',
+        right: '0.8rem',
+        zIndex: 50,
+        pointerEvents: 'auto',
+        fontSize: '0.72rem',
+        color: 'rgba(255, 215, 0, 0.75)',
+        textShadow: '0 1px 3px rgba(0,0,0,0.8)'
+      }}>
+        <a
+          href="https://easylauncher.net"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            color: 'inherit',
+            textDecoration: 'none',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.35rem',
+            opacity: 0.85,
+            transition: 'opacity 0.2s ease',
+            letterSpacing: '0.3px'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
+          onMouseLeave={(e) => e.currentTarget.style.opacity = '0.85'}
+        >
+          <span>Powered by</span>
+          <strong style={{ color: '#FFD700', fontWeight: 700 }}>EasyLauncher</strong>
+        </a>
+      </footer>
     </main>
   )
 }

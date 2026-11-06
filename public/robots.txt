@@ -1,0 +1,7 @@
+# Robots.txt for EasyLauncher Diwali 2026 Showcase
+# https://diwali2026.hostapp.in
+
+User-agent: *
+Allow: /
+
+Sitemap: https://diwali2026.hostapp.in/sitemap.xml
